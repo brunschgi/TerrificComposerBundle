@@ -1,6 +1,6 @@
 <?php
 
-namespace Terrific\Composer\CoreBundle\Entity;
+namespace Terrific\Composer\AppBundle\Entity;
 
 /**
  * Module Entity.

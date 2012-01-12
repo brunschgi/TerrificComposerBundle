@@ -1,11 +1,11 @@
 <?php
 
-namespace Terrific\Composer\CoreBundle\Controller;
+namespace Terrific\Composer\AppBundle\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Terrific\Composer\CoreBundle\Entity\Module;
-use Terrific\Composer\CoreBundle\Form\ModuleType;
+use Terrific\Composer\AppBundle\Entity\Module;
+use Terrific\Composer\AppBundle\Form\ModuleType;
 
 // these import the "@Route" and "@Template" annotations
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
