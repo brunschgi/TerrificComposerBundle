@@ -1,0 +1,18 @@
+{% extends 'TerrificCoreBundle::base.html.twig' %}
+
+{% block composition %}
+    <form action="{{ path('composer_create_module') }}" method="post" {{ form_enctype(form) }}>
+        {{ form_errors(form) }}
+
+        {{ form_row(form.author) }}
+        {{ form_row(form.namespace) }}
+        {{ form_row(form.name) }}
+
+        {{ form_rest(form) }}
+
+        <input type="submit" />
+    </form>
+
+    {{ tc.module('Teaser', 'test', ['advanced', 'more'], [1,2,3], {'data-id':'test'}) }}
+{% endblock %}
+
