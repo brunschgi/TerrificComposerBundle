@@ -42,6 +42,8 @@ class TerrificComposerExtension extends Extension
         $config = $this->processConfiguration($configuration, $configs);
 
         $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+
+        // Toolbar
         $loader->load('toolbar.xml');
 
         if ($config['toolbar']) {
@@ -51,5 +53,9 @@ class TerrificComposerExtension extends Extension
         }
 
         $container->setParameter('terrific_composer.toolbar.mode', $mode);
+
+        // Other Services
+        $loader->load('services.xml');
+
     }
 }

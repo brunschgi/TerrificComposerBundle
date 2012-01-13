@@ -2,6 +2,8 @@
 
 namespace Terrific\ComposerBundle\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
+
 /**
  * Module Entity.
  */
@@ -13,11 +15,13 @@ class Module
     private $author;
 
     /**
-     * @var string namespace
+     * @var string $style
      */
-    protected $namespace;
+    private $style;
 
     /**
+     *
+     * @Assert\NotBlank()
      * @var string $name
      */
     protected $name;
@@ -55,18 +59,18 @@ class Module
     }
 
     /**
-     * @param string $namespace
+     * @param string $style
      */
-    public function setNamespace($namespace)
+    public function setStyle($style)
     {
-        $this->namespace = $namespace;
+        $this->style = $style;
     }
 
     /**
      * @return string
      */
-    public function getNamespace()
+    public function getStyle()
     {
-        return $this->namespace;
+        return $this->style;
     }
 }

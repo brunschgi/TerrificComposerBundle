@@ -1,1 +1,24 @@
-<div>Terrific!</div>
+{% javascripts
+              '@TerrificComposerBundle/Resources/public/js/*'
+               output='js/compiled/terrificcomposer.js'
+           %}
+    <script src="{{ asset_url }}" type="text/javascript"></script>
+{% endjavascripts %}
+{% stylesheets
+        '@TerrificComposerBundle/Resources/public/css/*'
+        output="css/compiled/terrificcomposer.css"
+    %}
+<link rel="stylesheet" href="{{ asset_url }}" />
+{% endstylesheets %}
+<div class="mod modComposerToolbar">
+    <ul>
+        <li><a href="#create" class="icon create"><span>Create</span></a>
+            <ul>
+                <li><a href="{{ path('composer_create_module') }}" class="icon module"><span>Module</span></a></li>
+                <li><a href="{{ path('composer_create_skin') }}" class="icon skin"><span>Skin</span></a></li>
+                <li><a href="{{ path('composer_create_page') }}" class="icon page"><span>Page</span></a></li>
+            </ul>
+        </li>
+        <li class="last"><a href="#open" class="icon open"><span>Open</span></a></li>
+    </ul>
+</div>

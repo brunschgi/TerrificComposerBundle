@@ -51,20 +51,16 @@ class ComposerToolbarListener
             return;
         }
 
-        $response = $event->getResponse();
         $request = $event->getRequest();
+        $response = $event->getResponse();
 
         // do not capture redirects or modify XML HTTP Requests
         if ($request->isXmlHttpRequest()) {
             return;
         }
 
-        if (self::DISABLED === $this->mode
-            || !$response->headers->has('X-Debug-Token')
-            || $response->isRedirection()
-            || ($response->headers->has('Content-Type') && false === strpos($response->headers->get('Content-Type'), 'html'))
-            || 'html' !== $request->getRequestFormat()
-        ) {
+        // disable the toolbar if necessary
+        if (self::DISABLED === $this->mode) {
             return;
         }
 
@@ -90,8 +86,7 @@ class ComposerToolbarListener
 
         if (false !== $pos = $posrFunction($content, '</body>')) {
             $toolbar = "\n".str_replace("\n", '', $this->templating->render(
-                'TerrificComposerBundle:Toolbar:toolbar.html.twig',
-                array('token' => $response->headers->get('X-Debug-Token'))
+                'TerrificComposerBundle:Toolbar:toolbar.html.twig'
             ))."\n";
             $content = $substrFunction($content, 0, $pos).$toolbar.$substrFunction($content, $pos);
             $response->setContent($content);

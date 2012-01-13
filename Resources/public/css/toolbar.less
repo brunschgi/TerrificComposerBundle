@@ -1,0 +1,80 @@
+/* @group Module: NavigationMain */
+@media print {
+    .modComposerToolbar {
+        display: none;
+    }
+}
+
+@media screen {
+
+    .modComposerToolbar {
+        position: fixed;
+        top: 100px;
+        right: 0;
+    }
+
+    .modComposerToolbar {
+
+        ul {
+            position: relative;
+            background: #fff;
+        }
+
+        ul ul {
+            display: none;
+            position: absolute;
+            right: 6em;
+            top: 0;
+        }
+
+        li {
+            border-width: 1px 0 0 0;
+            border-color: #cecece;
+            border-style: solid;
+        }
+
+        li:hover ul {
+            display: inline-block;
+        }
+
+
+        .last {
+            border-width: 1px 0;
+        }
+
+        /* Icons */
+        .icon {
+            color: #444;
+            text-decoration: none;
+            display: block;
+            padding: 0.6em 0.4em 0.4em 40px;
+            background: url(/bundles/) no-repeat 0 0;
+            min-height: 18px;
+        }
+
+        .icon:hover {
+            background-color: #eeeeee;
+        }
+
+        .create {
+            background-position: 5px 2px;
+        }
+
+        .open {
+            background-position: 5px -48px;
+        }
+
+        .module {
+            background-position: 5px -98px;
+        }
+
+        .skin {
+            background-position: 5px -148px;
+        }
+
+        .page {
+            background-position: 5px -198px;
+        }
+    }
+}
+/* @end */
