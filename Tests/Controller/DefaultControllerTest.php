@@ -1,6 +1,6 @@
 <?php
 
-namespace Terrific\Composer\AppBundle\Tests\Controller;
+namespace Terrific\ComposerBundle\Tests\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 

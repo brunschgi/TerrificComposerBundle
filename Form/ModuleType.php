@@ -1,6 +1,6 @@
 <?php
 
-namespace Terrific\Composer\AppBundle\Form;
+namespace Terrific\ComposerBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilder;
