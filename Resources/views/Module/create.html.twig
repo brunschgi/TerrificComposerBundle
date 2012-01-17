@@ -1,15 +1,24 @@
-{% extends 'TerrificCoreBundle::base.html.twig' %}
+{% extends 'TerrificComposerBundle::base.html.twig' %}
 
-{% block composition %}
-    <form action="{{ path('composer_create_module') }}" method="post" {{ form_enctype(form) }}>
-        {{ form_errors(form) }}
+{% block content %}
 
+<div class="sidebar">
+    <ul>
+        <li class="active"><a href="{{ path('composer_create_module') }}" class="icon module"><span>Module</span></a></li>
+        <li><a href="{{ path('composer_create_skin') }}" class="icon skin"><span>Skin</span></a></li>
+        <li><a href="{{ path('composer_create_page') }}" class="icon page"><span>Page</span></a></li>
+    </ul>
+</div>
+<div class="content">
+    <form novalidate="novalidate" action="{{ path('composer_create_module') }}" method="post" {{ form_enctype(form) }}>
         {{ form_row(form.author) }}
         {{ form_row(form.name) }}
+        {{ form_row(form.style) }}
 
         {{ form_rest(form) }}
-
-        <input type="submit" />
+        <input type="submit" value="ok" />
     </form>
+</div>
+
 {% endblock %}
 

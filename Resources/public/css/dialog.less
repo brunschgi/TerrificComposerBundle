@@ -1,0 +1,97 @@
+/* @group Module: NavigationMain */
+@import "mixins.less";
+
+@media print {
+    .modComposerDialog {
+        display: none;
+    }
+}
+
+@media screen {
+
+    .modComposerDialog {
+        overflow: hidden;
+    }
+
+    .modComposerDialog {
+        .sidebar {
+            float: left;
+            width: 3.75em;
+
+        }
+
+        .content {
+            border-left: 3.75em solid #464646;
+            padding: 30px;
+        }
+
+        li {
+            border-width: 0 0 1px 0;
+            border-color: #2a2a2a;
+            border-style: solid;
+        }
+
+        li:hover, li.active {
+            .gradient(#3c3c3c, #3c3c3c, #393939);
+            .box-shadow(inset 0px 0px 5px 1px #2b2b2b);
+        }
+
+        /* Forms */
+        label {
+            display: block;
+            padding: 0.25em 0.5em;
+        }
+
+        input[type="text"] {
+            margin-bottom: 0.75em;
+            padding: 0.25em;
+            width: 16em;
+        }
+
+        /* Icons */
+        .icon {
+            display: block;
+            font-size: 0.75em;
+            letter-spacing: 0.03em;
+            line-height: 1em;
+            text-align: center;
+            width: 4em;
+            height: 1em;
+            color: #696c69;
+            text-shadow: 0 1px 1px #313131;
+            text-decoration: none;
+            padding: 3.2em 0.5em 0.8em 0.5em;
+            background: url('/bundles/terrificcomposer/images/icons.png') no-repeat left 0;
+        }
+
+        .icon:hover, .active .icon {
+            color: #a3a3a3;
+            text-shadow: 0 1px 1px #353535;
+        }
+
+        .module {
+            background-position: 50% -390px;
+        }
+
+        .module:hover, .active .module {
+            background-position: 50% -490px;
+        }
+
+        .skin {
+           background-position: 50% -590px;
+        }
+
+        .skin:hover, .active .skin {
+           background-position: 50% -690px;
+        }
+
+        .page {
+           background-position: 50% -790px;
+        }
+
+        .page:hover, .active .page {
+           background-position: 50% -890px;
+        }
+    }
+}
+/* @end */

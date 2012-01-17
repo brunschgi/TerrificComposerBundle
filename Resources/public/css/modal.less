@@ -1,0 +1,138 @@
+/* Container */
+.modal {
+    /* Overlay page content */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255,255,255,0.5);
+    z-index: 10000;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.5em;
+
+    /* Hide for now */
+    opacity: 0;
+    display: none;
+}
+
+/* Composer Loader */
+.composerLoader {
+    display: none;
+    left: 0;
+    margin: 10% 0;
+    position: fixed;
+    text-align: center;
+    top: 0;
+    width: 100%;
+}
+
+/* Show modal */
+.modal.intermediate {
+    display: block;
+}
+
+.modal.active {
+    opacity: 1;
+}
+
+/* Content */
+.modal > div {
+    width: 500px;
+    background: #fff;
+    position: relative;
+    margin: 10% auto;
+
+    /* Default minimise animation */
+    -webkit-animation: minimise 500ms linear;
+
+    /* Prettify */
+    -webkit-box-shadow: 0 3px 20px rgba(0,0,0,0.9);
+    -moz-box-shadow: 0 3px 20px rgba(0,0,0,0.9);
+    box-shadow: 0 3px 20px rgba(0,0,0,0.9);
+    background: -moz-linear-gradient(#fff, #ccc);
+    background: -webkit-gradient(linear, right bottom, right top, color-stop(1, rgb(255,255,255)), color-stop(0.57, rgb(230,230,230)));
+    text-shadow: 0 1px 0 #fff;
+}
+
+/* Override animation on modal open */
+.modal.active > div {
+    -webkit-animation-name: bounce;
+}
+
+.modal h2 {
+    font-size: 36px;
+    padding: 0 0 20px;
+}
+
+@-webkit-keyframes bounce {
+  0% {
+  	-webkit-transform: scale3d(0.1,0.1,1);
+  	-webkit-box-shadow: 0 3px 20px rgba(0,0,0,0.9);
+  }
+  55% {
+  	-webkit-transform: scale3d(1.08,1.08,1);
+  	-webkit-box-shadow: 0 10px 20px rgba(0,0,0,0);
+  }
+  75% {
+  	-webkit-transform: scale3d(0.95,0.95,1);
+  	-webkit-box-shadow: 0 0 20px rgba(0,0,0,0.9);
+  }
+  100% {
+  	-webkit-transform: scale3d(1,1,1);
+  	-webkit-box-shadow: 0 3px 20px rgba(0,0,0,0.9);
+  }
+}
+
+@-webkit-keyframes minimise {
+  0% {
+  	-webkit-transform: scale3d(1,1,1);
+  }
+  100% {
+  	-webkit-transform: scale3d(0.1,0.1,1);
+  }
+}
+
+/* Modal close link */
+.modal a[href="#close"] {
+    position: absolute;
+    right: 0;
+    top: 0;
+    color: transparent;
+}
+
+.modal a[href="#close"] span {
+    display: none;
+}
+
+/* Reset native styles */
+.modal a[href="#close"]:focus {
+    outline: none;
+}
+
+/* Create close button */
+.modal a[href="#close"]:after {
+    content: 'X';
+    display: block;
+
+    /* Position */
+    position: absolute;
+    right: -10px;
+    top: -10px;
+    width: 1.5em;
+    padding: 1px 1px 1px 2px;
+
+    /* Style */
+    text-decoration: none;
+    text-shadow: none;
+    text-align: center;
+    background: #464646;
+    color: #fff;
+    border: 2px solid #fff;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+    -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+}

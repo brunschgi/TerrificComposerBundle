@@ -1,6 +1,6 @@
 {% javascripts
               '@TerrificComposerBundle/Resources/public/js/*'
-               output='js/compiled/terrificcomposer.js'
+              output='js/compiled/terrificcomposer.js'
            %}
     <script src="{{ asset_url }}" type="text/javascript"></script>
 {% endjavascripts %}
@@ -12,13 +12,16 @@
 {% endstylesheets %}
 <div class="mod modComposerToolbar">
     <ul>
-        <li><a href="#create" class="icon create"><span>Create</span></a>
-            <ul>
-                <li><a href="{{ path('composer_create_module') }}" class="icon module"><span>Module</span></a></li>
-                <li><a href="{{ path('composer_create_skin') }}" class="icon skin"><span>Skin</span></a></li>
-                <li><a href="{{ path('composer_create_page') }}" class="icon page"><span>Page</span></a></li>
-            </ul>
-        </li>
+        <li><a href="{{ path('composer_create_module')}}" class="icon create"><span>Create</span></a></li>
         <li class="last"><a href="#open" class="icon open"><span>Open</span></a></li>
     </ul>
 </div>
+<span class="composerLoader"><img src="/bundles/terrificcomposer/images/loader.gif" alt="" /></span>
+<div class="modal composerModal">
+    <div class="overlay">
+        <div class="dialog"></div>
+        <a title="close" href="#close"><span>Close</span></a>
+    </div>
+</div>
+
+

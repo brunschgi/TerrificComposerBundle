@@ -1,4 +1,6 @@
 /* @group Module: NavigationMain */
+@import "mixins.less";
+
 @media print {
     .modComposerToolbar {
         display: none;
@@ -11,59 +13,64 @@
         position: fixed;
         top: 100px;
         right: 0;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 16px;
     }
 
     .modComposerToolbar {
 
         ul {
             position: relative;
-            background: #fff;
-        }
-
-        ul ul {
-            display: none;
-            position: absolute;
-            right: 6em;
-            top: 0;
         }
 
         li {
-            border-width: 1px 0 0 0;
-            border-color: #cecece;
-            border-style: solid;
+            margin-top: 1px;
+            .box-shadow(0 2px 12px rgba(0,0,0,0.07) inset);
+            .gradient(#fff, #fff, #efefef);
         }
 
-        li:hover ul {
-            display: inline-block;
-        }
-
-
-        .last {
-            border-width: 1px 0;
+        li:hover {
+            .box-shadow(0 2px 12px rgba(0,0,0,0.52) inset);
+            .gradient(#999999, #999999, #444444);
         }
 
         /* Icons */
         .icon {
-            color: #444;
-            text-decoration: none;
             display: block;
-            padding: 0.6em 0.4em 0.4em 40px;
-            background: url(/bundles/) no-repeat 0 0;
-            min-height: 18px;
+            font-size: 0.75em;
+            letter-spacing: 0.03em;
+            line-height: 1em;
+            text-align: center;
+            width: 4em;
+            height: 1em;
+            color: #999999;
+            text-decoration: none;
+            padding: 3.2em 0.5em 0.8em 0.5em;
+            background: url('/bundles/terrificcomposer/images/icons.png') no-repeat left 0;
         }
 
         .icon:hover {
-            background-color: #eeeeee;
+            color: #a3a3a3;
+            text-shadow: 0 1px 1px #353535;
         }
 
         .create {
-            background-position: 5px 2px;
+           background-position: 50% 10px;
+        }
+
+        .create:hover {
+           background-position: 50% -90px;
         }
 
         .open {
-            background-position: 5px -48px;
+           background-position: 50% -190px;
         }
 
+        .open:hover {
+           background-position: 50% -290px;
+        }
+
+        /*
         .module {
             background-position: 5px -98px;
         }
@@ -74,7 +81,7 @@
 
         .page {
             background-position: 5px -198px;
-        }
+        }*/
     }
 }
 /* @end */

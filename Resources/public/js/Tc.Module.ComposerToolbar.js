@@ -34,7 +34,26 @@
             var $ctx = this.$ctx,
                 that = this;
 
+            $('.create', $ctx).on('click', function() {
+                var $modal = $('.composerModal'),
+                    $loader = $('.composerLoader');
+                    url = $(this).attr('href');
 
+                $modal.addClass('intermediate');
+                $loader.show();
+
+                $modal.find('.dialog').load(url, function() {
+                    $loader.hide();
+                    $modal.addClass('active');
+                });
+
+                return false;
+            });
+
+            $('.composerModal a[href="#close"]').on('click', function() {
+                $(this).closest('.modal').removeClass('active intermediate');
+                return false;
+            })
         }
     });
 })(Tc.$);
