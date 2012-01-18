@@ -4,8 +4,8 @@
 
 <div class="sidebar">
     <ul>
-        <li class="active"><a href="{{ path('composer_create_module') }}" class="icon module"><span>Module</span></a></li>
-        <li><a href="{{ path('composer_add_skin') }}" class="icon skin"><span>Skin</span></a></li>
+        <li><a href="{{ path('composer_create_module') }}" class="icon module"><span>Module</span></a></li>
+        <li class="active"><a href="{{ path('composer_add_skin') }}" class="icon skin"><span>Skin</span></a></li>
         <li><a href="{{ path('composer_create_page') }}" class="icon page"><span>Page</span></a></li>
     </ul>
 </div>
@@ -16,21 +16,14 @@
     </div>
     {% endif %}
     <form novalidate="novalidate" action="{{ path('composer_create_module') }}" method="post" {{ form_enctype(form) }}>
-        {{ form_row(form.author) }}
-        {{ form_row(form.name) }}
-        <div class="radios">
-        {{ form_widget(form.style) }}
-        </div>
 
-        {{ form_rest(form) }}
 
         <div class="actions">
             <input class="button" type="submit" name="finish" value="Finish" />
-            <input class="button addSkin" type="button" name="skin" value="Add Skin" />
+            <input class="button addSkin" type="button" name="skin" value="Add Another Skin" />
         </div>
     </form>
     <span class="loader"><img src="/bundles/terrificcomposer/images/loader.gif" alt="" /></span>
 </div>
 
 {% endblock %}
-

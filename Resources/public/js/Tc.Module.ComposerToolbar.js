@@ -36,13 +36,14 @@
 
             $('.create', $ctx).on('click', function() {
                 var $modal = $('.composerModal'),
-                    $loader = $('.composerLoader');
+                    $loader = $('.composerLoader'),
                     url = $(this).attr('href');
 
                 $modal.addClass('intermediate');
                 $loader.show();
 
                 $modal.find('.dialog').load(url, function() {
+                    that.sandbox.addModules($modal);
                     $loader.hide();
                     $modal.addClass('active');
                 });
@@ -51,7 +52,14 @@
             });
 
             $('.composerModal a[href="#close"]').on('click', function() {
+                var modules = [];
+
+                $('.mod',  $('.composerModal')).each(function() {
+                    modules.push(that.sandbox.getModuleById($(this).data('id')));
+                });
+
                 $(this).closest('.modal').removeClass('active intermediate');
+                that.sandbox.removeModules(modules);
                 return false;
             })
         }

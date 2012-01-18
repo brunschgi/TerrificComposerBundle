@@ -17,7 +17,7 @@
         .sidebar {
             float: left;
             width: 3.75em;
-
+            background: #464646;
         }
 
         .content {
@@ -25,27 +25,95 @@
             padding: 30px;
         }
 
-        li {
+        /* Content Loader */
+        .loader {
+            display: none;
+            position: absolute;
+            right: 2em;
+            top: 2em;
+        }
+
+        /* Sidebar Buttons */
+        .sidebar li {
             border-width: 0 0 1px 0;
             border-color: #2a2a2a;
             border-style: solid;
         }
 
-        li:hover, li.active {
+        .sidebar li:hover, li.active {
             .gradient(#3c3c3c, #3c3c3c, #393939);
             .box-shadow(inset 0px 0px 5px 1px #2b2b2b);
         }
 
+        /* Validation Message */
+        .content li {
+            color: #DE002F;
+            display: block;
+            padding-left: 0.5em;
+        }
+
+        /* Notice */
+        .notice {
+            padding: 0 1em 1em;
+            color: #3fae5d;
+        }
+
         /* Forms */
+        form div {
+            padding: 0.25em 0.5em;
+        }
+
         label {
             display: block;
             padding: 0.25em 0.5em;
+        }
+
+        .radios label {
+            display: inline-block;
+            padding-right: 1em;
+        }
+
+        .actions {
+            padding: 1em 0.5em 0.5em;
         }
 
         input[type="text"] {
             margin-bottom: 0.75em;
             padding: 0.25em;
             width: 16em;
+        }
+
+        .button::-moz-focus-inner {
+          border: 0; }
+
+        .button {
+            background: #e3e3e3;
+            border: 1px solid #bbb;
+            -webkit-border-radius: 3px;
+            -moz-border-radius: 3px;
+            -ms-border-radius: 3px;
+            -o-border-radius: 3px;
+            border-radius: 3px;
+            .box-shadow(inset 0 0 1px 1px #f6f6f6);
+            color: #333;
+            font-size: 0.75em;
+            line-height: 1em;
+            padding: 0.66666666em 3em 0.75em;
+            text-align: center;
+            text-shadow: 0 1px 0 #fff;
+        }
+
+        .button:hover {
+            background: #d9d9d9;
+            .box-shadow(inset 0 0 1px 1px #eaeaea);
+            color: #222;
+            cursor: pointer;
+        }
+
+        .button:active {
+            background: #d0d0d0;
+            .box-shadow(inset 0 0 1px 1px #e3e3e3);
+            color: #000;
         }
 
         /* Icons */

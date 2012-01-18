@@ -27,6 +27,12 @@ class Module
     protected $name;
 
     /**
+     *
+     * @var array skins
+     */
+    protected $skins;
+
+    /**
      * @param string $author
      */
     public function setAuthor($author)
@@ -72,5 +78,21 @@ class Module
     public function getStyle()
     {
         return $this->style;
+    }
+
+    /**
+     * @param array $skins
+     */
+    public function setSkins($skins)
+    {
+        $this->skins = $skins;
+    }
+
+    /**
+     * @return array
+     */
+    public function getSkins()
+    {
+        return $this->skins;
     }
 }

@@ -44,6 +44,7 @@ class ModuleController extends Controller
         $author = ucfirst(@exec('whoami'));
         $author = $author ? $author : ucfirst(@exec('echo %USERNAME%'));
         $module->setAuthor($author);
+        $module->setStyle('less');
 
         // create form
         $form = $this->createForm(new ModuleType(), $module);
@@ -53,11 +54,10 @@ class ModuleController extends Controller
 
             if ($form->isValid()) {
                 // create the module in the filesystem
-                $options = array('module' => $module->getName(), 'author' => $module->getAuthor(), 'style' => $module->getStyle());
 
                 try {
                     $composerService =  $this->get('terrific.composer.module.manager');
-                    $composerService->createModule($options);
+                    $composerService->createModule($module);
                 }
                 catch (Exception $e) {
                     $logger = $this->get('logger');
@@ -65,7 +65,7 @@ class ModuleController extends Controller
                 }
 
                 $this->get('session')->setFlash('notice', 'Module '.$module->getName().' created successfully');
-                return $this->redirect($this->generateUrl('composer_create_module_success'));
+                return $this->redirect($this->generateUrl('composer_create_module'));
             }
         }
 
@@ -73,17 +73,46 @@ class ModuleController extends Controller
     }
 
     /**
-     * Displays the success message.
+     * Adds a skin to the module.
      *
-     * @Route("/module/createsuccess", name="composer_create_module_success")
+     * @Route("/module/addskin", name="composer_add_skin")
      * @Template()
      *
      * @param \Symfony\Component\HttpFoundation\Request $request
      * @return \Symfony\Bundle\FrameworkBundle\Controller\RedirectResponse|\Symfony\Bundle\FrameworkBundle\Controller\Response
      */
-    public function createsuccessAction(Request $request)
-    {
+    public function addskinAction(Request $request) {
+        // setup a fresh module object
+        $module = new Module();
 
+        // fill it with some defaults
+        $author = ucfirst(@exec('whoami'));
+        $author = $author ? $author : ucfirst(@exec('echo %USERNAME%'));
+        $module->setAuthor($author);
+        $module->setStyle('less');
 
+        // create form
+        $form = $this->createForm(new ModuleType(), $module);
+
+        if ($request->getMethod() == 'POST') {
+            $form->bindRequest($request);
+
+            if ($form->isValid()) {
+                // create the skin in the filesystem
+                try {
+                    $composerService =  $this->get('terrific.composer.module.manager');
+                    $composerService->createModule($module);
+                }
+                catch (Exception $e) {
+                    $logger = $this->get('logger');
+                    $logger->err($e->getMessage());
+                }
+
+                $this->get('session')->setFlash('notice', 'Skin '.$module->getName().' created successfully');
+                return $this->redirect($this->generateUrl('composer_add_skin'));
+            }
+        }
+
+        return array('form' => $form->createView());
     }
 }

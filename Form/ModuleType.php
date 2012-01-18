@@ -21,7 +21,8 @@ class ModuleType extends AbstractType
         $builder->add('name', 'text');
         $builder->add('style', 'choice', array(
             'choices' => array('css' => 'CSS', 'less' => 'LESS'),
-            'preferred_choices' => array('less'),
+            'multiple' => false,
+            'expanded' => true
         ));
         $builder->add('author', 'text');
     }

@@ -16,23 +16,19 @@ use Symfony\Component\HttpFoundation\Request;
 // these import the "@Route" and "@Template" annotations
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+use Terrific\ComposerBundle\Entity\Module;
 
 /**
  * ModuleManager.
  */
 class ModuleManager
 {
-    public function createModule($options)
+    public function createModule(Module $module)
     {
         $src = __DIR__.'/../Template/Module/';
-        $dst = __DIR__.'/../../../../../src/Terrific/Module/'.$options['module'].'Bundle';
+        $dst = __DIR__.'/../../../../../src/Terrific/Module/'.$module->getName().'Bundle';
 
-        $skin = false;
-        if(!empty($options['skin'])) {
-            $skin = $options['skin'];
-        }
-
-        $this->copy($src, $dst, $options['module'], $options['author'], $skin, $options['style']);
+        $this->copy($src, $dst, $module);
     }
 
     /**
@@ -40,20 +36,17 @@ class ModuleManager
      *
      * @param String $src the source path
      * @param String $dst the destination path
-     * @param String $module the module name
-     * @param String $author the author
-     * @param String $skin the name of the skin
-     * @param String $style the name of the style
+     * @param Module $module the module
      * @return void
      */
-    protected function copy($src, $dst, $module, $author, $skin, $style)
+    protected function copy($src, $dst, Module $module)
     {
         $dir = opendir($src);
         @mkdir($dst);
         while (false !== ($file = readdir($dir))) {
             if (($file != '.') && ($file != '..')) {
-                if (is_dir($src . '/' . $file) && ($file != 'skin' || $file == 'skin' && $skin)) {
-                    $this->copy($src . '/' . $file, $dst . '/' . $file, $module, $author, $skin, $style);
+                if (is_dir($src . '/' . $file) && ($file != 'skin' || $file == 'skin' && $module->getSkins())) {
+                    $this->copy($src . '/' . $file, $dst . '/' . $file, $module);
                 }
                 else if (!is_dir($src . '/' . $file)) {
                     $old = $src . '/' . $file;
@@ -61,45 +54,82 @@ class ModuleManager
 
                     switch ($file) {
                         case 'TerrificModuleDefaultBundle.php':
-                            $new = $dst . '/TerrificModule' . $module . 'Bundle.php';
+                            $new = $dst . '/TerrificModule' . $module->getName() . 'Bundle.php';
+                            if(!empty($new) && !file_exists($new)) {
+                                copy($old, $new);
+                                $this->rewrite($new,
+                                    array('Your Name', 'Default', 'default', 'skinName'),
+                                    array($module->getAuthor(), ucfirst($module->getName()), strtolower($module->getName()), ''));
+                            }
                             break;
 
-                        case 'module.' . $style:
-                            $new = $dst . '/' . strtolower($module) . '.' . $style;
+                        case 'module.' . $module->getStyle():
+                            $new = $dst . '/' . strtolower($module->getName()) . '.' . $module->getStyle();
+                            if(!empty($new) && !file_exists($new)) {
+                                copy($old, $new);
+                                $this->rewrite($new,
+                                    array('Your Name', 'Default', 'default', 'skinName'),
+                                    array($module->getAuthor(), ucfirst($module->getName()), strtolower($module->getName()), ''));
+                            }
                             break;
 
-                        case 'skin.' . $style:
-                            $new = $dst . '/' . strtolower($skin) . '.' . $style;
+                        case 'skin.' . $module->getStyle():
+                            foreach($module->getSkins() as $skin) {
+                                $new = $dst . '/' . strtolower($skin) . '.' . $module->getStyle();
+                                if(!empty($new) && !file_exists($new)) {
+                                    copy($old, $new);
+                                    $this->rewrite($new,
+                                        array('Your Name', 'Default', 'default', 'skinName'),
+                                        array($module->getAuthor(), ucfirst($module->getName()), strtolower($module->getName()), $skin));
+                                }
+                            }
                             break;
 
                         case 'default.html.twig':
-                            $new = $dst . '/' . strtolower($module) . '.html.twig';
+                            $new = $dst . '/' . strtolower($module->getName()) . '.html.twig';
+                            if(!empty($new) && !file_exists($new)) {
+                                copy($old, $new);
+                                $this->rewrite($new,
+                                    array('Your Name', 'Default', 'default', 'skinName'),
+                                    array($module->getAuthor(), ucfirst($module->getName()), strtolower($module->getName()), ''));
+                            }
                             break;
 
                         case 'Tc.Module.Default.js':
-                            $new = $dst . '/' . 'Tc.Module.' . $module . '.js';
+                            $new = $dst . '/' . 'Tc.Module.' . $module->getName() . '.js';
+                            if(!empty($new) && !file_exists($new)) {
+                                copy($old, $new);
+                                $this->rewrite($new,
+                                    array('Your Name', 'Default', 'default', 'skinName'),
+                                    array($module->getAuthor(), ucfirst($module->getName()), strtolower($module->getName()), ''));
+                            }
                             break;
 
                         case 'Tc.Module.Default.Skin.js':
-                            $new = $dst . '/' . 'Tc.Module.' . $module . '.' . $skin . '.js';
+                            foreach($module->getSkins() as $skin) {
+                                $new = $dst . '/' . 'Tc.Module.' . $module->getName() . '.' . $skin . '.js';
+                                if(!empty($new) && !file_exists($new)) {
+                                    copy($old, $new);
+                                    $this->rewrite($new,
+                                        array('Your Name', 'Default', 'default', 'skinName'),
+                                        array($module->getAuthor(), ucfirst($module->getName()), strtolower($module->getName()), $skin));
+                                }
+                            }
                             break;
 
                         case 'default.md':
-                            $new = $dst . '/' . strtolower($module) . '.md';
+                            $new = $dst . '/' . strtolower($module->getName()) . '.md';
+                            if(!empty($new) && !file_exists($new)) {
+                                copy($old, $new);
+                                $this->rewrite($new,
+                                    array('Your Name', 'Default', 'default', 'skinName'),
+                                    array($module->getAuthor(), ucfirst($module->getName()), strtolower($module->getName()), ''));
+                            }
                             break;
 
                         default:
                             // do nothing
                             break;
-                    }
-
-                    if (!empty($new) && !file_exists($new)) {
-                        copy($old, $new);
-
-                        $this->rewrite($new,
-                            array('Your Name', 'Default', 'default', 'skinName'),
-                            array($author, ucfirst($module), strtolower($module), ($skin ? $skin : 'skinName'))
-                        );
                     }
                 }
             }
