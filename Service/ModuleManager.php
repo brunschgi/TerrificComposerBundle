@@ -107,11 +107,11 @@ class ModuleManager
                     $template = new ModuleTemplate();
 
                     // fill it
-                    $template->setName(str_replace('.html.twig', '', $file->getFilename()));
-
                     $path = str_replace(str_replace('/app', '', $this->kernel->getRootDir()), '',  $file->getRealPath());
                     $path = str_replace('.html.twig', '', $path);
                     $path = str_replace('/src/Terrific/Module/'.$name.'Bundle/Resources/views/', '', $path);
+
+                    $template->setName($path);
 
                     try {
                         // check whether the path is controller action or a simple view

@@ -41,12 +41,21 @@ class ModuleController extends Controller
             $moduleManager = $this->get('terrific.composer.module.manager');
             $fullModule = $moduleManager->getModuleByName($module);
 
+            $templates = $fullModule->getTemplates();
+
             if(!$template) {
-                $templates = $fullModule->getTemplates();
+                // take first template
                 $template = array_shift($templates)->getPath();
             }
             else {
-                $template = str_replace(':','/',$template);
+                $templateName = str_replace(':','/',$template);
+
+                // get the appropriate template
+                foreach($templates as $tmpTemplate) {
+                    if($tmpTemplate->getName() == $templateName) {
+                        $template = $tmpTemplate->getPath();
+                    }
+                }
             }
 
             if($skins) {
