@@ -14,10 +14,15 @@ namespace Terrific\ComposerBundle\Entity;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * Module Entity.
+ * Skin Entity.
  */
-class Module implements SearchResult
+class Skin
 {
+    /**
+     * @var string $module
+     */
+    private $module;
+
     /**
      * @var string $author
      */
@@ -28,25 +33,13 @@ class Module implements SearchResult
      */
     private $style;
 
+
     /**
      *
      * @Assert\NotBlank()
      * @var string $name
      */
     protected $name;
-
-    /**
-     *
-     * @var array skins
-     */
-    protected $skins = array();
-
-    /**
-     *
-     * @var array templates
-     */
-    protected $templates = array();
-
 
     /**
      * @param string $author
@@ -97,53 +90,20 @@ class Module implements SearchResult
     }
 
     /**
-     * @param array $skins
+     * @param string $module
      */
-    public function setSkins($skins)
+    public function setModule($module)
     {
-        $this->skins = $skins;
+        $this->module = $module;
     }
 
     /**
-     * @return array
+     * @return string
      */
-    public function getSkins()
+    public function getModule()
     {
-        return $this->skins;
+        return $this->module;
     }
 
-    /**
-     * @param Skin $skin
-     */
-    public function addSkin($skin) {
-        array_push($this->skins, $skin);
-    }
 
-    /**
-     * @param array $templates
-     */
-    public function setTemplates($templates)
-    {
-        $this->templates = $templates;
-    }
-
-    /**
-     * @return array
-     */
-    public function getTemplates()
-    {
-        return $this->templates;
-    }
-
-    /**
-     * @param Template $template
-     */
-    public function addTemplate($template) {
-        array_push($this->templates, $template);
-    }
-
-    public function getType()
-    {
-        return "module";
-    }
 }

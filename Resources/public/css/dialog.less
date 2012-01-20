@@ -22,7 +22,11 @@
 
         .content {
             border-left: 3.75em solid #464646;
-            padding: 30px;
+            padding: 1.875em;
+        }
+
+        .noSidebar {
+            border-left: none;
         }
 
         /* Content Loader */
@@ -33,20 +37,8 @@
             top: 2em;
         }
 
-        /* Sidebar Buttons */
-        .sidebar li {
-            border-width: 0 0 1px 0;
-            border-color: #2a2a2a;
-            border-style: solid;
-        }
-
-        .sidebar li:hover, li.active {
-            .gradient(#3c3c3c, #3c3c3c, #393939);
-            .box-shadow(inset 0px 0px 5px 1px #2b2b2b);
-        }
-
         /* Validation Message */
-        .content li {
+        form li {
             color: #DE002F;
             display: block;
             padding-left: 0.5em;
@@ -84,7 +76,8 @@
         }
 
         .button::-moz-focus-inner {
-          border: 0; }
+            border: 0;
+        }
 
         .button {
             background: #e3e3e3;
@@ -115,50 +108,106 @@
             .box-shadow(inset 0 0 1px 1px #e3e3e3);
             color: #000;
         }
-
-        /* Icons */
-        .icon {
-            display: block;
-            font-size: 0.75em;
-            letter-spacing: 0.03em;
-            line-height: 1em;
-            text-align: center;
-            width: 4em;
-            height: 1em;
-            color: #696c69;
-            text-shadow: 0 1px 1px #313131;
-            text-decoration: none;
-            padding: 3.2em 0.5em 0.8em 0.5em;
-            background: url('/bundles/terrificcomposer/images/icons.png') no-repeat left 0;
+        
+        .results {
+            margin: 1em 0 1em -0.5em;
+            max-height: 60%;
         }
 
-        .icon:hover, .active .icon {
-            color: #a3a3a3;
-            text-shadow: 0 1px 1px #353535;
+        .results {
+
+            li {
+                padding-left: 0.5em;
+            }
+
+            li:hover, li:active {
+                .gradient(#3c3c3c, #3c3c3c, #393939);
+                .box-shadow(inset 0px 0px 5px 1px #2b2b2b);
+                text-shadow: 0 1px 1px #353535;
+            }
+
+            /* Icons */
+            .icon {
+                color: #696c69;
+                display: block;
+                font-size: 0.875em;
+                letter-spacing: 0.03em;
+                line-height: 1em;
+                text-decoration: none;
+                padding: 0.4em 0.5em 0.6em 35px;
+                background: transparent url('/bundles/terrificcomposer/images/icons.png') no-repeat left 0;
+            }
+
+            li:hover .icon {
+                 color: #efefef;
+            }
+
+            .module {
+                background-position: 0 -398px;
+            }
+
+            .module:hover, .active .module {
+                background-position: 0 -498px;
+            }
         }
 
-        .module {
-            background-position: 50% -390px;
-        }
+        .sidebar {
+            /* Sidebar Buttons */
+            li {
+                border-width: 0 0 1px 0;
+                border-color: #2a2a2a;
+                border-style: solid;
+            }
 
-        .module:hover, .active .module {
-            background-position: 50% -490px;
-        }
+            li:hover, li.active {
+                .gradient(#3c3c3c, #3c3c3c, #393939);
+                .box-shadow(inset 0px 0px 5px 1px #2b2b2b);
+            }
 
-        .skin {
-           background-position: 50% -590px;
-        }
+            /* Sidebar Icons */
+            .icon {
+                display: block;
+                font-size: 0.75em;
+                letter-spacing: 0.03em;
+                line-height: 1em;
+                text-align: center;
+                width: 4em;
+                height: 1em;
+                color: #696c69;
+                text-shadow: 0 1px 1px #313131;
+                text-decoration: none;
+                padding: 3.2em 0.5em 0.8em 0.5em;
+                background: url('/bundles/terrificcomposer/images/icons.png') no-repeat left 0;
+            }
 
-        .skin:hover, .active .skin {
-           background-position: 50% -690px;
-        }
+            .icon:hover, .active .icon {
+                color: #a3a3a3;
+                text-shadow: 0 1px 1px #353535;
+            }
 
-        .page {
-           background-position: 50% -790px;
-        }
+            .module {
+                background-position: 50% -390px;
+            }
 
-        .page:hover, .active .page {
-           background-position: 50% -890px;
+            .module:hover, .active .module {
+                background-position: 50% -490px;
+            }
+
+            .skin {
+               background-position: 50% -590px;
+            }
+
+            .skin:hover, .active .skin {
+               background-position: 50% -690px;
+            }
+
+            .page {
+               background-position: 50% -790px;
+            }
+
+            .page:hover, .active .page {
+               background-position: 50% -890px;
+            }
         }
     }
 }

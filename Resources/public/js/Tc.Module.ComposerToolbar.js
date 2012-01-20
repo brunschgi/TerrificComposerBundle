@@ -34,7 +34,7 @@
             var $ctx = this.$ctx,
                 that = this;
 
-            $('.create', $ctx).on('click', function() {
+            $('.create, .open', $ctx).on('click', function() {
                 var $modal = $('.composerModal'),
                     $loader = $('.composerLoader'),
                     url = $(this).attr('href');

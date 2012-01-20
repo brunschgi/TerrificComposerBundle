@@ -1,0 +1,20 @@
+{% extends 'TerrificComposerBundle::basedialog.html.twig' %}
+
+{% block content %}
+
+<div class="content noSidebar">
+    <form novalidate="novalidate" action="#" method="get">
+        <input type="text" class="search" />
+    </form>
+    <ul class="results">
+        {% for result in results %}
+            {% if result.type == 'module'  %}
+                <li data-search="module {{ result.name | lower }}"><a href="{{ path('composer_module_details', { 'module': result.name })}}" class="icon module"><span>{{ result.name }}</span></a></li>
+            {% endif %}
+        {% endfor %}
+    </ul>
+    <span class="loader"><img src="/bundles/terrificcomposer/images/loader.gif" alt="" /></span>
+</div>
+
+{% endblock %}
+

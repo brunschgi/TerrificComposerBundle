@@ -1,0 +1,18 @@
+{% extends 'TerrificCompositionBundle::base.html.twig' %}
+
+{% block composition %}
+
+{% if app.session.hasFlash('notice') %}
+<div class="notice">
+    {{ app.session.flash('notice') }}
+</div>
+{% endif %}
+
+
+
+{% if module and template %}
+    {{ tc.module(module, template, skins )}}
+{% endif %}
+
+{% endblock %}
+
