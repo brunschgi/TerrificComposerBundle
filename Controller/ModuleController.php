@@ -45,6 +45,9 @@ class ModuleController extends Controller
                 $templates = $fullModule->getTemplates();
                 $template = array_shift($templates)->getPath();
             }
+            else {
+                $template = str_replace(':','/',$template);
+            }
 
             if($skins) {
                 $skins = explode(',', $skins);
