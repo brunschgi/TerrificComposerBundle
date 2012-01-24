@@ -43,6 +43,13 @@ class SearchController extends Controller
         $moduleManager =  $this->get('terrific.composer.module.manager');
         $modules = $moduleManager->getModules();
 
-        return array('results' => $modules);
+        // get all pages
+        $pageManager =  $this->get('terrific.composer.page.manager');
+        $pages = $pageManager->getPages();
+
+        // merge the results
+        $results = array_merge($modules, $pages);
+
+        return array('results' => $results);
     }
 }

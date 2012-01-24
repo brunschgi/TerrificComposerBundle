@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Terrific\ComposerBundle\Entity\Module;
+use Terrific\ComposerBundle\Entity\Skin;
 use Terrific\ComposerBundle\Entity\Template as ModuleTemplate;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
@@ -88,11 +89,10 @@ class ModuleManager
      */
     public function getModuleByName($name = null, $format = 'full') {
 
-        $templates = array();
-
         if (isset($name)) {
             $dir = $this->kernel->getRootDir().'/../src/Terrific/Module/'.$name.'Bundle';
 
+            // setup a fresh module object
             $module = new Module();
             $module->setName($name);
 

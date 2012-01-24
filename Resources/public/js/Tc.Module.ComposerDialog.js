@@ -55,6 +55,31 @@
                 that.loadView(url, data);
                 return false;
             });
+
+            var searchTimeout;
+            var $list = $('.results li', $ctx);
+            $('.search', $ctx).on('keyup', function() {
+                var $search = $(this);
+                // check if the search array is already initialized
+
+                // clear timeout if existing
+                if(searchTimeout) {
+                    clearTimeout(searchTimeout);
+                }
+
+                searchTimeout = setTimeout(function() {
+                    var term = $search.val().replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&"),
+                        matcher = new RegExp(term, "i" ),
+                        results = $.grep( $list, function(item) {
+                            return matcher.test($(item).data('search'));
+                        });
+
+                    $list.hide();
+                    for(var i = 0, len = results.length; i < len; i++) {
+                        $(results[i]).show();
+                    }
+                }, 250);
+            })
         },
 
         loadView : function(url, data) {

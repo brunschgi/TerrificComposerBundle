@@ -111,7 +111,9 @@
         
         .results {
             margin: 1em 0 1em -0.5em;
-            max-height: 60%;
+            max-height: 25em;
+            overflow-y: auto;
+            overflow-x: hidden;
         }
 
         .results {
@@ -120,7 +122,7 @@
                 padding-left: 0.5em;
             }
 
-            li:hover, li:active {
+            li:hover {
                 .gradient(#3c3c3c, #3c3c3c, #393939);
                 .box-shadow(inset 0px 0px 5px 1px #2b2b2b);
                 text-shadow: 0 1px 1px #353535;
@@ -148,6 +150,14 @@
 
             .module:hover, .active .module {
                 background-position: 0 -494px;
+            }
+
+            .page {
+               background-position:0 -794px;
+            }
+
+            .page:hover, .active .page {
+               background-position: 0 -894px;
             }
         }
 

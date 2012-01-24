@@ -10,5 +10,11 @@
             <argument type="service" id="kernel" />
             <argument type="service" id="service_container" />
         </service>
+
+        <service id="terrific.composer.page.manager"
+                 class="Terrific\ComposerBundle\Service\PageManager">
+            <argument type="service" id="kernel" />
+            <argument type="service" id="service_container" />
+        </service>
     </services>
 </container>
