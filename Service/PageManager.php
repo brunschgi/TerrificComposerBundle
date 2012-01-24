@@ -70,7 +70,7 @@ class PageManager
                 if (strpos($method->getName(), 'Action') !== false) {
                     // setup a fresh page object
                     $page = new Page();
-                    $page->setController(substr($className, 0, -11));
+                    $page->setController(substr($className, 0, -10));
                     $action = substr($method->getShortName(), 0, -6);
                     $page->setAction($action);
 
@@ -90,7 +90,7 @@ class PageManager
 
                     $page->setUrl($this->container->get('router')->generate($routeAnnotation->getName()));
 
-                    $pages[$method->getShortName()] = $page;
+                    $pages[] = $page;
                 }
             }
         }
