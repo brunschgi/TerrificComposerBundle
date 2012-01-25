@@ -34,7 +34,7 @@
             var $ctx = this.$ctx,
                 that = this;
 
-            $('.create, .open', $ctx).on('click', function() {
+            $('.create, .open', $ctx).on('click', function () {
                 var $modal = $('.composerModal'),
                     $loader = $('.composerLoader'),
                     url = $(this).attr('href');
@@ -42,7 +42,7 @@
                 $modal.addClass('intermediate');
                 $loader.show();
 
-                $modal.find('.dialog').load(url, function() {
+                $modal.find('.dialog').load(url, function () {
                     that.sandbox.addModules($modal);
                     $loader.hide();
                     $modal.addClass('active');
@@ -51,10 +51,52 @@
                 return false;
             });
 
-            $('.composerModal a[href="#close"]').on('click', function() {
+            $('.look', $ctx).on('click', function () {
+                var $item = $(this).closest('li');
+
+                if ($item.hasClass('active')) {
+                    // disable look mode
+                    $item.removeClass('active');
+                    $('.composerModule').remove();
+                }
+                else {
+                    // enable look mode
+                    $item.addClass('active');
+
+                    // show overlay over all modules on the page
+                    $('.mod:not(.modComposerToolbar, .modComposerDialog)').each(function () {
+                        var $this = $(this),
+                            position = $this.offset(),
+                            dimension = { height:$this.outerHeight() - 2, width:$this.outerWidth() - 2 },
+                            positioning = $this.css('position'),
+                            classes = $this.attr('class').split(' '),
+                            name = '';
+
+                        if (classes.length > 1) {
+                            for (var i = 0, len = classes.length; i < len; i++) {
+                                var part = $.trim(classes[i]);
+
+                                if (part.indexOf('mod') === 0 && part.length > 3) {
+                                    name = part.substr(3);
+                                }
+                            }
+                        }
+
+                        if (positioning == 'static') {
+                            positioning = 'absolute';
+                        }
+
+                        var $overlay = $('<a href="/app_dev.php/terrific/composer/module/details/' + name + '" class="composerModule"><span>' + name + '</span></a>').css({'zIndex':($this.css('zIndex') + 1), 'position':positioning, 'width':dimension.width, 'height':dimension.height, 'top':position.top, 'left':position.left});
+                        $('body').append($overlay);
+                    });
+                }
+                return false;
+            });
+
+            $('.composerModal a[href="#close"]').on('click', function () {
                 var modules = [];
 
-                $('.mod',  $('.composerModal')).each(function() {
+                $('.mod', $('.composerModal')).each(function () {
                     modules.push(that.sandbox.getModuleById($(this).data('id')));
                 });
 

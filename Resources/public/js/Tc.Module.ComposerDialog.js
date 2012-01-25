@@ -79,7 +79,7 @@
                         $(results[i]).show();
                     }
                 }, 250);
-            })
+            });
         },
 
         loadView : function(url, data) {
