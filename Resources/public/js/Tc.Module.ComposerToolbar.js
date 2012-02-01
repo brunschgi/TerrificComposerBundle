@@ -64,7 +64,7 @@
                     $item.addClass('active');
 
                     // show overlay over all modules on the page
-                    $('.mod:not(.modComposerToolbar, .modComposerDialog)').each(function () {
+                    $('.mod:not(.modComposerToolbar, .modComposerDialog):visible').each(function () {
                         var $this = $(this),
                             position = $this.offset(),
                             dimension = { height:$this.outerHeight() - 2, width:$this.outerWidth() - 2 },
