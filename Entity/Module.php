@@ -19,11 +19,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Module implements SearchResult
 {
     /**
-     * @var string $author
-     */
-    private $author;
-
-    /**
      * @var string $style
      */
     private $style;
@@ -46,23 +41,6 @@ class Module implements SearchResult
      * @var array templates
      */
     protected $templates = array();
-
-
-    /**
-     * @param string $author
-     */
-    public function setAuthor($author)
-    {
-        $this->author = $author;
-    }
-
-    /**
-     * @return string
-     */
-    public function getAuthor()
-    {
-        return $this->author;
-    }
 
     /**
      * @param string $name
@@ -116,7 +94,17 @@ class Module implements SearchResult
      * @param Skin $skin
      */
     public function addSkin($skin) {
-        array_push($this->skins, $skin);
+        $exists = false;
+
+        foreach($this->skins as $existingSkin) {
+            if($skin->getName() == $existingSkin->getName()) {
+                $exists = true;
+            }
+        }
+
+        if(!$exists) {
+            array_push($this->skins, $skin);
+        }
     }
 
     /**
@@ -140,6 +128,28 @@ class Module implements SearchResult
      */
     public function addTemplate($template) {
         array_push($this->templates, $template);
+    }
+
+    /**
+     * @param string $templateName
+     */
+    public function getTemplateByName($templateName = null) {
+        if(!$templateName) {
+            // get first template
+            $template = current($this->templates);
+        }
+        else {
+            $templateName = str_replace(':','/',$templateName);
+
+            // get the appropriate template
+            foreach($this->templates as $tmpTemplate) {
+                if($tmpTemplate->getName() == $templateName) {
+                    $template = $tmpTemplate;
+                }
+            }
+        }
+
+        return $template;
     }
 
     public function getType()

@@ -1,0 +1,37 @@
+
+<div>
+    <label for="composer_module_template">Template</label>
+    <select class="template "name="composer_module_template" id="composer_module_template">
+        {% for t in module.templates %}
+            {% set selected = '' %}
+            {% if template == t.path %}
+                {% set selected = 'selected' %}
+            {% endif %}
+            <option {{ selected }} value="{{ path('composer_module_details', { 'module' : module.name, 'template' : t.name | replace({'/' : ':'}) })}}">
+                {{ t.name }}
+            </option>
+        {% endfor %}
+    </select>
+</div>
+
+{% if module.skins | length > 0 %}
+<div>
+    <label for="composer_module_skins">Skins</label>
+    <select multiple class="skins" data-placeholder="Choose your Skins" name="composer_module_template" id="composer_module_skins">
+    {% for skin in module.skins %}
+        {% set selected = ''%}
+
+        {% for currentSkin in skins %}
+            {% if skin.name == currentSkin %}
+                {% set selected = 'selected' %}
+            {% endif %}
+        {% endfor %}
+        <option {{ selected }} value="{{ skin.name }}">
+            {{ skin.name }}
+        </option>
+    {% endfor %}
+    </select>
+</div>
+{% endif %}
+
+

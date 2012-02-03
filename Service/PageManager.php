@@ -47,7 +47,7 @@ class PageManager
     /**
      * Gets all existing Pages
      *
-     * @return array all exiting \Terrific\ComposerBundle\Entity\Page instances
+     * @return array All existing Page instances
      */
     public function getPages()
     {

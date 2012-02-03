@@ -55,7 +55,6 @@ class SkinType extends AbstractType
             'multiple' => false,
             'expanded' => true
         ));
-        $builder->add('author', 'text');
     }
 
     /**

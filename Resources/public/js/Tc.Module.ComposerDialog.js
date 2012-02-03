@@ -34,12 +34,14 @@
             var $ctx = this.$ctx,
                 that = this;
 
+            // sidebar
             $('.sidebar a', $ctx).on('click', function() {
                 var url =  $(this).attr('href');
                 that.loadView(url);
                 return false;
             });
 
+            // create dialog options
             $('form', $ctx).on('submit', function() {
                 var url =  $(this).attr('action');
                 that.loadView(url, $(this).serializeArray());
@@ -56,6 +58,7 @@
                 return false;
             });
 
+            // search in open dialog
             var searchTimeout;
             var $list = $('.results li', $ctx);
             $('.search', $ctx).on('keyup', function() {
@@ -80,6 +83,9 @@
                     }
                 }, 250);
             });
+
+            // improve all select boxes
+            $('select').chosen();
         },
 
         loadView : function(url, data) {

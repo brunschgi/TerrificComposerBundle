@@ -10,10 +10,6 @@
 @media screen {
 
     .modComposerDialog {
-        overflow: hidden;
-    }
-
-    .modComposerDialog {
         .sidebar {
             float: left;
             width: 3.75em;
@@ -51,7 +47,7 @@
         }
 
         /* Forms */
-        form div {
+        form > div {
             padding: 0.25em 0.5em;
         }
 
@@ -73,6 +69,10 @@
             margin-bottom: 0.75em;
             padding: 0.25em;
             width: 16em;
+        }
+
+        select {
+            width: 17em;
         }
 
         .button::-moz-focus-inner {
@@ -137,27 +137,20 @@
                 line-height: 1em;
                 text-decoration: none;
                 padding: 0.7em 0.5em 0.8em 35px;
-                background: transparent url('/bundles/terrificcomposer/images/icons.png') no-repeat left 0;
+                background: transparent url('/bundles/terrificcomposer/images/iconsDark.png') no-repeat left 0;
             }
 
             li:hover .icon {
-                 color: #efefef;
+                background-image: url('/bundles/terrificcomposer/images/iconsLight.png');
+                color: #efefef;
             }
 
             .module {
-                background-position: 0 -394px;
-            }
-
-            .module:hover, .active .module {
-                background-position: 0 -494px;
+                background-position: 0 -44px;
             }
 
             .page {
-               background-position:0 -794px;
-            }
-
-            .page:hover, .active .page {
-               background-position: 0 -894px;
+               background-position:0 -194px;
             }
         }
 
@@ -187,36 +180,25 @@
                 text-shadow: 0 1px 1px #313131;
                 text-decoration: none;
                 padding: 3.2em 0.5em 0.8em 0.5em;
-                background: url('/bundles/terrificcomposer/images/icons.png') no-repeat left 0;
+                background: url('/bundles/terrificcomposer/images/iconsDark.png') no-repeat left 0;
             }
 
             .icon:hover, .active .icon {
+                background-image: url('/bundles/terrificcomposer/images/iconsLight.png');
                 color: #a3a3a3;
                 text-shadow: 0 1px 1px #353535;
             }
 
             .module {
-                background-position: 50% -390px;
-            }
-
-            .module:hover, .active .module {
-                background-position: 50% -490px;
+                background-position: 50% -40px;
             }
 
             .skin {
-               background-position: 50% -590px;
-            }
-
-            .skin:hover, .active .skin {
-               background-position: 50% -690px;
+               background-position: 50% -90px;
             }
 
             .page {
-               background-position: 50% -790px;
-            }
-
-            .page:hover, .active .page {
-               background-position: 50% -890px;
+               background-position: 50% -190px;
             }
         }
     }

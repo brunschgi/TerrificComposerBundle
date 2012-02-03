@@ -12,6 +12,7 @@
         <service id="terrific_composer.toolbar" class="%terrific_composer.toolbar.class%">
             <tag name="kernel.event_listener" event="kernel.response" method="onKernelResponse" priority="-128" />
             <argument type="service" id="templating.engine.twig" />
+            <argument type="service" id="service_container" />
             <argument>%terrific_composer.toolbar.mode%</argument>
         </service>
     </services>

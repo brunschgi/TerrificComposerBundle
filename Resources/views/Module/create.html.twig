@@ -15,7 +15,6 @@
     </div>
     {% endif %}
     <form novalidate="novalidate" action="{{ path('composer_create_module') }}" method="post" {{ form_enctype(form) }}>
-        {{ form_row(form.author) }}
         {{ form_row(form.name) }}
         <div class="radios">
         {{ form_widget(form.style) }}

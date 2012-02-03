@@ -33,7 +33,6 @@ class ModuleType extends AbstractType
             'multiple' => false,
             'expanded' => true
         ));
-        $builder->add('author', 'text');
     }
 
     /**

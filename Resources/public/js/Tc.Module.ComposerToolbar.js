@@ -51,7 +51,7 @@
                 return false;
             });
 
-            $('.look', $ctx).on('click', function () {
+            $('.inspect', $ctx).on('click', function () {
                 var $item = $(this).closest('li');
 
                 if ($item.hasClass('active')) {
@@ -93,6 +93,25 @@
                 return false;
             });
 
+            $('.config', $ctx).on('click', function() {
+                var $tool = $('.modComposerTool');
+
+                var $item = $(this).closest('li');
+
+                if ($item.hasClass('active')) {
+                    // disable configurator
+                    $item.removeClass('active');
+                    $tool.hide();
+                }
+                else {
+                    // enable configurator
+                    $item.addClass('active');
+                    $tool.show();
+                }
+
+                return false;
+            });
+
             $('.composerModal a[href="#close"]').on('click', function () {
                 var modules = [];
 
@@ -100,10 +119,10 @@
                     modules.push(that.sandbox.getModuleById($(this).data('id')));
                 });
 
-                $(this).closest('.modal').removeClass('active intermediate');
+                $(this).closest('.composerModal').removeClass('active intermediate');
                 that.sandbox.removeModules(modules);
                 return false;
-            })
+            });
         }
     });
 })(Tc.$);

@@ -43,10 +43,11 @@ class ModuleManager
         $this->kernel = $kernel;
         $this->container = $container;
     }
+
     /**
      * Creates a Terrific Module
      *
-     * @param \Terrific\ComposerBundle\Entity\Module $module the module to create
+     * @param Module $module The module to create
      */
     public function createModule(Module $module)
     {
@@ -56,11 +57,27 @@ class ModuleManager
         $this->copy($src, $dst, $module);
     }
 
+    /**
+     * Creates a Terrific Skin
+     *
+     * @param Skin $skin The skin to create
+     */
+    public function createSkin(Skin $skin)
+    {
+        $src = __DIR__.'/../Template/Module/';
+
+        $module = new Module();
+        $module->setName($skin->getModule());
+        $module->addSkin($skin);
+
+        $dst = $this->kernel->getRootDir().'/../src/Terrific/Module/'.ucfirst($module->getName()).'Bundle';
+        $this->copy($src, $dst, $module);
+    }
 
     /**
      * Gets all existing Modules
      *
-     * @return array all exiting \Terrific\ComposerBundle\Entity\Module instances
+     * @return array All existing Module instances
      */
     public function getModules()
     {
@@ -83,9 +100,9 @@ class ModuleManager
     /**
      * Gets the appropriate Module for a given module name.
      *
-     * @param string name the module name
-     * @param string format the format to retrieve (small | full)
-     * @return \Terrific\ComposerBundle\Entity\Module the appropriate module
+     * @param string name The module name
+     * @param string format The format to retrieve (small | full)
+     * @return Module The appropriate module
      */
     public function getModuleByName($name = null, $format = 'full') {
 
@@ -94,9 +111,11 @@ class ModuleManager
 
             // setup a fresh module object
             $module = new Module();
+
+            // fill it with the basic infos
             $module->setName($name);
 
-
+            // fill it with all infos
             if($format == 'full') {
                 // get templates
                 $finder = new Finder();
@@ -143,6 +162,14 @@ class ModuleManager
                         $skin = new Skin();
 
                         // fill it
+                        $skin->setModule($module->getName());
+                        if(strpos($file->getFilename(), '.less')) {
+                            $skin->setStyle('less');
+                        }
+                        else {
+                            $skin->setStyle('css');
+                        }
+
                         $skin->setName(str_replace('.less', '', str_replace('.css', '', $file->getFilename())));
                         $module->addSkin($skin);
                     }
@@ -157,7 +184,9 @@ class ModuleManager
                         $skin = new Skin();
 
                         // fill it
-                        $skin->setName(str_replace('.js', '', $file->getFilename()));
+                        $skin->setModule($module->getName());
+                        $skin->setStyle('js');
+                        $skin->setName(str_replace('Tc.Module.'.$module->getName().'.', '', str_replace('.js', '', $file->getFilename())));
                         $module->addSkin($skin);
                     }
                 }
@@ -174,14 +203,15 @@ class ModuleManager
     /**
      * Copy the default module.
      *
-     * @param String $src the source path
-     * @param String $dst the destination path
-     * @param \Terrific\ComposerBundle\Entity\Module $module the module
+     * @param String $src The source path
+     * @param String $dst The destination path
+     * @param Module $module The module
      * @return void
      */
     protected function copy($src, $dst, Module $module)
     {
         $dir = opendir($src);
+        $author = 'Terrific Composer';
         @mkdir($dst);
         while (false !== ($file = readdir($dir))) {
             if (($file != '.') && ($file != '..')) {
@@ -198,45 +228,45 @@ class ModuleManager
                             if(!empty($new) && !file_exists($new)) {
                                 copy($old, $new);
                                 $this->rewrite($new,
-                                    array('Your Name', 'Default', 'default', 'skinName'),
-                                    array($module->getAuthor(), ucfirst($module->getName()), strtolower($module->getName()), ''));
+                                    array('Your Name', 'Default', 'SkinName'),
+                                    array($author, ucfirst($module->getName()), ''));
                             }
                             break;
 
-                        case 'module.' . $module->getStyle():
-                            $new = $dst . '/' . strtolower($module->getName()) . '.' . $module->getStyle();
+                        case 'Module.' . $module->getStyle():
+                            $new = $dst . '/' . ucfirst($module->getName()) . '.' . $module->getStyle();
                             if(!empty($new) && !file_exists($new)) {
                                 copy($old, $new);
                                 $this->rewrite($new,
-                                    array('Your Name', 'Default', 'default', 'skinName'),
-                                    array($module->getAuthor(), ucfirst($module->getName()), strtolower($module->getName()), ''));
+                                    array('Your Name', 'Default', 'SkinName'),
+                                    array($author, ucfirst($module->getName()), ''));
                             }
                             break;
 
-                        case 'skin.less':
+                        case 'Skin.less':
                             foreach($module->getSkins() as $skin) {
                                 if($skin->getStyle() == 'less') {
-                                    $new = $dst . '/' . strtolower($skin->getName()) . '.' . $skin->getStyle();
+                                    $new = $dst . '/' . ucfirst($skin->getName()) . '.' . $skin->getStyle();
                                     if(!empty($new) && !file_exists($new)) {
                                         copy($old, $new);
                                         $this->rewrite($new,
-                                            array('Your Name', 'Default', 'default', 'skinName'),
-                                            array($skin->getAuthor(), ucfirst($skin->getModule()), strtolower($skin->getModule()), ucfirst($skin->getName())));
+                                            array('Your Name', 'Default', 'SkinName'),
+                                            array($author, ucfirst($skin->getModule()), ucfirst($skin->getName())));
                                     }
                                 }
                             }
                             break;
 
 
-                        case 'skin.css':
+                        case 'Skin.css':
                             foreach($module->getSkins() as $skin) {
                                 if($skin->getStyle() == 'css') {
-                                    $new = $dst . '/' . strtolower($skin->getName()) . '.' . $skin->getStyle();
+                                    $new = $dst . '/' . ucfirst($skin->getName()) . '.' . $skin->getStyle();
                                     if(!empty($new) && !file_exists($new)) {
                                         copy($old, $new);
                                         $this->rewrite($new,
-                                            array('Your Name', 'Default', 'default', 'skinName'),
-                                            array($skin->getAuthor(), ucfirst($skin->getModule()), strtolower($skin->getModule()), ucfirst($skin->getName())));
+                                            array('Your Name', 'Default', 'SkinName'),
+                                            array($author, ucfirst($skin->getModule()), ucfirst($skin->getName())));
                                     }
                                 }
                             }
@@ -247,8 +277,8 @@ class ModuleManager
                             if(!empty($new) && !file_exists($new)) {
                                 copy($old, $new);
                                 $this->rewrite($new,
-                                    array('Your Name', 'Default', 'default', 'skinName'),
-                                    array($module->getAuthor(), ucfirst($module->getName()), strtolower($module->getName()), ''));
+                                    array('Your Name', 'Default', 'SkinName'),
+                                    array($author, ucfirst($module->getName()), ''));
                             }
                             break;
 
@@ -257,8 +287,8 @@ class ModuleManager
                             if(!empty($new) && !file_exists($new)) {
                                 copy($old, $new);
                                 $this->rewrite($new,
-                                    array('Your Name', 'Default', 'default', 'skinName'),
-                                    array($module->getAuthor(), ucfirst($module->getName()), strtolower($module->getName()), ''));
+                                    array('Your Name', 'Default', 'SkinName'),
+                                    array($author, ucfirst($module->getName()), ''));
                             }
                             break;
 
@@ -268,19 +298,19 @@ class ModuleManager
                                 if(!empty($new) && !file_exists($new)) {
                                     copy($old, $new);
                                     $this->rewrite($new,
-                                        array('Your Name', 'Default', 'default', 'skinName'),
-                                        array($skin->getAuthor(), ucfirst($skin->getModule()), strtolower($skin->getModule()), ucfirst($skin->getName())));
+                                        array('Your Name', 'Default', 'SkinName'),
+                                        array($author, ucfirst($skin->getModule()), ucfirst($skin->getName())));
                                 }
                             }
                             break;
 
-                        case 'default.md':
-                            $new = $dst . '/' . strtolower($module->getName()) . '.md';
+                        case 'README.md':
+                            $new = $dst . '/README.md';
                             if(!empty($new) && !file_exists($new)) {
                                 copy($old, $new);
                                 $this->rewrite($new,
-                                    array('Your Name', 'Default', 'default', 'skinName'),
-                                    array($module->getAuthor(), ucfirst($module->getName()), strtolower($module->getName()), ''));
+                                    array('Your Name', 'Default', 'SkinName'),
+                                    array($author, ucfirst($module->getName()), ''));
                             }
                             break;
 

@@ -19,11 +19,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 class Page implements SearchResult
 {
     /**
-     * @var string $author
-     */
-    private $author;
-
-    /**
      *
      * @Assert\NotBlank()
      * @var string $name
@@ -44,22 +39,6 @@ class Page implements SearchResult
      * @var string $action
      */
     private $action;
-
-    /**
-     * @param string $author
-     */
-    public function setAuthor($author)
-    {
-        $this->author = $author;
-    }
-
-    /**
-     * @return string
-     */
-    public function getAuthor()
-    {
-        return $this->author;
-    }
 
     /**
      * @param string $name

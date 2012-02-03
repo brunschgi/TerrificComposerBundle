@@ -1,7 +1,7 @@
 @import "mixins.less";
 
 /* Container */
-.modal {
+.composerModal {
     /* Overlay page content */
     position: fixed;
     top: 0;
@@ -31,16 +31,16 @@
 }
 
 /* Show modal */
-.modal.intermediate {
+.composerModal.intermediate {
     display: block;
 }
 
-.modal.active {
+.composerModal.active {
     opacity: 1;
 }
 
 /* Content */
-.modal > div {
+.composerModal > div {
     width: 500px;
     background: #fff;
     position: relative;
@@ -57,11 +57,11 @@
 }
 
 /* Override animation on modal open */
-.modal.active > div {
+.composerModal.active > div {
     -webkit-animation-name: bounce;
 }
 
-.modal h2 {
+.composerModal h2 {
     font-size: 36px;
     padding: 0 0 20px;
 }
@@ -95,24 +95,24 @@
 }
 
 /* Modal close link */
-.modal a[href="#close"] {
+.composerModal a[href="#close"] {
     position: absolute;
     right: 0;
     top: 0;
     color: transparent;
 }
 
-.modal a[href="#close"] span {
+.composerModal a[href="#close"] span {
     display: none;
 }
 
 /* Reset native styles */
-.modal a[href="#close"]:focus {
+.composerModal a[href="#close"]:focus {
     outline: none;
 }
 
 /* Create close button */
-.modal a[href="#close"]:after {
+.composerModal a[href="#close"]:after {
     content: 'X';
     display: block;
 

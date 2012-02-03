@@ -14,6 +14,7 @@ namespace Terrific\ComposerBundle\EventListener;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\HttpKernelInterface;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Bundle\TwigBundle\TwigEngine;
 
 /**
@@ -33,10 +34,19 @@ class ComposerToolbarListener
 
     protected $templating;
     protected $mode;
+    private $container;
 
-    public function __construct(TwigEngine $templating, $mode = self::ENABLED)
+    /**
+     * Constructor.
+     *
+     * @param TwigEngine $templating The templating engine
+     * @param int $mode The mode of the toolbar
+     * @param ContainerInterface    $container    The container is used to load the managers lazily, thus avoiding a circular dependency
+     */
+    public function __construct(TwigEngine $templating, ContainerInterface $container, $mode = self::ENABLED)
     {
         $this->templating = $templating;
+        $this->container = $container;
         $this->mode = (integer) $mode;
     }
 
@@ -47,6 +57,8 @@ class ComposerToolbarListener
 
     public function onKernelResponse(FilterResponseEvent $event)
     {
+        $params = array();
+
         if (HttpKernelInterface::MASTER_REQUEST !== $event->getRequestType()) {
             return;
         }
@@ -64,15 +76,34 @@ class ComposerToolbarListener
             return;
         }
 
-        $this->injectToolbar($response);
+        // set configurator only in module details view
+        $params['configurator'] = false;
+        if($request->attributes->get('_route') == 'composer_module_details') {
+            $params['configurator'] = true;
+        }
+        if($params['configurator']) {
+            $moduleManager = $this->container->get('terrific.composer.module.manager');
+            $params['module'] = $moduleManager->getModuleByName($request->attributes->get('module'));
+
+            // prepare the parameter for module rendering
+            $template = $params['module']->getTemplateByName($request->attributes->get('template'));
+            $params['template'] = $template->getPath();
+
+            $skins = $request->attributes->get('skins');
+            $skins = explode(',', $skins);
+            $params['skins'] = $skins;
+        }
+
+        $this->injectToolbar($response, $params);
     }
 
     /**
      * Injects the Terrific Composer Toolbar into the given Response.
      *
      * @param Response $response A Response instance
+     * @param array $params The parameters
      */
-    protected function injectToolbar(Response $response)
+    protected function injectToolbar(Response $response, $params)
     {
         if (function_exists('mb_stripos')) {
             $posrFunction = 'mb_strripos';
@@ -86,7 +117,7 @@ class ComposerToolbarListener
 
         if (false !== $pos = $posrFunction($content, '</body>')) {
             $toolbar = "\n".str_replace("\n", '', $this->templating->render(
-                'TerrificComposerBundle:Toolbar:toolbar.html.twig'
+                'TerrificComposerBundle:Toolbar:toolbar.html.twig', $params
             ))."\n";
             $content = $substrFunction($content, 0, $pos).$toolbar.$substrFunction($content, $pos);
             $response->setContent($content);

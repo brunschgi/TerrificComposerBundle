@@ -30,7 +30,7 @@ class ModuleController extends Controller
     /**
      * Creates a terrific module.
      *
-     * @Route("/module/details/{module}/{template}/{skins}", defaults={"template" = null, "skins" = null}, name = "composer_module_details")
+     * @Route("/module/details/{module}/{template}/{skins}", defaults={"template" = null, "skins" = ""}, name = "composer_module_details")
      * @Template()
      */
     public function detailsAction(Request $request, $module, $template, $skins)
@@ -41,26 +41,9 @@ class ModuleController extends Controller
             $moduleManager = $this->get('terrific.composer.module.manager');
             $fullModule = $moduleManager->getModuleByName($module);
 
-            $templates = $fullModule->getTemplates();
-
-            if(!$template) {
-                // take first template
-                $template = array_shift($templates)->getPath();
-            }
-            else {
-                $templateName = str_replace(':','/',$template);
-
-                // get the appropriate template
-                foreach($templates as $tmpTemplate) {
-                    if($tmpTemplate->getName() == $templateName) {
-                        $template = $tmpTemplate->getPath();
-                    }
-                }
-            }
-
-            if($skins) {
-                $skins = explode(',', $skins);
-            }
+            // prepare the parameter for module rendering
+            $template = $fullModule->getTemplateByName($template)->getPath();
+            $skins = explode(',', $skins);
         }
         catch (Exception $e) {
             $logger = $this->get('logger');
@@ -78,8 +61,8 @@ class ModuleController extends Controller
      * @Route("/module/create", name="composer_create_module")
      * @Template()
      *
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @return \Symfony\Bundle\FrameworkBundle\Controller\RedirectResponse|\Symfony\Bundle\FrameworkBundle\Controller\Response
+     * @param Request $request
+     * @return Response
      */
     public function createAction(Request $request)
     {
@@ -89,7 +72,6 @@ class ModuleController extends Controller
 
             // setup a fresh module object
             $module = new Module();
-            $module->setAuthor($tmpModule->getAuthor());
             $module->setStyle($tmpModule->getStyle());
         }
         else {
@@ -97,9 +79,6 @@ class ModuleController extends Controller
             $module = new Module();
 
             // fill it with some defaults
-            $author = ucfirst(@exec('whoami'));
-            $author = $author ? $author : ucfirst(@exec('echo %USERNAME%'));
-            $module->setAuthor($author);
             $module->setStyle('less');
         }
 
@@ -147,33 +126,23 @@ class ModuleController extends Controller
      * @Route("/module/addskin", name="composer_add_skin")
      * @Template()
      *
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @return \Symfony\Bundle\FrameworkBundle\Controller\RedirectResponse|\Symfony\Bundle\FrameworkBundle\Controller\Response
+     * @param Request $request
+     * @return Response
      */
     public function addskinAction(Request $request)
     {
 
-        // setup a fresh skin object
+        // setup a fresh skin and module object
         $skin = new Skin();
+        $module = new Module();
+
+        // fill it with some defaults
+        $skin->setStyle('less');
 
         if ($this->get('session')->has('module')) {
-            // get the module from the session
-            $module = $this->get('session')->get('module');
-
-            // fill the skin with some defaults
-            $skin->setModule($module->getName());
-            $skin->setAuthor($module->getAuthor());
-            $skin->setStyle($module->getStyle());
-        }
-        else {
-            // setup a fresh module object
-            $module = new Module();
-
-            // fill it with some defaults
-            $author = ucfirst(@exec('whoami'));
-            $author = $author ? $author : ucfirst(@exec('echo %USERNAME%'));
-            $skin->setAuthor($author);
-            $skin->setStyle('less');
+            // get the last module from the session to fill some additional defaults for the new skin
+            $tmpModule = $this->get('session')->get('module');
+            $skin->setModule($tmpModule->getName());
         }
 
         // create form
@@ -184,12 +153,11 @@ class ModuleController extends Controller
 
             if ($form->isValid()) {
                 // create the skin in the filesystem
-                $module->addSkin($skin);
-
                 try {
                     $moduleManager = $this->get('terrific.composer.module.manager');
-                    $moduleManager->createModule($module);
+                    $moduleManager->createSkin($skin);
 
+                    $module->setName($skin->getModule());
                     $this->get('session')->set('module', $module);
                     $this->get('session')->setFlash('notice', 'Skin ' . ucfirst($skin->getName()) . ' for Module ' . ucfirst($module->getName()) . ' created successfully');
                 }

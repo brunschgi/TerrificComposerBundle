@@ -47,10 +47,12 @@
             color: #999999;
             text-decoration: none;
             padding: 3.2em 0.5em 0.8em 0.5em;
-            background: url('/bundles/terrificcomposer/images/icons.png') no-repeat left 0;
+            background: url('/bundles/terrificcomposer/images/iconsDark.png') no-repeat left 0;
         }
 
+
         .icon:hover, .active .icon {
+            background-image: url('/bundles/terrificcomposer/images/iconsLight.png');
             color: #a3a3a3;
             text-shadow: 0 1px 1px #353535;
         }
@@ -59,26 +61,17 @@
            background-position: 50% 10px;
         }
 
-        .create:hover {
-           background-position: 50% -90px;
+        .config {
+            background-position: 50% -240px;
         }
 
         .open {
-           background-position: 50% -190px;
-        }
-
-        .open:hover {
            background-position: 50% -290px;
         }
 
-        .look {
-           background-position: 50% -987px;
+        .inspect {
+           background-position: 50% -340px;
         }
-
-        .look:hover, .active .look {
-           background-position: 50% -1087px;
-        }
-
     }
 
     .composerModule {
@@ -112,4 +105,5 @@
         background: #efefef;
     }
 }
+
 /* @end */

@@ -16,7 +16,6 @@
     {% endif %}
     <form novalidate="novalidate" action="{{ path('composer_add_skin') }}" method="post" {{ form_enctype(form) }}>
         {{ form_row(form.module) }}
-        {{ form_row(form.author) }}
         {{ form_row(form.name) }}
         <div class="radios">
             {{ form_widget(form.style) }}

@@ -34,8 +34,8 @@ class SearchController extends Controller
      * @Route("/search", name="composer_search")
      * @Template()
      *
-     * @param \Symfony\Component\HttpFoundation\Request $request
-     * @return \Symfony\Bundle\FrameworkBundle\Controller\RedirectResponse|\Symfony\Bundle\FrameworkBundle\Controller\Response
+     * @param Request $request
+     * @return Response
      */
     public function searchAction(Request $request)
     {

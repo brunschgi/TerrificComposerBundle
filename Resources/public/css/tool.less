@@ -1,0 +1,65 @@
+/* @group Module: ComposerToolbar */
+@import "mixins.less";
+
+@media print {
+    .modComposerTool {
+        display: none;
+    }
+}
+
+@media screen {
+
+    .modComposerTool {
+        display: none;
+        position: fixed;
+        right: 61px;
+        top: 223px;
+        width: 18em;
+        font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        font-size: 16px;
+        z-index: 10000;
+        padding: 0.5em;
+        .box-shadow(0 3px 20px rgba(0,0,0,0.9));
+        background: -moz-linear-gradient(#fff, #ccc);
+        background: -webkit-gradient(linear, right bottom, right top, color-stop(1, rgb(255,255,255)), color-stop(0.57, rgb(230,230,230)));
+    }
+
+    .modComposerTool {
+
+
+        /* Forms */
+        form div {
+            padding: 0.25em 0.5em;
+        }
+
+        label {
+            display: block;
+            padding: 0.25em 0.5em;
+        }
+
+        .radios label {
+            display: inline-block;
+            padding-right: 1em;
+        }
+
+        .actions {
+            padding: 1em 0.5em 0.5em;
+        }
+
+        .chzn-container, input {
+            font-size: 13px;
+        }
+
+        input[type="text"] {
+            margin-bottom: 0.75em;
+            padding: 0.25em;
+            width: 16em;
+        }
+
+        select {
+            width: 17em;
+        }
+    }
+}
+
+/* @end */

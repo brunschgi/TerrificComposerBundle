@@ -24,15 +24,9 @@ class Skin
     private $module;
 
     /**
-     * @var string $author
-     */
-    private $author;
-
-    /**
      * @var string $style
      */
     private $style;
-
 
     /**
      *
@@ -40,22 +34,6 @@ class Skin
      * @var string $name
      */
     protected $name;
-
-    /**
-     * @param string $author
-     */
-    public function setAuthor($author)
-    {
-        $this->author = $author;
-    }
-
-    /**
-     * @return string
-     */
-    public function getAuthor()
-    {
-        return $this->author;
-    }
 
     /**
      * @param string $name

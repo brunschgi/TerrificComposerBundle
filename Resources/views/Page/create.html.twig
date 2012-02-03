@@ -4,7 +4,6 @@
     <form action="{{ path('composer_create_page') }}" method="post" {{ form_enctype(form) }}>
         {{ form_errors(form) }}
 
-        {{ form_row(form.author) }}
         {{ form_row(form.namespace) }}
         {{ form_row(form.name) }}
 
