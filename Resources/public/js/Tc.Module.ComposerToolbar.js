@@ -87,7 +87,7 @@
                         }
 
                         var template = $this.data('composer-template');
-                        if(template.length > 0) {
+                        if(template) {
                             template = template.replace('/', ':');
                             var $overlay = $('<a href="/app_dev.php/terrific/composer/module/details/' + name + '/' + template + '" class="composerModule"><span>' + name + '</span></a>').css({'zIndex':($this.css('zIndex') + 1), 'position':positioning, 'width':dimension.width, 'height':dimension.height, 'top':position.top, 'left':position.left});
                             $('body').append($overlay);
