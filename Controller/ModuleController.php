@@ -136,13 +136,15 @@ class ModuleController extends Controller
         $skin = new Skin();
         $module = new Module();
 
-        // fill it with some defaults
-        $skin->setStyle('less');
-
         if ($this->get('session')->has('module')) {
             // get the last module from the session to fill some additional defaults for the new skin
             $tmpModule = $this->get('session')->get('module');
             $skin->setModule($tmpModule->getName());
+            $skin->setStyle($tmpModule->getStyle());
+        }
+        else {
+            // fill it with some defaults
+            $skin->setStyle('less');
         }
 
         // create form
@@ -157,6 +159,7 @@ class ModuleController extends Controller
                     $moduleManager = $this->get('terrific.composer.module.manager');
                     $moduleManager->createSkin($skin);
 
+                    $module->setStyle($skin->getStyle());
                     $module->setName($skin->getModule());
                     $this->get('session')->set('module', $module);
                     $this->get('session')->setFlash('notice', 'Skin ' . ucfirst($skin->getName()) . ' for Module ' . ucfirst($module->getName()) . ' created successfully');
