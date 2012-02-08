@@ -30,10 +30,10 @@ class ModuleController extends Controller
     /**
      * Creates a terrific module.
      *
-     * @Route("/module/details/{module}/{template}/{skins}", defaults={"template" = null, "skins" = ""}, name = "composer_module_details")
+     * @Route("/module/details/{module}/{template}/{skins}/{layout}", defaults={"template" = null, "skins" = "", "layout" = true}, name = "composer_module_details")
      * @Template()
      */
-    public function detailsAction(Request $request, $module, $template, $skins)
+    public function detailsAction(Request $request, $module, $template, $skins, $layout)
     {
         $fullModule = null;
 
@@ -52,7 +52,7 @@ class ModuleController extends Controller
             $this->get('session')->setFlash('notice', 'Module could not be found: ' . $e->getMessage());
         }
 
-        return array('module' => $module, 'template' => $template, 'skins' => $skins);
+        return array('module' => $module, 'template' => $template, 'skins' => $skins, 'layout' => $layout);
     }
 
     /**
