@@ -39,13 +39,13 @@
                     $loader = $('.composerLoader'),
                     url = $(this).attr('href');
 
-                $modal.addClass('intermediate');
                 $loader.show();
 
                 $modal.find('.dialog').load(url, function () {
                     that.sandbox.addModules($modal);
                     $loader.hide();
                     $modal.addClass('active');
+                    $modal.find('input[type=text]:eq(0)').focus();
                 });
 
                 return false;
@@ -82,7 +82,7 @@
                             }
                         }
 
-                        if (positioning == 'static') {
+                        if (positioning == 'static' || positioning == 'relative') {
                             positioning = 'absolute';
                         }
 
@@ -123,7 +123,7 @@
                     modules.push(that.sandbox.getModuleById($(this).data('id')));
                 });
 
-                $(this).closest('.composerModal').removeClass('active intermediate');
+                $(this).closest('.composerModal').removeClass('active');
                 that.sandbox.removeModules(modules);
                 return false;
             });

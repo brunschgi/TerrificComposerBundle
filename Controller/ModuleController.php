@@ -30,10 +30,10 @@ class ModuleController extends Controller
     /**
      * Creates a terrific module.
      *
-     * @Route("/module/details/{module}/{template}/{skins}/{layout}", defaults={"template" = null, "skins" = "", "layout" = true}, name = "composer_module_details")
+     * @Route("/module/details/{module}/{template}/{skins}", defaults={"template" = null, "skins" = null}, name = "composer_module_details")
      * @Template()
      */
-    public function detailsAction(Request $request, $module, $template, $skins, $layout)
+    public function detailsAction(Request $request, $module, $template, $skins)
     {
         $fullModule = null;
 
@@ -43,7 +43,13 @@ class ModuleController extends Controller
 
             // prepare the parameter for module rendering
             $template = $fullModule->getTemplateByName($template)->getPath();
-            $skins = explode(',', $skins);
+
+            if($skins) {
+                $skins = explode(',', $skins);
+            }
+            else {
+                $skins = array();
+            }
         }
         catch (Exception $e) {
             $logger = $this->get('logger');
@@ -52,7 +58,15 @@ class ModuleController extends Controller
             $this->get('session')->setFlash('notice', 'Module could not be found: ' . $e->getMessage());
         }
 
-        return array('module' => $module, 'template' => $template, 'skins' => $skins, 'layout' => $layout);
+        // decide whether to render the layout or not (ajax = without layout | default = with layout)
+        if($request->isXmlHttpRequest()) {
+            // render the module without layout
+            return $this->render('TerrificComposerBundle:Module:details.ajax.html.twig', array('module' => $module, 'template' => $template, 'skins' => $skins));
+        }
+        else {
+            // render the module with layout
+            return $this->render('TerrificComposerBundle:Module:details.html.twig', array('module' => $module, 'template' => $template, 'skins' => $skins));
+        }
     }
 
     /**

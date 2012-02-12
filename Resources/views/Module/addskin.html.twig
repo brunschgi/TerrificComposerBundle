@@ -14,7 +14,7 @@
         {{ app.session.flash('notice') }}
     </div>
     {% endif %}
-    <form novalidate="novalidate" action="{{ path('composer_add_skin') }}" method="post" {{ form_enctype(form) }}>
+    <form class="serialize" novalidate="novalidate" action="{{ path('composer_add_skin') }}" method="post" {{ form_enctype(form) }}>
         {{ form_row(form.module) }}
         {{ form_row(form.name) }}
         <div class="radios">
@@ -24,7 +24,7 @@
         {{ form_rest(form) }}
 
         <div class="actions">
-            <input class="button" type="submit" name="finish" value="Finish" />
+            <input class="button primary" type="submit" name="create" value="Create" />
         </div>
     </form>
     <span class="loader"><img src="/bundles/terrificcomposer/images/loader.gif" alt="" /></span>

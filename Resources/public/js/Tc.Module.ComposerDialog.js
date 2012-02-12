@@ -42,7 +42,7 @@
             });
 
             // create dialog options
-            $('form', $ctx).on('submit', function() {
+            $('form.serialize', $ctx).on('submit', function() {
                 var url =  $(this).attr('action');
                 that.loadView(url, $(this).serializeArray());
                 return false;
@@ -61,7 +61,8 @@
             // search in open dialog
             var searchTimeout;
             var $list = $('.results li', $ctx);
-            $('.search', $ctx).on('keyup', function() {
+            var $search = $('.search', $ctx);
+            $search.on('keyup', function() {
                 var $search = $(this);
                 // check if the search array is already initialized
 
@@ -84,6 +85,13 @@
                 }, 250);
             });
 
+            // open the first search result on submit
+            $search.closest('form').on('submit', function() {
+                window.location = $('.results li:visible:eq(0) a', $ctx).attr('href');
+                return false;
+            });
+
+
             // improve all select boxes
             $('select').chosen();
         },
@@ -94,7 +102,6 @@
                 $modal = $('.composerModal'),
                 $loader = $('.loader', $ctx);
 
-            $modal.addClass('intermediate');
             $loader.show();
 
             if(data) {
@@ -106,6 +113,7 @@
                     $loader.hide();
                     $modal.addClass('active');
                     that.sandbox.addModules($modal);
+                    $modal.find('input[type=text]:eq(0)').focus();
                 });
             } else {
                 $.get(url, function(data) {
@@ -116,6 +124,7 @@
                     $loader.hide();
                     $modal.addClass('active');
                     that.sandbox.addModules($modal);
+                    $modal.find('input[type=text]:eq(0)').focus();
                 });
             }
         }
