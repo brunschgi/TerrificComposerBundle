@@ -54,14 +54,14 @@ class PageManager
         $pages = array();
         $reader = new AnnotationReader();
 
-        $dir = $this->kernel->getRootDir().'/../src/Terrific/CompositionBundle/Controller/';
+        $dir = $this->kernel->getRootDir().'/../src/Terrific/Composition/Controller/';
 
         $finder = new Finder();
         $finder->files()->in($dir)->depth('== 0')->name('*Controller.php');
 
         foreach ($finder as $file) {
             $className = str_replace('.php', '', $file->getFilename());
-            $c = new \ReflectionClass('\Terrific\CompositionBundle\Controller\\'.$className);
+            $c = new \ReflectionClass('\Terrific\Composition\Controller\\'.$className);
 
             $methods = $c->getMethods();
 

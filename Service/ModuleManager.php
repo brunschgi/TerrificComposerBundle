@@ -52,7 +52,7 @@ class ModuleManager
     public function createModule(Module $module)
     {
         $src = __DIR__.'/../Template/Module/';
-        $dst = $this->kernel->getRootDir().'/../src/Terrific/Module/'.ucfirst($module->getName()).'Bundle';
+        $dst = $this->kernel->getRootDir().'/../src/Terrific/Module/'.ucfirst($module->getName());
 
         $this->copy($src, $dst, $module);
     }
@@ -70,7 +70,7 @@ class ModuleManager
         $module->setName($skin->getModule());
         $module->addSkin($skin);
 
-        $dst = $this->kernel->getRootDir().'/../src/Terrific/Module/'.ucfirst($module->getName()).'Bundle';
+        $dst = $this->kernel->getRootDir().'/../src/Terrific/Module/'.ucfirst($module->getName());
         $this->copy($src, $dst, $module);
     }
 
@@ -89,8 +89,7 @@ class ModuleManager
         $finder->directories()->in($dir)->depth('== 0');
 
         foreach ($finder as $file) {
-            $filename = $file->getFilename();
-            $module = str_replace('Bundle', '', $filename);
+            $module = $file->getFilename();
             $modules[$module] = $this->getModuleByName($module, 'small');
         }
 
@@ -107,7 +106,7 @@ class ModuleManager
     public function getModuleByName($name = null, $format = 'full') {
 
         if (isset($name)) {
-            $dir = $this->kernel->getRootDir().'/../src/Terrific/Module/'.$name.'Bundle';
+            $dir = $this->kernel->getRootDir().'/../src/Terrific/Module/'.$name;
 
             // setup a fresh module object
             $module = new Module();
@@ -128,7 +127,7 @@ class ModuleManager
                     // fill it
                     $path = str_replace(str_replace('/app', '', $this->kernel->getRootDir()), '',  $file->getRealPath());
                     $path = str_replace('.html.twig', '', $path);
-                    $path = str_replace('/src/Terrific/Module/'.$name.'Bundle/Resources/views/', '', $path);
+                    $path = str_replace('/src/Terrific/Module/'.$name.'/Resources/views/', '', $path);
 
                     $template->setName($path);
 
@@ -138,7 +137,7 @@ class ModuleManager
                         $controller = $paths[0].'Controller';
                         $action = $paths[1].'Action';
 
-                        $c = new \ReflectionClass('\Terrific\Module\\'.$name.'Bundle\Controller\\'.$controller);
+                        $c = new \ReflectionClass('\Terrific\Module\\'.$name.'\Controller\\'.$controller);
 
                         $c->getMethod($action);
                         $template->setPath($paths[0].':'.$paths[1]);
@@ -223,8 +222,8 @@ class ModuleManager
                     $new = '';
 
                     switch ($file) {
-                        case 'TerrificModuleDefaultBundle.php':
-                            $new = $dst . '/TerrificModule' . ucfirst($module->getName()) . 'Bundle.php';
+                        case 'TerrificModuleDefault.php':
+                            $new = $dst . '/TerrificModule' . ucfirst($module->getName()) . '.php';
                             if(!empty($new) && !file_exists($new)) {
                                 copy($old, $new);
                                 $this->rewrite($new,

@@ -9,10 +9,10 @@
  * file that was distributed with this source code.
  */
 
-namespace Terrific\Module\DefaultBundle;
+namespace Terrific\Module\Default;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
-class TerrificModuleDefaultBundle extends Bundle
+class TerrificModuleDefault extends Bundle
 {
 }
