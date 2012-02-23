@@ -1,15 +1,15 @@
+{% stylesheets
+        '@TerrificComposerBundle/Resources/public/css/*'
+        output="css/compiled/terrificcomposer.css"
+    %}
+    <link rel="stylesheet" href="{{ asset_url }}" />
+{% endstylesheets %}
 {% javascripts
               '@TerrificComposerBundle/Resources/public/js/*'
               output='js/compiled/terrificcomposer.js'
            %}
     <script src="{{ asset_url }}" type="text/javascript"></script>
 {% endjavascripts %}
-{% stylesheets
-        '@TerrificComposerBundle/Resources/public/css/*'
-        output="css/compiled/terrificcomposer.css"
-    %}
-<link rel="stylesheet" href="{{ asset_url }}" />
-{% endstylesheets %}
 <div class="mod modComposerToolbar" data-connectors="666">
     <ul>
         <li><a href="{{ path('composer_create_module')}}" class="icon create"><span>Create</span></a></li>
