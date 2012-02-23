@@ -125,7 +125,7 @@ class ModuleManager
                     $template = new ModuleTemplate();
 
                     // fill it
-                    $path = str_replace($this->kernel->getRootDir(), '',  $file->getPathname());
+                    $path = str_replace(str_replace('\\', '/', $this->kernel->getRootDir()), '',  str_replace('\\', '/', $file->getPathname()));
                     $path = str_replace('.html.twig', '', $path);
                     $path = str_replace('/../src/Terrific/Module/'.$name.'/Resources/views/', '', $path);
 
