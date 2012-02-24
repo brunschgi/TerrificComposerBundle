@@ -13,11 +13,11 @@
         .sidebar {
             float: left;
             width: 3.75em;
-            background: #464646;
+            background: #222;
         }
 
         .content {
-            border-left: 3.75em solid #464646;
+            border-left: 3.75em solid #333;
             padding: 1.875em;
         }
 
@@ -42,7 +42,7 @@
         /* Notice */
         .notice {
             padding: 0 1em 1em;
-            color: #3fae5d;
+            color: #74ae00;
         }
 
         /* Forms */
@@ -83,11 +83,7 @@
             float: none;
             background: #e3e3e3;
             border: 1px solid #999;
-            -webkit-border-radius: 3px;
-            -moz-border-radius: 3px;
-            -ms-border-radius: 3px;
-            -o-border-radius: 3px;
-            border-radius: 3px;
+            .border-radius(3px);
             .box-shadow(inset 0 0 1px 1px #f6f6f6);
             color: #333;
             font-size: 0.75em;
@@ -95,39 +91,38 @@
             padding: 0.66666666em 3em 0.75em;
             text-align: center;
             text-shadow: 0 1px 0 #fff;
-                 cursor: pointer;
-        }
+            cursor: pointer;
 
+            &:hover {
+                background: #d9d9d9;
+                .box-shadow(inset 0 0 1px 1px #eaeaea);
+                color: #222;
+            }
 
-        .button:hover {
-            background: #d9d9d9;
-            .box-shadow(inset 0 0 1px 1px #eaeaea);
-            color: #222;
-        }
+            &:active {
+                background: #d0d0d0;
+                .box-shadow(inset 0 0 1px 1px #e3e3e3);
+                color: #000;
+            }
 
-        .button:active {
-            background: #d0d0d0;
-            .box-shadow(inset 0 0 1px 1px #e3e3e3);
-            color: #000;
-        }
+            &.primary {
+                background: #73ae1a;
+                .box-shadow(inset 0 0 1px 1px #97c255);
+                color: #efefef;
+                text-shadow: 0 1px 0 #666;
+            }
 
-        .button.primary {
-            background: #73ae1a;
-            .box-shadow(inset 0 0 1px 1px #97c255);
-            color: #efefef;
-            text-shadow: 0 1px 0 #666;
-        }
+            &.primary:hover {
+                background: #6aa118;
+                .box-shadow(inset 0 0 1px 1px #79b223);
+                color: #efefef;
+            }
 
-        .button.primary:hover {
-            background: #6aa118;
-            .box-shadow(inset 0 0 1px 1px #79b223);
-            color: #efefef;
-        }
-
-        .button.primary:active {
-            background: #669b17;
-            .box-shadow(inset 0 0 1px 1px #73ae1a);
-            color: #efefef;
+            &.primary:active {
+                background: #669b17;
+                .box-shadow(inset 0 0 1px 1px #73ae1a);
+                color: #efefef;
+            }
         }
         
         .results {
@@ -145,21 +140,13 @@
 
             li:hover {
                 background-color: #444444;
-                background-image: -webkit-gradient(linear, left bottom, left top, color-stop(0.1, #646464), color-stop(0.8, #444444));
-                background-image: -webkit-linear-gradient(center bottom, #646464 10%, #444444 80%);
-                background-image: -moz-linear-gradient(center bottom, #646464 10%, #444444 80%);
-                background-image: -o-linear-gradient(bottom, #646464 10%, #444444 80%);
-                background-image: -ms-linear-gradient(top, #646464 10%, #444444 80%);
-                filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#646464', endColorstr='#444444',GradientType=0 );
-                background-image: linear-gradient(top, #646464 10%, #444444 80%);
-                /* .gradient(#3c3c3c, #3c3c3c, #393939); */
-                /*.box-shadow(inset 0px 0px 5px 1px #2b2b2b); */
+                .gradient(#444, #444, #222);
                 text-shadow: 0 1px 1px #353535;
             }
 
             /* Icons */
             .icon {
-                color: #696c69;
+                color: #333;
                 display: block;
                 font-size: 0.875em;
                 letter-spacing: 0.03em;
@@ -192,7 +179,7 @@
             }
 
             li:hover, li.active {
-                .gradient(#3c3c3c, #3c3c3c, #393939);
+                background: #000;
                 .box-shadow(inset 0px 0px 5px 1px #2b2b2b);
             }
 
@@ -205,15 +192,14 @@
                 text-align: center;
                 width: 4em;
                 height: 1em;
-                color: #696c69;
+                color: #a3a3a3;
                 text-shadow: 0 1px 1px #313131;
                 text-decoration: none;
                 padding: 3.2em 0.5em 0.8em 0.5em;
-                background: url('/bundles/terrificcomposer/images/iconsDark.png') no-repeat left 0;
+                background: url('/bundles/terrificcomposer/images/iconsLight.png') no-repeat left 0;
             }
 
             .icon:hover, .active .icon {
-                background-image: url('/bundles/terrificcomposer/images/iconsLight.png');
                 color: #a3a3a3;
                 text-shadow: 0 1px 1px #353535;
             }

@@ -32,8 +32,8 @@
         }
 
         li:hover, li.active {
-            .box-shadow(0 2px 12px rgba(0,0,0,0.52) inset);
-            .gradient(#999999, #999999, #444444);
+            .box-shadow(0 2px 12px rgba(0,0,0,0.8) inset);
+            .gradient(#444, #444, #222);
         }
 
         /* Icons */
@@ -45,7 +45,7 @@
             text-align: center;
             width: 4em;
             height: 1em;
-            color: #999999;
+            color: #333;
             text-decoration: none;
             padding: 3.2em 0.5em 0.8em 0.5em;
             background: url('/bundles/terrificcomposer/images/iconsDark.png') no-repeat left 0;
@@ -54,7 +54,7 @@
 
         .icon:hover, .active .icon {
             background-image: url('/bundles/terrificcomposer/images/iconsLight.png');
-            color: #a3a3a3;
+            color: #efefef;
             text-shadow: 0 1px 1px #353535;
         }
 
@@ -86,24 +86,24 @@
         min-height: 2.2em;
         outline: none;
         .transition(all 0.4s ease-in-out);
-     }
 
-     .composerModule:hover {
-        background: #444;
-     }
+        &:hover {
+            background: #444;
+         }
 
-    .composerModule span {
-        display: inline-block;
-        background: #000;
-        color: #efefef;
-        padding: 0.4em 0.5em 0.6em 0.5em;
-        vertical-align: top;
-        .transition(all 0.4s ease-in-out);
-    }
+        span {
+            display: inline-block;
+            background: #000;
+            color: #efefef;
+            padding: 0.4em 0.5em 0.6em 0.5em;
+            vertical-align: top;
+            .transition(all 0.4s ease-in-out);
+        }
 
-    .composerModule:hover span {
-        color: #000;
-        background: #efefef;
+        &:hover span {
+            color: #000;
+            background: #efefef;
+        }
     }
 }
 
