@@ -45,10 +45,13 @@ class TerrificComposerExtension extends Extension
 
         // Toolbar
         $loader->load('toolbar.xml');
-
-        if ($config['toolbar']) {
+        if ($config['toolbar'] === 'demo') {
+            $mode = ComposerToolbarListener::DEMO;
+        }
+        else if ($config['toolbar']) {
             $mode = ComposerToolbarListener::ENABLED;
-        } else {
+        }
+        else {
             $mode = ComposerToolbarListener::DISABLED;
         }
 

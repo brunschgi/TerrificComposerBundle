@@ -31,6 +31,7 @@ class ComposerToolbarListener
 {
     const DISABLED        = 1;
     const ENABLED         = 2;
+    const DEMO            = 3;
 
     protected $templating;
     protected $mode;
@@ -74,6 +75,14 @@ class ComposerToolbarListener
         // disable the toolbar if necessary
         if (self::DISABLED === $this->mode) {
             return;
+        }
+
+        // disable the toolbar in demo mode for all pages except those containing 'composer'
+        if (self::DEMO === $this->mode) {
+            $pathInfo = $request->getPathInfo();
+            if(strpos($pathInfo, 'composer') === false) {
+                return;
+            }
         }
 
         // set configurator only in module details view

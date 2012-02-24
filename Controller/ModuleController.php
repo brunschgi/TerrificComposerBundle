@@ -51,7 +51,7 @@ class ModuleController extends Controller
                 $skins = array();
             }
         }
-        catch (Exception $e) {
+        catch (\Exception $e) {
             $logger = $this->get('logger');
             $logger->err($e->getMessage());
 
@@ -113,7 +113,7 @@ class ModuleController extends Controller
 
                     $this->get('session')->setFlash('notice', 'Module ' . ucfirst($module->getName()) . ' created successfully');
                 }
-                catch (Exception $e) {
+                catch (\Exception $e) {
                     $logger = $this->get('logger');
                     $logger->err($e->getMessage());
 
@@ -178,7 +178,7 @@ class ModuleController extends Controller
                     $this->get('session')->set('module', $module);
                     $this->get('session')->setFlash('notice', 'Skin ' . ucfirst($skin->getName()) . ' for Module ' . ucfirst($module->getName()) . ' created successfully');
                 }
-                catch (Exception $e) {
+                catch (\Exception $e) {
                     $logger = $this->get('logger');
                     $logger->err($e->getMessage());
 

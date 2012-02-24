@@ -23,6 +23,7 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
+use Terrific\ComposerBundle\EventListener\ComposerToolbarListener;
 
 /**
  * ModuleManager.
@@ -54,7 +55,12 @@ class ModuleManager
         $src = __DIR__.'/../Template/Module/';
         $dst = $this->kernel->getRootDir().'/../src/Terrific/Module/'.ucfirst($module->getName());
 
-        $this->copy($src, $dst, $module);
+        if($this->container->getParameter('terrific_composer.toolbar.mode') === ComposerToolbarListener::DEMO) {
+            // prevent module creation in demo mode
+            throw new \Exception('This action is not supported in demo mode');
+        } else {
+            $this->copy($src, $dst, $module);
+        }
     }
 
     /**
@@ -71,7 +77,13 @@ class ModuleManager
         $module->addSkin($skin);
 
         $dst = $this->kernel->getRootDir().'/../src/Terrific/Module/'.ucfirst($module->getName());
-        $this->copy($src, $dst, $module);
+
+        if($this->container->getParameter('terrific_composer.toolbar.mode') === ComposerToolbarListener::DEMO) {
+            // prevent module creation in demo mode
+            throw new \Exception('This action is not supported in demo mode');
+        } else {
+            $this->copy($src, $dst, $module);
+        }
     }
 
     /**
