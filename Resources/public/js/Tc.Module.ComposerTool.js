@@ -34,7 +34,8 @@
             var $ctx = this.$ctx,
                 that = this,
                 $template = $('.template', $ctx),
-                $skins = $(".skins", $ctx);
+                $skins = $(".skins", $ctx),
+                $mod =  $($('body .mod').get(0));
 
             /* Module Configurator */
             $template.chosen().on('change', function() {
@@ -53,7 +54,7 @@
                 }
             });
 
-            $(".skins", $ctx).chosen().on('change', function() {
+            $('.skins', $ctx).chosen().on('change', function() {
                 var skins = $(this).val(),
                     url = $template.val();
 
@@ -68,6 +69,26 @@
                     window.location = url;
                 }
             });
+
+            $('.dimension').on('keyup', function(e, instantly) {
+                var $this = $(this),
+                    val = $this.val();
+
+                instantly = instantly || false;
+
+                if(!instantly) {
+                    $mod.stop(true, true).animate({
+                        width: val
+                    }, 500, function() {
+                        $.cookie('composermodulewidth', val);
+                    });
+                }
+                else {
+                    $mod.css({ 'width' : val });
+                }
+            }).val($.cookie('composermodulewidth') || 'auto').trigger('keyup', true);
+
+
         }
     });
 })(Tc.$);
