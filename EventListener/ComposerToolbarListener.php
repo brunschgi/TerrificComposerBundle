@@ -77,14 +77,6 @@ class ComposerToolbarListener
             return;
         }
 
-        // disable the toolbar in demo mode for all pages except those containing 'composer'
-        if (self::DEMO === $this->mode) {
-            $pathInfo = $request->getPathInfo();
-            if(strpos($pathInfo, 'composer') === false) {
-                return;
-            }
-        }
-
         // set configurator only in module details view
         $params['configurator'] = false;
         if($request->attributes->get('_route') == 'composer_module_details') {
