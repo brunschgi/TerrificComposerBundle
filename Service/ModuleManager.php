@@ -249,8 +249,8 @@ class ModuleManager
                             if(!empty($new) && !file_exists($new)) {
                                 copy($old, $new);
                                 $this->rewrite($new,
-                                    array('Your Name', 'Default', 'default', 'SkinName'),
-                                    array($author, ucfirst($module->getName()), strtolower($module->getName()), ''));
+                                    array('Your Name', 'Default', 'SkinName'),
+                                    array($author, ucfirst($module->getName()), ''));
                             }
                             break;
 
@@ -261,8 +261,8 @@ class ModuleManager
                                     if(!empty($new) && !file_exists($new)) {
                                         copy($old, $new);
                                         $this->rewrite($new,
-                                            array('Your Name', 'Default', 'default', 'SkinName'),
-                                            array($author, ucfirst($skin->getModule()), strtolower($skin->getModule()), ucfirst($skin->getName())));
+                                            array('Your Name', 'Default', 'SkinName'),
+                                            array($author, ucfirst($skin->getModule()), ucfirst($skin->getName())));
                                     }
                                 }
                             }
