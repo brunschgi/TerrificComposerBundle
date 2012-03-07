@@ -4,7 +4,7 @@
 
 <div class="content noSidebar">
     <form novalidate="novalidate" action="#" method="get">
-        <input type="text" class="search" />
+        <input type="text" placeholder="Search" class="search" />
     </form>
     <ul class="results">
         {% for result in results %}
@@ -15,7 +15,7 @@
             {% endif %}
         {% endfor %}
     </ul>
-    <span class="loader"><img src="/bundles/terrificcomposer/images/loader.gif" alt="" /></span>
+    <span class="loader"><img src="{{ asset('bundles/terrificcomposer/images/loader.gif') }}" alt="" /></span>
 </div>
 
 {% endblock %}

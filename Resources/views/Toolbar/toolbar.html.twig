@@ -1,11 +1,12 @@
 {% stylesheets
-        '@TerrificComposerBundle/Resources/public/css/*'
+        'bundles/terrificcomposer/css/*'
+        filter="cssrewrite"
         output="css/compiled/terrificcomposer.css"
     %}
     <link rel="stylesheet" href="{{ asset_url }}" />
 {% endstylesheets %}
 {% javascripts
-              '@TerrificComposerBundle/Resources/public/js/*'
+              'bundles/terrificcomposer/js/*'
               output='js/compiled/terrificcomposer.js'
            %}
     <script src="{{ asset_url }}" type="text/javascript"></script>
@@ -25,7 +26,7 @@
     {% include 'TerrificComposerBundle::Module/configure.html.twig' with {'module' : module} %}
 </div>
 {% endif %}
-<span class="composerLoader"><img src="/bundles/terrificcomposer/images/loader.gif" alt="" /></span>
+<span class="composerLoader"><img src="{{ asset('bundles/terrificcomposer/images/loader.gif') }}" alt="" /></span>
 <div class="composerModal">
     <div class="overlay">
         <div class="dialog"></div>
