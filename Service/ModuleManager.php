@@ -1,6 +1,6 @@
 <?php
 /*
- * This file is part of the Terrific Composer package.
+ * This file is part of the Terrific Composer Bundle.
  *
  * (c) Remo Brunschwiler <remo@terrifically.org>
  *
