@@ -15,7 +15,7 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
-use Terrific\ComposerBundle\EventListener\ComposerToolbarListener;
+use Terrific\ComposerBundle\EventListener\ToolbarListener;
 
 /**
  * TerrificComposerExtension.
@@ -46,13 +46,13 @@ class TerrificComposerExtension extends Extension
         // Toolbar
         $loader->load('toolbar.xml');
         if ($config['toolbar'] === 'demo') {
-            $mode = ComposerToolbarListener::DEMO;
+            $mode = ToolbarListener::DEMO;
         }
         else if ($config['toolbar']) {
-            $mode = ComposerToolbarListener::ENABLED;
+            $mode = ToolbarListener::ENABLED;
         }
         else {
-            $mode = ComposerToolbarListener::DISABLED;
+            $mode = ToolbarListener::DISABLED;
         }
 
         $container->setParameter('terrific_composer.toolbar.mode', $mode);

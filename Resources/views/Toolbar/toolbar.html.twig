@@ -1,12 +1,12 @@
 {% stylesheets
-        'bundles/terrificcomposer/css/*'
-        filter="cssrewrite"
+        '@TerrificComposerBundle/Resources/public/css/*'
+        filter="terrificrewrite"
         output="css/compiled/terrificcomposer.css"
     %}
     <link rel="stylesheet" href="{{ asset_url }}" />
 {% endstylesheets %}
 {% javascripts
-              'bundles/terrificcomposer/js/*'
+              '@TerrificComposerBundle/Resources/public/js/*'
               output='js/compiled/terrificcomposer.js'
            %}
     <script src="{{ asset_url }}" type="text/javascript"></script>

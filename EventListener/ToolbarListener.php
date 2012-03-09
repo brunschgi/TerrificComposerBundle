@@ -18,7 +18,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Bundle\TwigBundle\TwigEngine;
 
 /**
- * ComposerToolbarListener injects the Terrific Composer Toolbar.
+ * ToolbarListener injects the Terrific Composer Toolbar.
  *
  * The onKernelResponse method must be connected to the kernel.response event.
  *
@@ -27,7 +27,7 @@ use Symfony\Bundle\TwigBundle\TwigEngine;
  *
  * @author Remo Brunschwiler <remo@terrifically.org>
  */
-class ComposerToolbarListener
+class ToolbarListener
 {
     const DISABLED        = 1;
     const ENABLED         = 2;
@@ -42,7 +42,7 @@ class ComposerToolbarListener
      *
      * @param TwigEngine $templating The templating engine
      * @param int $mode The mode of the toolbar
-     * @param ContainerInterface    $container    The container is used to load the managers lazily, thus avoiding a circular dependency
+     * @param ContainerInterface $container The container is used to load the managers lazily, thus avoiding a circular dependency
      */
     public function __construct(TwigEngine $templating, ContainerInterface $container, $mode = self::ENABLED)
     {
