@@ -28,7 +28,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 class ModuleController extends Controller
 {
     /**
-     * Creates a terrific module.
+     * Display the details of a terrific module.
      *
      * @Route("/module/details/{module}/{template}/{skins}", defaults={"template" = null, "skins" = null}, name = "composer_module_details")
      * @Template()

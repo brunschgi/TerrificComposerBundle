@@ -1,4 +1,4 @@
-/* @group Module: Default | Skin: SkinName */
+/* @group Module: default | Skin: skinname */
 @media all {
     
 }
@@ -8,7 +8,7 @@
 }
 
 @media screen {
-    .skinDefaultSkinName {
+    .skin-default-skinname {
 
     }
 }

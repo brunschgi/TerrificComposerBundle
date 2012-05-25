@@ -2,14 +2,14 @@
 @import "mixins.less";
 
 @media print {
-    .modComposerDialog {
+    .mod-composer-dialog {
         display: none;
     }
 }
 
 @media screen {
 
-    .modComposerDialog {
+    .mod-composer-dialog {
         .sidebar {
             float: left;
             width: 3.75em;
@@ -21,7 +21,7 @@
             padding: 1.875em;
         }
 
-        .noSidebar {
+        .no-sidebar {
             border-left: none;
         }
 
@@ -216,6 +216,99 @@
                background-position: 50% -190px;
             }
         }
+    }
+}
+
+/* Composer Loader */
+.composer-loader {
+    display: none;
+    left: 0;
+    margin: 10% 0;
+    position: fixed;
+    text-align: center;
+    top: 0;
+    width: 100%;
+}
+
+/* Container */
+.composer-modal {
+    /* Overlay page content */
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(255,255,255,0.5);
+    z-index: 10000;
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1.5em;
+    color: #222;
+
+    /* Hide for now */
+    display: none;
+
+    /* Show modal */
+    &.active {
+        display: block;
+    }
+
+    /* Content */
+    & > div {
+        width: 500px;
+        background: #fff;
+        position: relative;
+        margin: 10% auto;
+
+        /* Prettify */
+        .box-shadow(0 3px 20px rgba(0,0,0,0.9));
+        .gradient(#fff, #fff, #ccc);
+        text-shadow: 0 1px 0 #fff;
+    }
+
+    h2 {
+        font-size: 36px;
+        padding: 0 0 20px;
+    }
+
+    /* Modal close link */
+    a[href="#close"] {
+        position: absolute;
+        right: 0;
+        top: 0;
+        color: transparent;
+    }
+
+    a[href="#close"] span {
+        display: none;
+    }
+
+    /* Reset native styles */
+    a[href="#close"]:focus {
+        outline: none;
+    }
+
+    /* Create close button */
+    a[href="#close"]:after {
+        content: 'X';
+        display: block;
+
+        /* Position */
+        position: absolute;
+        right: -10px;
+        top: -10px;
+        width: 1.5em;
+        padding: 1px 1px 1px 2px;
+
+        /* Style */
+        text-decoration: none;
+        text-shadow: none;
+        text-align: center;
+        background: #333;
+        color: #fff;
+        border: 2px solid #fff;
+        .border-radius(20px);
+        .box-shadow(0 1px 3px rgba(0,0,0,0.5));
     }
 }
 /* @end */

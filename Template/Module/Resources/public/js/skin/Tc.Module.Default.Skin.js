@@ -13,26 +13,14 @@
          * override the appropriate methods from the decorated module (ie. this.get = function()).
          * the former/original method may be called via parent.<method>()
          */
-        this.dependencies = function() {
+        this.on = function(callback) {
             // calling parent method
-            parent.dependencies();
+            parent.on(callback);
         };
-        
-        this.beforeBinding = function(callback) {
+
+        this.after = function() {
             // calling parent method
-            parent.beforeBinding(function() {
-                callback();
-            });
-        };
-        
-        this.onBinding = function() {
-            // calling parent method
-            parent.onBinding();
-        };
-        
-        this.afterBinding = function() {
-            // calling parent method
-            parent.afterBinding();
+            parent.after();
         };
     };
 })(Tc.$);

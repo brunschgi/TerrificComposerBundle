@@ -11,7 +11,7 @@
            %}
     <script src="{{ asset_url }}" type="text/javascript"></script>
 {% endjavascripts %}
-<div class="mod modComposerToolbar" data-baseurl="{{ app.request.baseurl }}" data-connectors="666">
+<div class="mod mod-composer-toolbar" data-baseurl="{{ app.request.baseurl }}" data-connectors="666">
     <ul>
         <li><a href="{{ path('composer_create_module')}}" class="icon create"><span>Create</span></a></li>
         <li><a href="{{ path('composer_search')}}" class="icon open"><span>Open</span></a></li>
@@ -22,12 +22,12 @@
     </ul>
 </div>
 {% if configurator %}
-<div class="mod modComposerTool" data-connectors="666">
+<div class="mod mod-composer-tool" data-connectors="666">
     {% include 'TerrificComposerBundle::Module/configure.html.twig' with {'module' : module} %}
 </div>
 {% endif %}
-<span class="composerLoader"><img src="{{ asset('bundles/terrificcomposer/img/loader.gif') }}" alt="" /></span>
-<div class="composerModal">
+<span class="composer-loader"><img src="{{ asset('bundles/terrificcomposer/img/loader.gif') }}" alt="" /></span>
+<div class="composer-modal">
     <div class="overlay">
         <div class="dialog"></div>
         <a title="close" href="#close"><span>Close</span></a>

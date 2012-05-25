@@ -24,6 +24,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Terrific\ComposerBundle\EventListener\ToolbarListener;
+use Terrific\CoreBundle\Twig\Extension\TerrificCoreExtension;
 
 /**
  * ModuleManager.
@@ -144,7 +145,7 @@ class ModuleManager
                     $template->setName($path);
 
                     try {
-                        // check whether the path is controller action or a simple view
+                        // check whether the path is a controller action or a simple view
                         $paths = explode('/', $path);
                         $controller = $paths[0].'Controller';
                         $action = $paths[1].'Action';
@@ -224,6 +225,7 @@ class ModuleManager
         $dir = opendir($src);
         $author = 'Terrific Composer';
         @mkdir($dst);
+        
         while (false !== ($file = readdir($dir))) {
             if (($file != '.') && ($file != '..')) {
                 if (is_dir($src . '/' . $file) && ($file != 'skin' || $file == 'skin' && $module->getSkins())) {
@@ -240,44 +242,44 @@ class ModuleManager
                                 copy($old, $new);
                                 $this->rewrite($new,
                                     array('Your Name', 'Default', 'SkinName'),
-                                    array($author, ucfirst($module->getName()), ''));
+                                    array($author, ($module->getName()), ''));
                             }
                             break;
 
-                        case 'Module.' . $module->getStyle():
-                            $new = $dst . '/' . ucfirst($module->getName()) . '.' . $module->getStyle();
+                        case 'module.' . $module->getStyle():
+                            $new = $dst . '/' . strtolower($module->getName()) . '.' . $module->getStyle();
                             if(!empty($new) && !file_exists($new)) {
                                 copy($old, $new);
                                 $this->rewrite($new,
-                                    array('Your Name', 'Default', 'SkinName'),
-                                    array($author, ucfirst($module->getName()), ''));
+                                    array('Your Name', 'default', 'skinname'),
+                                    array($author, TerrificCoreExtension::dash($module->getName()), ''));
                             }
                             break;
 
-                        case 'Skin.less':
+                        case 'skin.less':
                             foreach($module->getSkins() as $skin) {
                                 if($skin->getStyle() == 'less') {
-                                    $new = $dst . '/' . ucfirst($skin->getName()) . '.' . $skin->getStyle();
+                                    $new = $dst . '/' . strtolower($skin->getName()) . '.' . $skin->getStyle();
                                     if(!empty($new) && !file_exists($new)) {
                                         copy($old, $new);
                                         $this->rewrite($new,
-                                            array('Your Name', 'Default', 'SkinName'),
-                                            array($author, ucfirst($skin->getModule()), ucfirst($skin->getName())));
+                                            array('Your Name', 'default', 'skinname'),
+                                            array($author, TerrificCoreExtension::dash($skin->getModule()), TerrificCoreExtension::dash($skin->getName())));
                                     }
                                 }
                             }
                             break;
 
 
-                        case 'Skin.css':
+                        case 'skin.css':
                             foreach($module->getSkins() as $skin) {
                                 if($skin->getStyle() == 'css') {
-                                    $new = $dst . '/' . ucfirst($skin->getName()) . '.' . $skin->getStyle();
+                                    $new = $dst . '/' . strtolower($skin->getName()) . '.' . $skin->getStyle();
                                     if(!empty($new) && !file_exists($new)) {
                                         copy($old, $new);
                                         $this->rewrite($new,
-                                            array('Your Name', 'Default', 'SkinName'),
-                                            array($author, ucfirst($skin->getModule()), ucfirst($skin->getName())));
+                                            array('Your Name', 'default', 'skinname'),
+                                            array($author, TerrificCoreExtension::dash($skin->getModule()), TerrificCoreExtension::dash($skin->getName())));
                                     }
                                 }
                             }

@@ -8,7 +8,6 @@
      * @extends Tc.Module
      */
     Tc.Module.Default = Tc.Module.extend({
-		
 		/**
 		 * Initializes the Default module.
 		 * 
@@ -23,46 +22,26 @@
 	      	// call base constructor
 	        this._super($ctx, sandbox, modId);
 	    },
-    
+
         /**
-         * Hook function to load the module specific dependencies.
+         * Hook function to do all of your module stuff.
          *
-         * @method dependencies
+         * @method on
+         * @param {Function} callback function
          * @return void
          */
-        dependencies: function() {
-        },
-        
-        /**
-         * Hook function to do module specific stuff before binding the events (i.e. fetching some data).
-         *
-         * @method beforeBinding
-         * @param {Function} callback the callback function which must be called at the end
-         * @return void
-         */
-        beforeBinding: function(callback) {
+        on: function(callback) {
             callback();
         },
         
         /**
-         * Hook function to bind the module specific events.
+         * Hook function to trigger your events.
          *
-         * @method onBinding
+         * @method after
          * @return void
          */
-        onBinding: function() {
-        
-        },
-        
-        /**
-         * Hook function to do module specific stuff after binding the events (i.e. triggering some events).
-         *
-         * @method afterBinding
-         * @return void
-         */
-        afterBinding: function() {
+        after: function() {
         
         }
-        
     });
 })(Tc.$);

@@ -25,18 +25,18 @@
         },
 
         /**
-         * Hook function to bind the module specific events.
+         * Hook function to do all of your module stuff.
          *
-         * @method onBinding
+         * @method on
          * @return void
          */
-        onBinding:function () {
+        on: function (callback) {
             var $ctx = this.$ctx,
                 that = this;
 
             $('.create, .open', $ctx).on('click', function () {
-                var $modal = $('.composerModal'),
-                    $loader = $('.composerLoader'),
+                var $modal = $('.composer-modal'),
+                    $loader = $('.composer-loader'),
                     url = $(this).attr('href');
 
                 $loader.show();
@@ -53,19 +53,21 @@
 
             var baseUrl = $ctx.data('baseurl');
             $('.inspect', $ctx).on('click', function () {
-                var $item = $(this).closest('li');
+                var $item = $(this).closest('li'),
+                    stringUtils = Tc.Utils.String;
 
                 if ($item.hasClass('active')) {
                     // disable look mode
                     $item.removeClass('active');
-                    $('.composerModule').remove();
+                    $('.composer-module').remove();
                 }
                 else {
                     // enable look mode
                     $item.addClass('active');
 
                     // show overlay over all modules on the page
-                    $('.mod:not(.modComposerToolbar, .modComposerDialog):visible').each(function () {
+
+                    $('.mod:not(.mod-composer-toolbar, .mod-composer-dialog):visible').each(function () {
                         var $this = $(this),
                             position = $this.offset(),
                             dimension = { height:$this.outerHeight() - 2, width:$this.outerWidth() - 2 },
@@ -78,7 +80,7 @@
                                 var part = $.trim(classes[i]);
 
                                 if (part.indexOf('mod') === 0 && part.length > 3) {
-                                    name = part.substr(3);
+                                    name = stringUtils.capitalize(stringUtils.toCamel(part.substr(4)));
                                 }
                             }
                         }
@@ -90,7 +92,7 @@
                         var template = $this.data('composer-template');
                         if(template) {
                             template = template.replace('/', ':');
-                            var $overlay = $('<a href="' + baseUrl + '/terrific/composer/module/details/' + name + '/' + template + '" class="composerModule"><span>' + name + '</span></a>').css({'zIndex':($this.css('zIndex') + 1), 'position':positioning, 'width':dimension.width, 'height':dimension.height, 'top':position.top, 'left':position.left});
+                            var $overlay = $('<a href="' + baseUrl + '/terrific/composer/module/details/' + name + '/' + template + '" class="composer-module"><span>' + name + '</span></a>').css({'zIndex':($this.css('zIndex') + 1), 'position':positioning, 'width':dimension.width, 'height':dimension.height, 'top':position.top, 'left':position.left});
                             $('body').append($overlay);
                         }
                     });
@@ -99,7 +101,7 @@
             });
 
             $('.config', $ctx).on('click', function() {
-                var $tool = $('.modComposerTool');
+                var $tool = $('.mod-composer-tool');
 
                 var $item = $(this).closest('li');
 
@@ -117,17 +119,19 @@
                 return false;
             });
 
-            $('.composerModal a[href="#close"]').on('click', function () {
+            $('.composer-modal a[href="#close"]').on('click', function () {
                 var modules = [];
 
-                $('.mod', $('.composerModal')).each(function () {
+                $('.mod', $('.composer-modal')).each(function () {
                     modules.push(that.sandbox.getModuleById($(this).data('id')));
                 });
 
-                $(this).closest('.composerModal').removeClass('active');
+                $(this).closest('.composer-modal').removeClass('active');
                 that.sandbox.removeModules(modules);
                 return false;
             });
+
+            callback();
         }
     });
 })(Tc.$);

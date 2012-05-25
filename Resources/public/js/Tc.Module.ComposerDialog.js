@@ -19,18 +19,18 @@
          * @param {Sandbox} sandbox the sandbox to get the resources from
          * @param {String} modId the unique module id
          */
-        init:function ($ctx, sandbox, modId) {
+        init: function ($ctx, sandbox, modId) {
             // call base constructor
             this._super($ctx, sandbox, modId);
         },
 
         /**
-         * Hook function to bind the module specific events.
+         * Hook function to do all of your module stuff.
          *
-         * @method onBinding
+         * @method on
          * @return void
          */
-        onBinding:function () {
+        on: function (callback) {
             var $ctx = this.$ctx,
                 that = this;
 
@@ -48,11 +48,11 @@
                 return false;
             });
 
-            $('.addSkin', $ctx).on('click', function() {
+            $('.add-skin', $ctx).on('click', function() {
                 var $form = $('form', $ctx),
                     url =  $form.attr('action'),
                     data = $form.serializeArray();
-                    data.push({ 'name' : 'addskin', 'value' : true });
+                    data.push({ 'name' : 'addSkin', 'value' : true });
 
                 that.loadView(url, data);
                 return false;
@@ -94,19 +94,21 @@
 
             // improve all select boxes
             $('select').chosen();
+
+            callback();
         },
 
-        loadView : function(url, data) {
+        loadView: function(url, data) {
             var that = this,
                 $ctx = this.$ctx,
-                $modal = $('.composerModal'),
+                $modal = $('.composer-modal'),
                 $loader = $('.loader', $ctx);
 
             $loader.show();
 
             if(data) {
                 $.post(url, data, function(data) {
-                    var mod = that.sandbox.getModuleById(that.modId);
+                    var mod = that.sandbox.getModuleById(that.id);
                     that.sandbox.removeModules([ mod ]);
 
                     $modal.find('.dialog').html(data);
@@ -117,7 +119,7 @@
                 });
             } else {
                 $.get(url, function(data) {
-                    var mod = that.sandbox.getModuleById(that.modId);
+                    var mod = that.sandbox.getModuleById(that.id);
                     that.sandbox.removeModules([ mod ]);
 
                     $modal.find('.dialog').html(data);

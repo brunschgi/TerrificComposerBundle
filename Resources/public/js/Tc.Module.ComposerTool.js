@@ -25,12 +25,12 @@
         },
 
         /**
-         * Hook function to bind the module specific events.
+         * Hook function to do all of your module stuff.
          *
-         * @method onBinding
+         * @method on
          * @return void
          */
-        onBinding:function () {
+        on: function (callback) {
             var $ctx = this.$ctx,
                 that = this,
                 $template = $('.template', $ctx),
@@ -88,7 +88,7 @@
                 }
             }).val($.cookie('composermodulewidth') || 'auto').trigger('keyup', true);
 
-
+            callback();
         }
     });
 })(Tc.$);
