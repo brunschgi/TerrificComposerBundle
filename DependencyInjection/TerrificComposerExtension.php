@@ -59,6 +59,6 @@ class TerrificComposerExtension extends Extension
 
         // Other Services
         $loader->load('services.xml');
-
+        $container->setParameter('terrific_composer.composition.bundles', $config['composition_bundles']);
     }
 }

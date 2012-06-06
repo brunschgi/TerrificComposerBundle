@@ -36,7 +36,15 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-            ->variableNode('toolbar')->defaultFalse()->end()
+                ->variableNode('toolbar')->defaultFalse()->end()
+                ->arrayNode('composition_bundles')
+                    ->isRequired()
+                    ->beforeNormalization()
+                        ->ifTrue(function($v){ return !is_array($v); })
+                        ->then(function($v){ return array($v); })
+                    ->end()
+                    ->prototype('scalar')
+                ->end()
             ->end()
         ;
 

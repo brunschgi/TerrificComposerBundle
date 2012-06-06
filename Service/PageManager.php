@@ -29,19 +29,19 @@ use Doctrine\Common\Annotations\AnnotationReader;
  */
 class PageManager
 {
-    private $kernel;
     private $container;
+    private $compositionBundles;
 
     /**
      * Constructor.
      *
-     * @param KernelInterface       $kernel       The kernel is used to parse bundle notation
-     * @param ContainerInterface    $container    The container is used to load the managers lazily, thus avoiding a circular dependency
+     * @param ContainerInterface $container The container is used to load the managers lazily, thus avoiding a circular dependency
+     * @param Array $compositionBundles An array of composition bundle paths
      */
-    public function __construct(KernelInterface $kernel, ContainerInterface $container)
+    public function __construct(ContainerInterface $container, $compositionBundles)
     {
-        $this->kernel = $kernel;
         $this->container = $container;
+        $this->compositionBundles = $compositionBundles;
     }
 
     /**
@@ -54,43 +54,45 @@ class PageManager
         $pages = array();
         $reader = new AnnotationReader();
 
-        $dir = $this->kernel->getRootDir().'/../src/Terrific/Composition/Controller/';
+        foreach($this->compositionBundles as $compositionBundle) {
+            $dir = $compositionBundle . '/Controller/';
 
-        $finder = new Finder();
-        $finder->files()->in($dir)->depth('== 0')->name('*Controller.php');
+            $finder = new Finder();
+            $finder->files()->in($dir)->depth('== 0')->name('*Controller.php');
 
-        foreach ($finder as $file) {
-            $className = str_replace('.php', '', $file->getFilename());
-            $c = new \ReflectionClass('\Terrific\Composition\Controller\\'.$className);
+            foreach ($finder as $file) {
+                $className = str_replace('.php', '', $file->getFilename());
+                $c = new \ReflectionClass('\Terrific\Composition\Controller\\'.$className);
 
-            $methods = $c->getMethods();
+                $methods = $c->getMethods();
 
-            foreach($methods as $method) {
-                // check whether the method is an action and therefore a page
-                if (strpos($method->getName(), 'Action') !== false) {
-                    // setup a fresh page object
-                    $page = new Page();
-                    $page->setController(substr($className, 0, -10));
-                    $action = substr($method->getShortName(), 0, -6);
-                    $page->setAction($action);
+                foreach($methods as $method) {
+                    // check whether the method is an action and therefore a page
+                    if (strpos($method->getName(), 'Action') !== false) {
+                        // setup a fresh page object
+                        $page = new Page();
+                        $page->setController(substr($className, 0, -10));
+                        $action = substr($method->getShortName(), 0, -6);
+                        $page->setAction($action);
 
-                    // create name from composer annotation
-                    $composerAnnotation = $reader->getMethodAnnotation($method, 'Terrific\ComposerBundle\Annotation\Composer');
-                    if($composerAnnotation == null) {
-                        $name = $action;
+                        // create name from composer annotation
+                        $composerAnnotation = $reader->getMethodAnnotation($method, 'Terrific\ComposerBundle\Annotation\Composer');
+                        if($composerAnnotation == null) {
+                            $name = $action;
+                        }
+                        else {
+                            $name = $composerAnnotation->getName();
+                        }
+
+                        $page->setName($name);
+
+                        // create url from route annotation
+                        $routeAnnotation = $reader->getMethodAnnotation($method, 'Symfony\Component\Routing\Annotation\Route');
+
+                        $page->setUrl($this->container->get('router')->generate($routeAnnotation->getName()));
+
+                        $pages[] = $page;
                     }
-                    else {
-                        $name = $composerAnnotation->getName();
-                    }
-
-                    $page->setName($name);
-
-                    // create url from route annotation
-                    $routeAnnotation = $reader->getMethodAnnotation($method, 'Symfony\Component\Routing\Annotation\Route');
-
-                    $page->setUrl($this->container->get('router')->generate($routeAnnotation->getName()));
-
-                    $pages[] = $page;
                 }
             }
         }

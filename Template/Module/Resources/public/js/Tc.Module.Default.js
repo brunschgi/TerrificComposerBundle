@@ -16,11 +16,11 @@
 	 	 * @constructor
 	     * @param {jQuery} $ctx the jquery context
 	     * @param {Sandbox} sandbox the sandbox to get the resources from
-	     * @param {String} modId the unique module id
+	     * @param {Number} id the unique module id
 		 */
-		init: function($ctx, sandbox, modId) {
+		init: function($ctx, sandbox, id) {
 	      	// call base constructor
-	        this._super($ctx, sandbox, modId);
+	        this._super($ctx, sandbox, id);
 	    },
 
         /**
