@@ -29,17 +29,20 @@ use Doctrine\Common\Annotations\AnnotationReader;
  */
 class PageManager
 {
+    private $kernel;
     private $container;
     private $compositionBundles;
 
     /**
      * Constructor.
      *
+     * @param KernelInterface $kernel The kernel is used to parse bundle notation
      * @param ContainerInterface $container The container is used to load the managers lazily, thus avoiding a circular dependency
      * @param Array $compositionBundles An array of composition bundle paths
      */
-    public function __construct(ContainerInterface $container, $compositionBundles)
+    public function __construct(KernelInterface $kernel, ContainerInterface $container, $compositionBundles)
     {
+        $this->kernel = $kernel;
         $this->container = $container;
         $this->compositionBundles = $compositionBundles;
     }
@@ -62,7 +65,9 @@ class PageManager
 
             foreach ($finder as $file) {
                 $className = str_replace('.php', '', $file->getFilename());
-                $c = new \ReflectionClass('\Terrific\Composition\Controller\\'.$className);
+                $path = str_replace(str_replace('/', '\\', $this->kernel->getRootDir().'\..\src'), '',  str_replace('/', '\\', $file->getPathname()));
+                $path = str_replace('.php', '', $path);
+                $c = new \ReflectionClass($path);
 
                 $methods = $c->getMethods();
 

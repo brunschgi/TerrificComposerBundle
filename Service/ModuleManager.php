@@ -37,8 +37,8 @@ class ModuleManager
     /**
      * Constructor.
      *
-     * @param KernelInterface       $kernel       The kernel is used to parse bundle notation
-     * @param ContainerInterface    $container    The container is used to load the managers lazily, thus avoiding a circular dependency
+     * @param KernelInterface $kernel The kernel is used to parse bundle notation
+     * @param ContainerInterface $container The container is used to load the managers lazily, thus avoiding a circular dependency
      */
     public function __construct(KernelInterface $kernel, ContainerInterface $container)
     {
