@@ -20,7 +20,6 @@ use Terrific\ComposerBundle\Entity\Module;
 use Terrific\ComposerBundle\Entity\Skin;
 use Terrific\ComposerBundle\Entity\Template as ModuleTemplate;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Terrific\ComposerBundle\EventListener\ToolbarListener;
@@ -32,18 +31,21 @@ use Terrific\CoreBundle\Twig\Extension\TerrificCoreExtension;
 class ModuleManager
 {
     private $kernel;
-    private $container;
+    private $toolbarMode;
+    private $moduleLayout;
 
     /**
      * Constructor.
      *
      * @param KernelInterface $kernel The kernel is used to parse bundle notation
-     * @param ContainerInterface $container The container is used to load the managers lazily, thus avoiding a circular dependency
+     * @param String $toolbarMode The mode of the toolbar (true, false, 'demo')
+     * @param String $moduleLayout The layout to render in the module details view
      */
-    public function __construct(KernelInterface $kernel, ContainerInterface $container)
+    public function __construct(KernelInterface $kernel, $toolbarMode, $moduleLayout)
     {
         $this->kernel = $kernel;
-        $this->container = $container;
+        $this->toolbarMode = $toolbarMode;
+        $this->moduleLayout = $moduleLayout;
     }
 
     /**
@@ -56,7 +58,7 @@ class ModuleManager
         $src = __DIR__.'/../Template/Module/';
         $dst = $this->kernel->getRootDir().'/../src/Terrific/Module/'.ucfirst($module->getName());
 
-        if($this->container->getParameter('terrific_composer.toolbar.mode') === ToolbarListener::DEMO) {
+        if($this->toolbarMode === ToolbarListener::DEMO) {
             // prevent module creation in demo mode
             throw new \Exception('This action is not supported in demo mode');
         } else {
@@ -79,7 +81,7 @@ class ModuleManager
 
         $dst = $this->kernel->getRootDir().'/../src/Terrific/Module/'.ucfirst($module->getName());
 
-        if($this->container->getParameter('terrific_composer.toolbar.mode') === ToolbarListener::DEMO) {
+        if($this->toolbarMode === ToolbarListener::DEMO) {
             // prevent module creation in demo mode
             throw new \Exception('This action is not supported in demo mode');
         } else {
@@ -211,6 +213,14 @@ class ModuleManager
         }
     }
 
+    /**
+     * Returns the module layout.
+     *
+     * @return String The module layout
+     */
+    public function getModuleLayout() {
+        return $this->moduleLayout;
+    }
 
     /**
      * Copy the default module.

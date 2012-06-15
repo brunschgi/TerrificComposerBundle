@@ -38,6 +38,7 @@ class TerrificComposerExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
+        // Parse configuration
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
 
@@ -55,10 +56,14 @@ class TerrificComposerExtension extends Extension
             $mode = ToolbarListener::DISABLED;
         }
 
-        $container->setParameter('terrific_composer.toolbar.mode', $mode);
-
         // Other Services
         $loader->load('services.xml');
+
+        // Set parameter
+        $container->setParameter('terrific_composer.toolbar.mode', $mode);
         $container->setParameter('terrific_composer.composition.bundles', $config['composition_bundles']);
+        $container->setParameter('terrific_composer.module.layout', $config['module_layout']);
+
+
     }
 }

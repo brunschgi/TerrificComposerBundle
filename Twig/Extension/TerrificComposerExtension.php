@@ -18,15 +18,18 @@ use Symfony\Component\Finder\Finder;
 
 class TerrificComposerExtension extends \Twig_Extension
 {
+    private $kernel;
     private $compositionBundles;
 
     /**
      * Constructor.
      *
+     * @param KernelInterface $kernel The kernel is used to parse bundle notation
      * @param Array $compositionBundles An array of composition bundle paths
      */
-    public function __construct($compositionBundles)
+    public function __construct(KernelInterface $kernel, $compositionBundles)
     {
+        $this->kernel = $kernel;
         $this->compositionBundles = $compositionBundles;
     }
 
@@ -39,11 +42,11 @@ class TerrificComposerExtension extends \Twig_Extension
         $currentLoader = $environment->getLoader();
 
         foreach($this->compositionBundles as $compositionBundle) {
-            $dir =  $compositionBundle . '/Resources/macros/';
-            $currentLoader->setPaths(array_merge($currentLoader->getPaths(), array($dir)));
+            $dir = $this->kernel->locateResource($compositionBundle, null, true) . '/Resources/macros/';
 
             // load the composition macros
             if(file_exists($dir)) {
+                $currentLoader->setPaths(array_merge($currentLoader->getPaths(), array($dir)));
                 $finder = new Finder();
                 $finder->files()->in($dir)->depth('== 0');
 

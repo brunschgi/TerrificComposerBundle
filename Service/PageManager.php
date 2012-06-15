@@ -19,7 +19,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Terrific\ComposerBundle\Entity\Page;
 use Terrific\ComposerBundle\Entity\Template as ModuleTemplate;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Doctrine\Common\Annotations\AnnotationReader;
@@ -30,20 +30,20 @@ use Doctrine\Common\Annotations\AnnotationReader;
 class PageManager
 {
     private $kernel;
-    private $container;
+    private $router;
     private $compositionBundles;
 
     /**
      * Constructor.
      *
      * @param KernelInterface $kernel The kernel is used to parse bundle notation
-     * @param ContainerInterface $container The container is used to load the managers lazily, thus avoiding a circular dependency
+     * @param RouterInterface $router The router is used to generate paths
      * @param Array $compositionBundles An array of composition bundle paths
      */
-    public function __construct(KernelInterface $kernel, ContainerInterface $container, $compositionBundles)
+    public function __construct(KernelInterface $kernel, RouterInterface $router, $compositionBundles)
     {
         $this->kernel = $kernel;
-        $this->container = $container;
+        $this->router = $router;
         $this->compositionBundles = $compositionBundles;
     }
 
@@ -58,14 +58,16 @@ class PageManager
         $reader = new AnnotationReader();
 
         foreach($this->compositionBundles as $compositionBundle) {
-            $dir = $compositionBundle . '/Controller/';
+            $dir = $this->kernel->locateResource($compositionBundle, null, true) . 'Controller/';
 
             $finder = new Finder();
             $finder->files()->in($dir)->depth('== 0')->name('*Controller.php');
 
             foreach ($finder as $file) {
                 $className = str_replace('.php', '', $file->getFilename());
-                $path = str_replace(str_replace('/', '\\', $this->kernel->getRootDir().'\..\src'), '',  str_replace('/', '\\', $file->getPathname()));
+                $path = str_replace(str_replace('app', '', $this->kernel->getRootDir()), '', $file->getPathname());
+                $path = str_replace('src', '', $path);
+                $path = str_replace('/', '\\', $path);
                 $path = str_replace('.php', '', $path);
                 $c = new \ReflectionClass($path);
 
@@ -94,7 +96,7 @@ class PageManager
                         // create url from route annotation
                         $routeAnnotation = $reader->getMethodAnnotation($method, 'Symfony\Component\Routing\Annotation\Route');
 
-                        $page->setUrl($this->container->get('router')->generate($routeAnnotation->getName()));
+                        $page->setUrl($this->router->generate($routeAnnotation->getName()));
 
                         $pages[] = $page;
                     }

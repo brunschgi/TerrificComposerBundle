@@ -36,15 +36,41 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->variableNode('toolbar')->defaultFalse()->end()
+                ->scalarNode('toolbar')->defaultFalse()->end()
                 ->arrayNode('composition_bundles')
-                    ->isRequired()
+                    ->defaultValue(array('@TerrificComposition'))
                     ->beforeNormalization()
                         ->ifTrue(function($v){ return !is_array($v); })
                         ->then(function($v){ return array($v); })
                     ->end()
-                    ->prototype('scalar')
+                    ->beforeNormalization()
+                        ->always()
+                        ->then(function($v) {
+                            $bundles = array();
+
+                            // trim and add @ if not existent
+                            foreach ($v as $key => $bundle) {
+                                $bundle = trim($bundle);
+
+                                if(strpos($bundle, '@') === false) {
+                                    $bundle = '@'.$bundle;
+                                }
+                                $bundles[$key] = $bundle;
+                            }
+
+                            return $bundles;
+                        })
+                    ->end()
+                    ->prototype('scalar')->end()
                 ->end()
+                ->scalarNode('module_layout')
+                    ->beforeNormalization()
+                        ->always()
+                        ->then(function($v) {
+                            return str_replace('@', '', $v);
+                        })
+                    ->end()
+                   ->defaultValue('TerrificComposition::base.html.twig')->end()
             ->end()
         ;
 

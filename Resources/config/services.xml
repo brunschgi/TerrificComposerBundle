@@ -8,19 +8,21 @@
         <service id="twig.extension.terrific.composer"
                  class="Terrific\ComposerBundle\Twig\Extension\TerrificComposerExtension" public="true">
             <tag name="twig.extension"/>
+            <argument type="service" id="kernel" />
             <argument>%terrific_composer.composition.bundles%</argument>
         </service>
 
         <service id="terrific.composer.module.manager"
                  class="Terrific\ComposerBundle\Service\ModuleManager">
             <argument type="service" id="kernel" />
-            <argument type="service" id="service_container" />
+            <argument>%terrific_composer.toolbar.mode%</argument>
+            <argument>%terrific_composer.module.layout%</argument>
         </service>
 
         <service id="terrific.composer.page.manager"
                  class="Terrific\ComposerBundle\Service\PageManager">
             <argument type="service" id="kernel" />
-            <argument type="service" id="service_container" />
+            <argument type="service" id="router" />
             <argument>%terrific_composer.composition.bundles%</argument>
         </service>
     </services>

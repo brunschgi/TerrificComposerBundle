@@ -65,7 +65,7 @@ class ModuleController extends Controller
         }
         else {
             // render the module with layout
-            return $this->render('TerrificComposerBundle:Module:details.html.twig', array('module' => $module, 'template' => $template, 'skins' => $skins));
+            return $this->render('TerrificComposerBundle:Module:details.html.twig', array('layout' => $moduleManager->getModuleLayout(),'module' => $module, 'template' => $template, 'skins' => $skins));
         }
     }
 
