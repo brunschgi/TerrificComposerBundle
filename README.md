@@ -1,5 +1,4 @@
-TerrificComposerBundle
-======================
+# TerrificComposerBundle
 
 The **TerrificComposer** bundle makes it easy to develop frontends based on the [Terrific Concept](http://terrifically.org).
 It provides you several helpers and tools to streamline your frontend development.
@@ -7,7 +6,7 @@ It provides you several helpers and tools to streamline your frontend developmen
 The TerrificComposer bundle depends on the [TerrificCoreBundle](https://github.com/brunschgi/TerrificCoreBundle).
 For installation of the TerrificCoreBundle, please follow the instructions [there](https://github.com/brunschgi/TerrificCoreBundle).
 
-## Installation ##
+## Installation
 
 Register the namespace in `app/autoload.php`:
 
@@ -49,7 +48,7 @@ Enable the bundle's configuration in `app/config/config.yml`:
         toolbar: true # enables the composer toolbar in the dev environment
 
 
-## Usage ##
+## Usage
 
 To see the TerrificComposerBundle in action, download the [Terrific Composer Distribution](http://terrifically.org/composer)
 and play around with the included examples. For more information about the Terrific Concept, please have a look at [http://terrifically.org](http://terrifically.org)
@@ -57,11 +56,11 @@ and play around with the included examples. For more information about the Terri
 After that, the below should be pretty straight forward ;-)
 
 
-### Terrific Composer Toolbar ###
+### Terrific Composer Toolbar
 
 The Toolbar provides you some useful helpers that helps you to streamline your frontend development.
 
-#### Module / Skin Creation ####
+#### Module / Skin Creation
 
 ![](https://github.com/brunschgi/TerrificComposerBundle/raw/master/Resources/doc/create.png)
 
@@ -73,21 +72,21 @@ register them manually in `app/AppKernel.php`
 The generated module structure contains the skeleton of the LESS/JavaScript files in [Terrific](http://terrifically.org)
 manner, so that you can start right away.
 
-#### Open Resources ####
+#### Open Resources
 
 ![](https://github.com/brunschgi/TerrificComposerBundle/raw/master/Resources/doc/open.png)
 
 The open dialog provides you quick access to your modules and pages. By clicking on a module you are able to implement
 and test it isolated from the rest of your page. Furthermore you can play with different widths, templates and skins.
 
-#### Inspect Mode ####
+#### Inspect Mode
 
 ![](https://github.com/brunschgi/TerrificComposerBundle/raw/master/Resources/doc/inspect.png)
 
 The inspect mode shows you the used modules on the current page.
 
 
-### The Composer() annotation ###
+### The Composer() annotation
 
 The bundle provides an `Composer()` annotation for your controllers:
 
