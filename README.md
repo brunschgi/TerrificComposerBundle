@@ -27,6 +27,21 @@ Register the bundle in `app/AppKernel.php`:
         );
     }
 
+TerrificComposer creates a bundle for each of your Terrific module. To have them registered automatically, extend `app/AppKernel.php`:
+
+    // register all terrific modules
+    $dir = __DIR__.'/../src/Terrific/Module/';
+
+    $finder = new Finder();
+    $finder->directories()->in($dir)->depth('== 0');
+
+    foreach ($finder as $file) {
+        $filename = $file->getFilename();
+        $module = 'Terrific\Module\\'.$filename.'\TerrificModule'.$filename;
+        $bundles[] = new $module();
+    }
+
+
 Import the routing definition in `routing.yml`:
 
     # app/config/routing.yml
