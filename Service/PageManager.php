@@ -65,7 +65,7 @@ class PageManager
 
             foreach ($finder as $file) {
                 $className = str_replace('.php', '', $file->getFilename());
-                $path = str_replace(str_replace('app', '', $this->kernel->getRootDir()), '', $file->getPathname());
+                $path = str_replace(str_replace('app', '', str_replace('\\', '/', $this->kernel->getRootDir())), '', $file->getPathname());
                 $path = str_replace('src', '', $path);
                 $path = str_replace('/', '\\', $path);
                 $path = str_replace('.php', '', $path);
