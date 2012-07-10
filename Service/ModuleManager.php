@@ -252,7 +252,7 @@ class ModuleManager
                                 copy($old, $new);
                                 $this->rewrite($new,
                                     array('Your Name', 'Default', 'SkinName'),
-                                    array($author, ($module->getName()), ''));
+                                    array($author, (ucfirst($module->getName())), ''));
                             }
                             break;
 
