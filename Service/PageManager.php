@@ -76,29 +76,26 @@ class PageManager
                 foreach($methods as $method) {
                     // check whether the method is an action and therefore a page
                     if (strpos($method->getName(), 'Action') !== false) {
-                        // setup a fresh page object
-                        $page = new Page();
-                        $page->setController(substr($className, 0, -10));
-                        $action = substr($method->getShortName(), 0, -6);
-                        $page->setAction($action);
-
                         // create name from composer annotation
                         $composerAnnotation = $reader->getMethodAnnotation($method, 'Terrific\ComposerBundle\Annotation\Composer');
-                        if($composerAnnotation == null) {
-                            $name = $action;
-                        }
-                        else {
+                        if($composerAnnotation != null) {
+                            // setup a fresh page object
+                            $page = new Page();
+                            $page->setController(substr($className, 0, -10));
+                            $action = substr($method->getShortName(), 0, -6);
+                            $page->setAction($action);
+
+                            // set name
                             $name = $composerAnnotation->getName();
+                            $page->setName($name);
+
+                            // create url from route annotation
+                            $routeAnnotation = $reader->getMethodAnnotation($method, 'Symfony\Component\Routing\Annotation\Route');
+                            $page->setUrl($this->router->generate($routeAnnotation->getName()));
+
+                            // add page
+                            $pages[] = $page;
                         }
-
-                        $page->setName($name);
-
-                        // create url from route annotation
-                        $routeAnnotation = $reader->getMethodAnnotation($method, 'Symfony\Component\Routing\Annotation\Route');
-
-                        $page->setUrl($this->router->generate($routeAnnotation->getName()));
-
-                        $pages[] = $page;
                     }
                 }
             }
