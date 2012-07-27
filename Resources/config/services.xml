@@ -14,7 +14,7 @@
 
         <service id="terrific.composer.module.manager"
                  class="Terrific\ComposerBundle\Service\ModuleManager">
-            <argument type="service" id="kernel" />
+            <argument>%kernel.root_dir%</argument>
             <argument>%terrific_composer.toolbar.mode%</argument>
             <argument>%terrific_composer.module.layout%</argument>
         </service>

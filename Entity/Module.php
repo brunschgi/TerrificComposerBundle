@@ -12,6 +12,7 @@
 namespace Terrific\ComposerBundle\Entity;
 
 use Symfony\Component\Validator\Constraints as Assert;
+use Terrific\ComposerBundle\Util\StringUtils;
 
 /**
  * Module Entity.
@@ -47,7 +48,7 @@ class Module implements SearchResult
      */
     public function setName($name)
     {
-        $this->name = $name;
+        $this->name = StringUtils::camelize($name);
     }
 
     /**
@@ -87,6 +88,21 @@ class Module implements SearchResult
      */
     public function getSkins()
     {
+        usort($this->skins, function($a, $b)
+        {
+            if ($a->getName() == $b->getName())
+            {
+                return 0;
+            }
+            else if ($a->getName() > $b->getName())
+            {
+                return 1;
+            }
+            else {
+                return -1;
+            }
+        });
+
         return $this->skins;
     }
 
@@ -103,6 +119,7 @@ class Module implements SearchResult
         }
 
         if(!$exists) {
+            $skin->setModule($this->getName());
             array_push($this->skins, $skin);
         }
     }

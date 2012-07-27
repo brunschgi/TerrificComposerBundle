@@ -12,6 +12,7 @@
 namespace Terrific\ComposerBundle\Entity;
 
 use Symfony\Component\Validator\Constraints as Assert;
+use Terrific\ComposerBundle\Util\StringUtils;
 
 /**
  * Skin Entity.
@@ -40,7 +41,7 @@ class Skin
      */
     public function setName($name)
     {
-        $this->name = $name;
+        $this->name = StringUtils::camelize($name);
     }
 
     /**
@@ -72,7 +73,7 @@ class Skin
      */
     public function setModule($module)
     {
-        $this->module = $module;
+        $this->module = StringUtils::camelize($module);
     }
 
     /**

@@ -20,30 +20,29 @@ use Terrific\ComposerBundle\Entity\Module;
 use Terrific\ComposerBundle\Entity\Skin;
 use Terrific\ComposerBundle\Entity\Template as ModuleTemplate;
 use Symfony\Component\Finder\Finder;
-use Symfony\Component\HttpKernel\KernelInterface;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use Terrific\ComposerBundle\EventListener\ToolbarListener;
-use Terrific\CoreBundle\Twig\Extension\TerrificCoreExtension;
+use Terrific\ComposerBundle\Util\StringUtils;
 
 /**
  * ModuleManager.
  */
 class ModuleManager
 {
-    private $kernel;
+    private $rootDir;
     private $toolbarMode;
     private $moduleLayout;
 
     /**
      * Constructor.
      *
-     * @param KernelInterface $kernel The kernel is used to parse bundle notation
+     * @param String $rootDir The root directory
      * @param String $toolbarMode The mode of the toolbar (true, false, 'demo')
      * @param String $moduleLayout The layout to render in the module details view
      */
-    public function __construct(KernelInterface $kernel, $toolbarMode, $moduleLayout)
+    public function __construct($rootDir, $toolbarMode, $moduleLayout)
     {
-        $this->kernel = $kernel;
+        $this->rootDir = $rootDir;
         $this->toolbarMode = $toolbarMode;
         $this->moduleLayout = $moduleLayout;
     }
@@ -56,7 +55,7 @@ class ModuleManager
     public function createModule(Module $module)
     {
         $src = __DIR__.'/../Template/Module/';
-        $dst = $this->kernel->getRootDir().'/../src/Terrific/Module/'.ucfirst($module->getName());
+        $dst = $this->rootDir.'/../src/Terrific/Module/'.StringUtils::camelize($module->getName());
 
         if($this->toolbarMode === ToolbarListener::DEMO) {
             // prevent module creation in demo mode
@@ -79,7 +78,7 @@ class ModuleManager
         $module->setName($skin->getModule());
         $module->addSkin($skin);
 
-        $dst = $this->kernel->getRootDir().'/../src/Terrific/Module/'.ucfirst($module->getName());
+        $dst = $this->rootDir.'/../src/Terrific/Module/'.StringUtils::camelize($module->getName());
 
         if($this->toolbarMode === ToolbarListener::DEMO) {
             // prevent module creation in demo mode
@@ -98,7 +97,7 @@ class ModuleManager
     {
         $modules = array();
 
-        $dir = $this->kernel->getRootDir().'/../src/Terrific/Module/';
+        $dir = $this->rootDir.'/../src/Terrific/Module/';
 
         $finder = new Finder();
         $finder->directories()->in($dir)->depth('== 0');
@@ -107,6 +106,8 @@ class ModuleManager
             $module = $file->getFilename();
             $modules[$module] = $this->getModuleByName($module, 'small');
         }
+
+        sort($modules);
 
         return $modules;
     }
@@ -121,7 +122,7 @@ class ModuleManager
     public function getModuleByName($name = null, $format = 'full') {
 
         if (isset($name)) {
-            $dir = $this->kernel->getRootDir().'/../src/Terrific/Module/'.$name;
+            $dir = $this->rootDir.'/../src/Terrific/Module/'.$name;
 
             // setup a fresh module object
             $module = new Module();
@@ -133,14 +134,14 @@ class ModuleManager
             if($format == 'full') {
                 // get templates
                 $finder = new Finder();
-                $finder->files()->in($dir.'/Resources/views/')->name('*.twig');
+                $finder->files()->in($dir.'/Resources/views/')->name('*.twig')->sortByName();
 
                 foreach ($finder as $file) {
                     // setup a fresh template object
                     $template = new ModuleTemplate();
 
                     // fill it
-                    $path = str_replace(str_replace('\\', '/', $this->kernel->getRootDir()), '',  str_replace('\\', '/', $file->getPathname()));
+                    $path = str_replace(str_replace('\\', '/', $this->rootDir), '',  str_replace('\\', '/', $file->getPathname()));
                     $path = str_replace('.html.twig', '', $path);
                     $path = str_replace('/../src/Terrific/Module/'.$name.'/Resources/views/', '', $path);
 
@@ -169,7 +170,7 @@ class ModuleManager
                 // get skins
                 if (is_dir($dir.'/Resources/public/css/skin')) {
                     $finder = new Finder();
-                    $finder->files()->in($dir.'/Resources/public/css/skin')->name('*.less')->name('*.css');
+                    $finder->files()->in($dir.'/Resources/public/css/skin')->name('*.less')->name('*.css')->sortByName();
 
                     foreach ($finder as $file) {
                         // setup a fresh skin object
@@ -191,7 +192,7 @@ class ModuleManager
 
                 if (is_dir($dir.'/Resources/public/js/skin')) {
                     $finder = new Finder();
-                    $finder->files()->in($dir.'/Resources/public/js/skin')->name('*.js');
+                    $finder->files()->in($dir.'/Resources/public/js/skin')->name('*.js')->sortByName();
 
                     foreach ($finder as $file) {
                         // setup a fresh skin object
@@ -235,7 +236,7 @@ class ModuleManager
         $dir = opendir($src);
         $author = 'Terrific Composer';
         @mkdir($dst);
-        
+
         while (false !== ($file = readdir($dir))) {
             if (($file != '.') && ($file != '..')) {
                 if (is_dir($src . '/' . $file) && ($file != 'skin' || $file == 'skin' && $module->getSkins())) {
@@ -247,34 +248,34 @@ class ModuleManager
 
                     switch ($file) {
                         case 'TerrificModuleDefault.php':
-                            $new = $dst . '/TerrificModule' . ucfirst($module->getName()) . '.php';
+                            $new = $dst . '/TerrificModule' . StringUtils::camelize($module->getName()) . '.php';
                             if(!empty($new) && !file_exists($new)) {
                                 copy($old, $new);
                                 $this->rewrite($new,
                                     array('Your Name', 'Default', 'SkinName'),
-                                    array($author, (ucfirst($module->getName())), ''));
+                                    array($author, (StringUtils::camelize($module->getName())), ''));
                             }
                             break;
 
                         case 'module.' . $module->getStyle():
-                            $new = $dst . '/' . strtolower($module->getName()) . '.' . $module->getStyle();
+                            $new = $dst . '/' . StringUtils::dash($module->getName()) . '.' . $module->getStyle();
                             if(!empty($new) && !file_exists($new)) {
                                 copy($old, $new);
                                 $this->rewrite($new,
                                     array('Your Name', 'default', 'skinname'),
-                                    array($author, TerrificCoreExtension::dash($module->getName()), ''));
+                                    array($author, StringUtils::dash($module->getName()), ''));
                             }
                             break;
 
                         case 'skin.less':
                             foreach($module->getSkins() as $skin) {
                                 if($skin->getStyle() == 'less') {
-                                    $new = $dst . '/' . strtolower($skin->getName()) . '.' . $skin->getStyle();
+                                    $new = $dst . '/' . StringUtils::dash($skin->getName()) . '.' . $skin->getStyle();
                                     if(!empty($new) && !file_exists($new)) {
                                         copy($old, $new);
                                         $this->rewrite($new,
                                             array('Your Name', 'default', 'skinname'),
-                                            array($author, TerrificCoreExtension::dash($skin->getModule()), TerrificCoreExtension::dash($skin->getName())));
+                                            array($author, StringUtils::dash($skin->getModule()), StringUtils::dash($skin->getName())));
                                     }
                                 }
                             }
@@ -284,45 +285,47 @@ class ModuleManager
                         case 'skin.css':
                             foreach($module->getSkins() as $skin) {
                                 if($skin->getStyle() == 'css') {
-                                    $new = $dst . '/' . strtolower($skin->getName()) . '.' . $skin->getStyle();
+                                    $new = $dst . '/' . StringUtils::dash($skin->getName()) . '.' . $skin->getStyle();
                                     if(!empty($new) && !file_exists($new)) {
                                         copy($old, $new);
                                         $this->rewrite($new,
                                             array('Your Name', 'default', 'skinname'),
-                                            array($author, TerrificCoreExtension::dash($skin->getModule()), TerrificCoreExtension::dash($skin->getName())));
+                                            array($author, StringUtils::dash($skin->getModule()), StringUtils::dash($skin->getName())));
                                     }
                                 }
                             }
                             break;
 
                         case 'default.html.twig':
-                            $new = $dst . '/' . strtolower($module->getName()) . '.html.twig';
-                            if(!empty($new) && !file_exists($new)) {
-                                copy($old, $new);
-                                $this->rewrite($new,
-                                    array('Your Name', 'Default', 'SkinName'),
-                                    array($author, ucfirst($module->getName()), ''));
+                            foreach($module->getTemplates() as $template) {
+                                $new = $dst . '/' . strtolower($template) . '.html.twig';
+                                if(!empty($new) && !file_exists($new)) {
+                                    copy($old, $new);
+                                    $this->rewrite($new,
+                                        array('Your Name', 'Default', 'SkinName'),
+                                        array($author, StringUtils::camelize($module->getName()), ''));
+                                }
                             }
                             break;
 
                         case 'Tc.Module.Default.js':
-                            $new = $dst . '/' . 'Tc.Module.' . ucfirst($module->getName()) . '.js';
+                            $new = $dst . '/' . 'Tc.Module.' . StringUtils::camelize($module->getName()) . '.js';
                             if(!empty($new) && !file_exists($new)) {
                                 copy($old, $new);
                                 $this->rewrite($new,
                                     array('Your Name', 'Default', 'SkinName'),
-                                    array($author, ucfirst($module->getName()), ''));
+                                    array($author, StringUtils::camelize($module->getName()), ''));
                             }
                             break;
 
                         case 'Tc.Module.Default.Skin.js':
                             foreach($module->getSkins() as $skin) {
-                                $new = $dst . '/' . 'Tc.Module.' . ucfirst($skin->getModule()) . '.' . ucfirst($skin->getName()) . '.js';
+                                $new = $dst . '/' . 'Tc.Module.' . StringUtils::camelize($skin->getModule()) . '.' . StringUtils::camelize($skin->getName()) . '.js';
                                 if(!empty($new) && !file_exists($new)) {
                                     copy($old, $new);
                                     $this->rewrite($new,
                                         array('Your Name', 'Default', 'SkinName'),
-                                        array($author, ucfirst($skin->getModule()), ucfirst($skin->getName())));
+                                        array($author, StringUtils::camelize($skin->getModule()), StringUtils::camelize($skin->getName())));
                                 }
                             }
                             break;
@@ -333,7 +336,7 @@ class ModuleManager
                                 copy($old, $new);
                                 $this->rewrite($new,
                                     array('Your Name', 'Default', 'SkinName'),
-                                    array($author, ucfirst($module->getName()), ''));
+                                    array($author, StringUtils::camelize($module->getName()), ''));
                             }
                             break;
 

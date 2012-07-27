@@ -52,7 +52,7 @@
                 var $form = $('form', $ctx),
                     url =  $form.attr('action'),
                     data = $form.serializeArray();
-                    data.push({ 'name' : 'addSkin', 'value' : true });
+                    data.push({ 'name' : 'addskin', 'value' : true });
 
                 that.loadView(url, data);
                 return false;
