@@ -1,0 +1,70 @@
+{
+    "hash": "5cb79fa7bf067800a1dae55db4177221",
+    "packages": [
+        {
+            "package": "doctrine/common",
+            "version": "2.2.2"
+        },
+        {
+            "package": "symfony/config",
+            "version": "v2.0.16"
+        },
+        {
+            "package": "symfony/dependency-injection",
+            "version": "v2.0.16"
+        },
+        {
+            "package": "symfony/event-dispatcher",
+            "version": "v2.0.16"
+        },
+        {
+            "package": "symfony/form",
+            "version": "v2.0.16"
+        },
+        {
+            "package": "symfony/framework-bundle",
+            "version": "v2.0.16"
+        },
+        {
+            "package": "symfony/http-foundation",
+            "version": "v2.0.16"
+        },
+        {
+            "package": "symfony/http-kernel",
+            "version": "v2.0.16"
+        },
+        {
+            "package": "symfony/locale",
+            "version": "v2.0.16"
+        },
+        {
+            "package": "symfony/routing",
+            "version": "v2.0.16"
+        },
+        {
+            "package": "symfony/templating",
+            "version": "v2.0.16"
+        },
+        {
+            "package": "symfony/translation",
+            "version": "v2.0.16"
+        },
+        {
+            "package": "symfony/validator",
+            "version": "v2.0.16"
+        }
+    ],
+    "packages-dev": [
+        {
+            "package": "symfony/yaml",
+            "version": "v2.0.16"
+        }
+    ],
+    "aliases": [
+
+    ],
+    "minimum-stability": "stable",
+    "stability-flags": [
+
+    ]
+}

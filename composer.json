@@ -1,0 +1,29 @@
+{
+    "name": "brunschgi/TerrificComposerBundle",
+    "description": "Makes it easy to develop frontends based on the terrific concept",
+    "keywords": ["api", "documentation", "doc", "rest"],
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Remo Brunschwiler",
+            "homepage": "http://terrifically.org"
+        },
+        {
+            "name": "Terrific Symfony Community",
+            "homepage": "https://github.com/brunschgi/TerrificComposerBundle/contributors"
+        }
+    ],
+    "require": {
+        "symfony/framework-bundle": "2.0.*",
+        "symfony/form": "2.0.*",
+        "symfony/validator": "2.0.*"
+    },
+    "require-dev": {
+        "symfony/yaml": "2.0.*"
+    },
+    "autoload": {
+        "psr-0": { "Terrific\\ComposerBundle": "" }
+    },
+    "target-dir": "Terrific/ComposerBundle"
+}
