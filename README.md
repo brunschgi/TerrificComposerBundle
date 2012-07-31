@@ -1,5 +1,7 @@
 # TerrificComposerBundle
 
+[![Build Status](https://secure.travis-ci.org/brunschgi/TerrificComposerBundle.png?branch=master)](http://travis-ci.org/brunschgi/TerrificComposerBundle)
+
 The **TerrificComposer** bundle makes it easy to develop frontends based on the [Terrific Concept](http://terrifically.org).
 It provides you several helpers and tools to streamline your frontend development.
 
