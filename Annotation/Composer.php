@@ -18,6 +18,9 @@ namespace Terrific\ComposerBundle\Annotation;
  */
 class Composer
 {
+    /**
+     * @var String the name of the page
+     */
     private $name;
 
     /**

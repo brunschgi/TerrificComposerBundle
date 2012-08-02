@@ -33,17 +33,21 @@ class ToolbarListener
     const ENABLED         = 2;
     const DEMO            = 3;
 
+    /**
+     * @var \Symfony\Bundle\TwigBundle\TwigEngine
+     */
     protected $templating;
-    protected $mode;
-    private $container;
 
     /**
-     * Constructor.
-     *
-     * @param TwigEngine $templating The templating engine
-     * @param int $mode The mode of the toolbar
-     * @param ContainerInterface $container The container is used to load the managers lazily, thus avoiding a circular dependency
+     * @var int The mode of the toolbar
      */
+    protected $mode;
+
+    /**
+     * @var \Symfony\Component\DependencyInjection\ContainerInterface
+     */
+    private $container;
+
     public function __construct(TwigEngine $templating, ContainerInterface $container, $mode = self::ENABLED)
     {
         $this->templating = $templating;

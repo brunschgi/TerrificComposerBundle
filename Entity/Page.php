@@ -31,16 +31,6 @@ class Page implements SearchResult
     private $url;
 
     /**
-     * @var string $controller
-     */
-    private $controller;
-
-    /**
-     * @var string $action
-     */
-    private $action;
-
-    /**
      * @param string $name
      */
     public function setName($name)
@@ -75,37 +65,5 @@ class Page implements SearchResult
     public function getUrl()
     {
         return $this->url;
-    }
-
-    /**
-     * @param string $action
-     */
-    public function setAction($action)
-    {
-        $this->action = $action;
-    }
-
-    /**
-     * @return string
-     */
-    public function getAction()
-    {
-        return $this->action;
-    }
-
-    /**
-     * @param string $controller
-     */
-    public function setController($controller)
-    {
-        $this->controller = $controller;
-    }
-
-    /**
-     * @return string
-     */
-    public function getController()
-    {
-        return $this->controller;
     }
 }

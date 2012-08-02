@@ -21,9 +21,9 @@
 
         <service id="terrific.composer.page.manager"
                  class="Terrific\ComposerBundle\Service\PageManager">
-            <argument type="service" id="kernel" />
+            <argument type="service" id="service_container"/>
             <argument type="service" id="router" />
-            <argument>%terrific_composer.composition.bundles%</argument>
+            <argument type="service" id="annotation_reader" />
         </service>
     </services>
 </container>

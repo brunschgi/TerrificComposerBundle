@@ -29,17 +29,21 @@ use Terrific\ComposerBundle\Util\StringUtils;
  */
 class ModuleManager
 {
+    /**
+     * @var String The root directory
+     */
     private $rootDir;
-    private $toolbarMode;
-    private $moduleLayout;
 
     /**
-     * Constructor.
-     *
-     * @param String $rootDir The root directory
-     * @param String $toolbarMode The mode of the toolbar (true, false, 'demo')
-     * @param String $moduleLayout The layout to render in the module details view
+     * @var String The mode of the toolbar (true, false, 'demo')
      */
+    private $toolbarMode;
+
+    /**
+     * @var String The layout to render in the module details view
+     */
+    private $moduleLayout;
+
     public function __construct($rootDir, $toolbarMode, $moduleLayout)
     {
         $this->rootDir = $rootDir;
