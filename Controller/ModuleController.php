@@ -104,7 +104,7 @@ class ModuleController extends Controller
 
             if ($form->isValid()) {
                 // set default templates
-                $module->setTemplates(array(strtolower($module->getName())));
+                $module->addTemplate(strtolower($module->getName()));
 
                 // save the module in the session
                 $this->get('session')->set('module', $module);
