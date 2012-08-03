@@ -22,13 +22,15 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Doctrine\Common\Annotations\Reader;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
 /**
  * PageManager.
  */
 class PageManager
 {
-    const ANNOTATION_CLASS = 'Terrific\\ComposerBundle\\Annotation\\Composer';
+    const COMPOSER_ANNOTATION_CLASS = 'Terrific\\ComposerBundle\\Annotation\\Composer';
+    const ROUTE_ANNOTATION_CLASS = 'Symfony\\Component\\Routing\\Annotation\Route';
 
     /**
      * @var \Symfony\Component\DependencyInjection\ContainerInterface
@@ -63,16 +65,22 @@ class PageManager
 
         foreach ($this->router->getRouteCollection()->all() as $route) {
             if ($method = $this->getReflectionMethod($route->getDefault('_controller'))) {
-                if ($annotation = $this->reader->getMethodAnnotation($method, self::ANNOTATION_CLASS)) {
-                    if ($annotation !== null) {
+                if ($composerAnnotation = $this->reader->getMethodAnnotation($method, self::COMPOSER_ANNOTATION_CLASS)) {
+                    if ($composerAnnotation !== null) {
                         // setup a fresh page object
                         $page = new Page();
+                        $page->setName($composerAnnotation->getName());
 
-                        // set name
-                        $page->setName($annotation->getName());
+                        // create url from route annotation or from route pattern
+                        $routeAnnotation = $this->reader->getMethodAnnotation($method, self::ROUTE_ANNOTATION_CLASS);
 
-                        // set url
-                        $page->setUrl($route->getPattern());
+                        try {
+                            $page->setUrl($this->router->generate($routeAnnotation->getName()));
+                        }
+                        catch (RouteNotFoundException $e) {
+                            $this->container->get('logger')->info('The @Route annotation of '.$route->getDefault('_controller').' has no name. Please specify it for better page linking.');
+                            $page->setUrl($this->router->getContext()->getBaseUrl().$route->getPattern());
+                        }
 
                         // add page
                         $pages[] = $page;
