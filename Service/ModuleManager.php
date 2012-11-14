@@ -44,11 +44,13 @@ class ModuleManager
      */
     private $moduleLayout;
 
-    public function __construct($rootDir, $toolbarMode, $moduleLayout)
+    public function __construct($rootDir, $toolbarMode, $moduleLayout, $moduleTemplate)
     {
         $this->rootDir = $rootDir;
         $this->toolbarMode = $toolbarMode;
         $this->moduleLayout = $moduleLayout;
+        $this->defaultTemplate = __DIR__.'/../Template/Module/';
+        $this->moduleTemplate = $moduleTemplate;
     }
 
     /**
@@ -58,14 +60,17 @@ class ModuleManager
      */
     public function createModule(Module $module)
     {
-        $src = __DIR__.'/../Template/Module/';
         $dst = $this->rootDir.'/../src/Terrific/Module/'.StringUtils::camelize($module->getName());
 
         if($this->toolbarMode === ToolbarListener::DEMO) {
             // prevent module creation in demo mode
             throw new \Exception('This action is not supported in demo mode');
         } else {
-            $this->copy($src, $dst, $module);
+            if($this->moduleTemplate) {
+                $this->copy($this->moduleTemplate, $dst, $module);
+            }
+
+            $this->copy($this->defaultTemplate, $dst, $module);
         }
     }
 
@@ -76,8 +81,6 @@ class ModuleManager
      */
     public function createSkin(Skin $skin)
     {
-        $src = __DIR__.'/../Template/Module/';
-
         $module = new Module();
         $module->setName($skin->getModule());
         $module->addSkin($skin);
@@ -88,7 +91,11 @@ class ModuleManager
             // prevent module creation in demo mode
             throw new \Exception('This action is not supported in demo mode');
         } else {
-            $this->copy($src, $dst, $module);
+            if($this->moduleTemplate) {
+                $this->copy($this->moduleTemplate, $dst, $module);
+            }
+
+            $this->copy($this->defaultTemplate, $dst, $module);
         }
     }
 
@@ -338,14 +345,15 @@ class ModuleManager
                             $new = $dst . '/README.md';
                             if(!empty($new) && !file_exists($new)) {
                                 copy($old, $new);
-                                $this->rewrite($new,
-                                    array('Your Name', 'Default', 'SkinName'),
-                                    array($author, StringUtils::camelize($module->getName()), ''));
                             }
                             break;
 
                         default:
-                            // do nothing
+                            // copy file
+                            $new = $dst . '/' . $file;
+                            if(!empty($new) && !file_exists($new)) {
+                                copy($old, $new);
+                            }
                             break;
                     }
                 }

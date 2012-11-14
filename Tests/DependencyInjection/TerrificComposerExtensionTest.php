@@ -27,6 +27,7 @@ class TerrificComposerExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Terrific\ComposerBundle\Service\ModuleManager', $container->get('terrific.composer.module.manager'));
         $this->assertEquals(ToolbarListener::DISABLED, $container->getParameter('terrific_composer.toolbar.mode'));
         $this->assertEquals('TerrificComposition::base.html.twig', $container->getParameter('terrific_composer.module.layout'));
+        $this->assertEquals(null, $container->getParameter('terrific_composer.module.template'));
 
         $bundles = $container->getParameter('terrific_composer.composition.bundles');
         $this->assertEquals(1, count($bundles));
@@ -75,6 +76,14 @@ class TerrificComposerExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('@TerrificComposition', $bundles[count($bundles)-3]);
         $this->assertEquals('@TerrificComposerBundle', $bundles[count($bundles)-2]);
         $this->assertEquals('@TestBundle', $bundles[count($bundles)-1]);
+    }
+
+    public function testCustomModuleTemplate()
+    {
+        $config = array('module_template' => '../src/Terrific/Composition/Template/Module');
+        $container = $this->createCompiledContainerForConfig($config);
+
+        $this->assertEquals('../src/Terrific/Composition/Template/Module', $container->getParameter('terrific_composer.module.template'));
     }
 
     private function createCompiledContainerForConfig($config)

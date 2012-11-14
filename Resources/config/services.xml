@@ -17,6 +17,7 @@
             <argument>%kernel.root_dir%</argument>
             <argument>%terrific_composer.toolbar.mode%</argument>
             <argument>%terrific_composer.module.layout%</argument>
+            <argument>%terrific_composer.module.template%</argument>
         </service>
 
         <service id="terrific.composer.page.manager"

@@ -53,12 +53,13 @@ Import the routing definition in `routing.yml`:
         prefix:   /terrific/composer
 
 
-Enable the bundle's configuration in `app/config/config.yml`:
+Enable the bundle's configuration in `app/config/config.yml` and `app/config/config_dev.yml`:
 
     # app/config/config.yml
     terrific_composer:
-       composition_bundles: [@TerrificComposition] # the bundles where the controllers for your frontend lie
-       module_layout: @TerrificComposition::base.html.twig # the layout to take for the separate module view
+       composition_bundles: [@TerrificComposition] # optional|default=@TerrificComposition – the bundles where the controllers for your frontend lie
+       module_layout: @TerrificComposition::base.html.twig # optional|default=@TerrificComposition::base.html.twig – the layout to take for the separate module view
+       module_template: /path/to/your/module/template # optional|default=/path/to/TerrificComposerBundle/Template/Module -> extend or add additional module resources (ie. README.md)
 
     # app/config/config_dev.yml
     terrific_composer:
@@ -84,7 +85,7 @@ The Toolbar provides you some useful helpers that helps you to streamline your f
 Create module bundles (with or without skin) under /src/Terrific/Module/<moduleName>.
 
 Notice: If you don't use the [Terrific Composer Distribution](http://terrifically.org/composer), you have to
-register them manually in `app/AppKernel.php`
+register the created modules manually in `app/AppKernel.php`
 
 The generated module structure contains the skeleton of the LESS/JavaScript files in [Terrific](http://terrifically.org)
 manner, so that you can start right away.
