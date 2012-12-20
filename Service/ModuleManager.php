@@ -268,13 +268,27 @@ class ModuleManager
                             }
                             break;
 
-                        case 'module.' . $module->getStyle():
-                            $new = $dst . '/' . StringUtils::dash($module->getName()) . '.' . $module->getStyle();
-                            if(!empty($new) && !file_exists($new)) {
-                                copy($old, $new);
-                                $this->rewrite($new,
-                                    array('Your Name', 'default', 'skinname'),
-                                    array($author, StringUtils::dash($module->getName()), ''));
+                        case 'module.less':
+                            if($module->getStyle() == 'less') {
+                                $new = $dst . '/' . StringUtils::dash($module->getName()) . '.' . $module->getStyle();
+                                if(!empty($new) && !file_exists($new)) {
+                                    copy($old, $new);
+                                    $this->rewrite($new,
+                                        array('Your Name', 'default', 'skinname'),
+                                        array($author, StringUtils::dash($module->getName()), ''));
+                                }
+                            }
+                            break;
+
+                        case 'module.css':
+                            if($module->getStyle() == 'css') {
+                                $new = $dst . '/' . StringUtils::dash($module->getName()) . '.' . $module->getStyle();
+                                if(!empty($new) && !file_exists($new)) {
+                                    copy($old, $new);
+                                    $this->rewrite($new,
+                                        array('Your Name', 'default', 'skinname'),
+                                        array($author, StringUtils::dash($module->getName()), ''));
+                                }
                             }
                             break;
 
@@ -291,7 +305,6 @@ class ModuleManager
                                 }
                             }
                             break;
-
 
                         case 'skin.css':
                             foreach($module->getSkins() as $skin) {
