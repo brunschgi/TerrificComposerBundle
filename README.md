@@ -8,19 +8,28 @@ It provides you several helpers and tools to streamline your frontend developmen
 The TerrificComposer bundle depends on the [TerrificCoreBundle](https://github.com/brunschgi/TerrificCoreBundle).
 For installation of the TerrificCoreBundle, please follow the instructions [there](https://github.com/brunschgi/TerrificCoreBundle).
 
+
 ## Installation
 
-Register the namespace in `app/autoload.php`:
+TerrificComposerBundle can be conveniently installed via Composer. Just add the following to your composer.json file:
 
-    // app/autoload.php
-    $loader->registerNamespaces(array(
+    // composer.json
+    {
         // ...
-       'Terrific'         => __DIR__.'/../vendor/bundles',
-    ));
+        require: {
+            // ...
+            "brunschgi/terrific-composer-bundle": "dev-master"
+        }
+    }
 
-Register the bundle in `app/AppKernel.php`:
+Note: Please replace dev-master in the snippet above with the latest stable branch, for example 1.0.*. Please check the tags on Github for which versions are available.
+Then, you can install the new dependencies by running Composer’s update command from the directory where your composer.json file is located:
 
-    // app/AppKernel.php
+    php composer.phar update
+
+Now, Composer will automatically download all required files, and install them for you. All that is left to do is to update your AppKernel.php file, and register the new bundle:
+
+    // in AppKernel::registerBundles()
     public function registerBundles()
     {
         return array(
@@ -28,6 +37,7 @@ Register the bundle in `app/AppKernel.php`:
             new Terrific\ComposerBundle\TerrificComposerBundle(),
         );
     }
+
 
 TerrificComposer creates a bundle for each of your Terrific module. To have them registered automatically, extend `app/AppKernel.php`:
 
