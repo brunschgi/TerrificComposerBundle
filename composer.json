@@ -1,5 +1,5 @@
 {
-    "name": "brunschgi/TerrificComposerBundle",
+    "name": "beatgeb/TerrificComposerBundle",
     "description": "Makes it easy to develop frontends based on the terrific concept",
     "keywords": ["frontend", "terrific"],
     "type": "symfony-bundle",
@@ -15,14 +15,14 @@
         }
     ],
     "require": {
-        "symfony/framework-bundle": "2.0.*",
-        "symfony/form": "2.0.*",
-        "symfony/validator": "2.0.*"
+        "symfony/framework-bundle": "2.8.*",
+        "symfony/form": "2.8.*",
+        "symfony/validator": "2.8.*"
     },
     "require-dev": {
-        "symfony/yaml": "2.0.*",
-        "symfony/finder": "2.0.*",
-        "symfony/filesystem": "2.0.*"
+        "symfony/yaml": "2.8.*",
+        "symfony/finder": "2.8.*",
+        "symfony/filesystem": "2.8.*"
     },
     "autoload": {
         "psr-0": { "Terrific\\ComposerBundle": "" }
