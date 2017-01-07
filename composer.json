@@ -1,5 +1,5 @@
 {
-    "name": "beatgeb/terrific-composer-bundle",
+    "name": "brunschgi/terrific-composer-bundle",
     "description": "Makes it easy to develop frontends based on the terrific concept",
     "keywords": ["frontend", "terrific"],
     "type": "symfony-bundle",
