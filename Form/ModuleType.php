@@ -12,7 +12,7 @@
 namespace Terrific\ComposerBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface;
 
 /**
  * Module form type.
@@ -25,7 +25,7 @@ class ModuleType extends AbstractType
      * @param \Symfony\Component\Form\FormBuilder $builder
      * @param array $options
      */
-    public function buildForm(FormBuilder $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder->add('name', 'text');
         $builder->add('style', 'choice', array(

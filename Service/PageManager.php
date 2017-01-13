@@ -16,35 +16,42 @@ use Symfony\Component\HttpFoundation\Request;
 // these import the "@Route" and "@Template" annotations
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
+
 use Terrific\ComposerBundle\Entity\Page;
-use Terrific\ComposerBundle\Entity\Template as ModuleTemplate;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Routing\RouterInterface;
-use Symfony\Component\HttpKernel\KernelInterface;
-use Symfony\Component\Routing\Exception\ResourceNotFoundException;
-use Doctrine\Common\Annotations\AnnotationReader;
+use Symfony\Component\DependencyInjection\ContainerInterface;
+use Doctrine\Common\Annotations\Reader;
+use Symfony\Component\Routing\Exception\RouteNotFoundException;
 
 /**
  * PageManager.
  */
 class PageManager
 {
-    private $kernel;
-    private $router;
-    private $compositionBundles;
+    const COMPOSER_ANNOTATION_CLASS = 'Terrific\\ComposerBundle\\Annotation\\Composer';
+    const ROUTE_ANNOTATION_CLASS = 'Symfony\\Component\\Routing\\Annotation\Route';
 
     /**
-     * Constructor.
-     *
-     * @param KernelInterface $kernel The kernel is used to parse bundle notation
-     * @param RouterInterface $router The router is used to generate paths
-     * @param Array $compositionBundles An array of composition bundle paths
+     * @var \Symfony\Component\DependencyInjection\ContainerInterface
      */
-    public function __construct(KernelInterface $kernel, RouterInterface $router, $compositionBundles)
+    private $container;
+
+    /**
+     * @var \Symfony\Component\Routing\RouterInterface
+     */
+    private $router;
+
+    /**
+     * @var \Doctrine\Common\Annotations\Reader
+     */
+    private $reader;
+
+    public function __construct(ContainerInterface $container, RouterInterface $router, Reader $reader)
     {
-        $this->kernel = $kernel;
+        $this->container = $container;
         $this->router = $router;
-        $this->compositionBundles = $compositionBundles;
+        $this->reader = $reader;
     }
 
     /**
@@ -55,47 +62,28 @@ class PageManager
     public function getPages()
     {
         $pages = array();
-        $reader = new AnnotationReader();
 
-        foreach($this->compositionBundles as $compositionBundle) {
-            $dir = $this->kernel->locateResource($compositionBundle, null, true) . 'Controller/';
+        foreach ($this->router->getRouteCollection()->all() as $route) {
+            if ($method = $this->getReflectionMethod($route->getDefault('_controller'))) {
+                if ($composerAnnotation = $this->reader->getMethodAnnotation($method, self::COMPOSER_ANNOTATION_CLASS)) {
+                    if ($composerAnnotation !== null) {
+                        // setup a fresh page object
+                        $page = new Page();
+                        $page->setName($composerAnnotation->getName());
 
-            $finder = new Finder();
-            $finder->files()->in($dir)->depth('== 0')->name('*Controller.php');
+                        // create url from route annotation or from route pattern
+                        $routeAnnotation = $this->reader->getMethodAnnotation($method, self::ROUTE_ANNOTATION_CLASS);
 
-            foreach ($finder as $file) {
-                $className = str_replace('.php', '', $file->getFilename());
-                $path = str_replace(str_replace('app', '', str_replace('\\', '/', $this->kernel->getRootDir())), '', str_replace('\\', '/', $file->getPathname()));
-                $path = str_replace('src', '', $path);
-                $path = str_replace('/', '\\', $path);
-                $path = str_replace('.php', '', $path);
-                $c = new \ReflectionClass($path);
-
-                $methods = $c->getMethods();
-
-                foreach($methods as $method) {
-                    // check whether the method is an action and therefore a page
-                    if (strpos($method->getName(), 'Action') !== false) {
-                        // create name from composer annotation
-                        $composerAnnotation = $reader->getMethodAnnotation($method, 'Terrific\ComposerBundle\Annotation\Composer');
-                        if($composerAnnotation != null) {
-                            // setup a fresh page object
-                            $page = new Page();
-                            $page->setController(substr($className, 0, -10));
-                            $action = substr($method->getShortName(), 0, -6);
-                            $page->setAction($action);
-
-                            // set name
-                            $name = $composerAnnotation->getName();
-                            $page->setName($name);
-
-                            // create url from route annotation
-                            $routeAnnotation = $reader->getMethodAnnotation($method, 'Symfony\Component\Routing\Annotation\Route');
+                        try {
                             $page->setUrl($this->router->generate($routeAnnotation->getName()));
-
-                            // add page
-                            $pages[] = $page;
                         }
+                        catch (RouteNotFoundException $e) {
+                            $this->container->get('logger')->info('The @Route annotation of '.$route->getDefault('_controller').' has no name. Please specify it for better page linking.');
+                            $page->setUrl($this->router->getContext()->getBaseUrl().$route->getPattern());
+                        }
+
+                        // add page
+                        $pages[] = $page;
                     }
                 }
             }
@@ -103,4 +91,37 @@ class PageManager
 
         return $pages;
     }
+
+    /**
+     * Returns the ReflectionMethod for the given controller string
+     *
+     * @param string $controller
+     * @return ReflectionMethod|null
+     */
+    private function getReflectionMethod($controller)
+    {
+        if (preg_match('#(.+)::([\w]+)#', $controller, $matches)) {
+            $class = $matches[1];
+            $method = $matches[2];
+        } elseif (preg_match('#(.+):([\w]+)#', $controller, $matches)) {
+            $controller = $matches[1];
+            $method = $matches[2];
+            if ($this->container->has($controller)) {
+                $this->container->enterScope('request');
+                $this->container->set('request', new Request);
+                $class = get_class($this->container->get($controller));
+                $this->container->leaveScope('request');
+            }
+        }
+
+        if (isset($class) && isset($method)) {
+            try {
+                return new \ReflectionMethod($class, $method);
+            } catch (\ReflectionException $e) {
+            }
+        }
+
+        return null;
+    }
+
 }

@@ -8,19 +8,28 @@ It provides you several helpers and tools to streamline your frontend developmen
 The TerrificComposer bundle depends on the [TerrificCoreBundle](https://github.com/brunschgi/TerrificCoreBundle).
 For installation of the TerrificCoreBundle, please follow the instructions [there](https://github.com/brunschgi/TerrificCoreBundle).
 
+
 ## Installation
 
-Register the namespace in `app/autoload.php`:
+TerrificComposerBundle can be conveniently installed via Composer. Just add the following to your composer.json file:
 
-    // app/autoload.php
-    $loader->registerNamespaces(array(
+    // composer.json
+    {
         // ...
-       'Terrific'         => __DIR__.'/../vendor/bundles',
-    ));
+        require: {
+            // ...
+            "brunschgi/terrific-composer-bundle": "dev-master"
+        }
+    }
 
-Register the bundle in `app/AppKernel.php`:
+Note: Please replace dev-master in the snippet above with the latest stable branch, for example 1.0.*. Please check the tags on Github for which versions are available.
+Then, you can install the new dependencies by running Composer’s update command from the directory where your composer.json file is located:
 
-    // app/AppKernel.php
+    php composer.phar update
+
+Now, Composer will automatically download all required files, and install them for you. All that is left to do is to update your AppKernel.php file, and register the new bundle:
+
+    // in AppKernel::registerBundles()
     public function registerBundles()
     {
         return array(
@@ -28,6 +37,7 @@ Register the bundle in `app/AppKernel.php`:
             new Terrific\ComposerBundle\TerrificComposerBundle(),
         );
     }
+
 
 TerrificComposer creates a bundle for each of your Terrific module. To have them registered automatically, extend `app/AppKernel.php`:
 
@@ -53,12 +63,13 @@ Import the routing definition in `routing.yml`:
         prefix:   /terrific/composer
 
 
-Enable the bundle's configuration in `app/config/config.yml`:
+Enable the bundle's configuration in `app/config/config.yml` and `app/config/config_dev.yml`:
 
     # app/config/config.yml
     terrific_composer:
-       composition_bundles: [@TerrificComposition] # the bundles where the controllers for your frontend lie
-       module_layout: @TerrificComposition::base.html.twig # the layout to take for the separate module view
+       composition_bundles: [@TerrificComposition] # optional|default=@TerrificComposition – the bundles where the controllers for your frontend lie
+       module_layout: @TerrificComposition::base.html.twig # optional|default=@TerrificComposition::base.html.twig – the layout to take for the separate module view
+       module_template: /path/to/your/module/template # optional|default=/path/to/TerrificComposerBundle/Template/Module -> extend or add additional module resources (ie. README.md)
 
     # app/config/config_dev.yml
     terrific_composer:
@@ -84,7 +95,7 @@ The Toolbar provides you some useful helpers that helps you to streamline your f
 Create module bundles (with or without skin) under /src/Terrific/Module/<moduleName>.
 
 Notice: If you don't use the [Terrific Composer Distribution](http://terrifically.org/composer), you have to
-register them manually in `app/AppKernel.php`
+register the created modules manually in `app/AppKernel.php`
 
 The generated module structure contains the skeleton of the LESS/JavaScript files in [Terrific](http://terrifically.org)
 manner, so that you can start right away.

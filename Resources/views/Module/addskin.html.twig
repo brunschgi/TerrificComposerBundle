@@ -9,10 +9,10 @@
     </ul>
 </div>
 <div class="content">
-    {% if app.session.hasFlash('notice') %}
-    <div class="notice">
-        {{ app.session.flash('notice') }}
-    </div>
+    {% if app.session.flashbag.has('notice') %}
+        <div class="notice">
+            {{ app.session.flashbag.get('notice')[0] }}
+        </div>
     {% endif %}
     <form class="serialize" novalidate="novalidate" action="{{ path('composer_add_skin') }}" method="post" {{ form_enctype(form) }}>
         {{ form_row(form.module) }}

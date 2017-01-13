@@ -18,15 +18,16 @@ use Symfony\Component\Finder\Finder;
 
 class TerrificComposerExtension extends \Twig_Extension
 {
+    /**
+     * @var \Symfony\Component\HttpKernel\KernelInterface
+     */
     private $kernel;
-    private $compositionBundles;
 
     /**
-     * Constructor.
-     *
-     * @param KernelInterface $kernel The kernel is used to parse bundle notation
-     * @param Array $compositionBundles An array of composition bundle paths
+     * @var Array  An array of composition bundle paths
      */
+    private $compositionBundles;
+
     public function __construct(KernelInterface $kernel, $compositionBundles)
     {
         $this->kernel = $kernel;

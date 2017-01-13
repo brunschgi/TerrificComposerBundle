@@ -169,6 +169,60 @@ class ModuleManagerTest extends WebTestCase
         $this->assertEquals('Test', $module->getName());
     }
 
+    public function testEmptyModuleTemplate() {
+        $container = $this->createCompiledContainerForConfig(array('module_template' => ''));
+        $this->moduleManager = $container->get('terrific.composer.module.manager');
+
+        $module = new Module();
+        $module->setName('Test');
+        $module->setStyle('less');
+        $module->addTemplate("test");
+
+        $this->moduleManager->createModule($module);
+
+        // check that README.md is empty
+        $content = file_get_contents(__DIR__ . '/Fixtures/src/Terrific/Module/Test/README.md');
+        $this->assertEquals('', $content);
+    }
+
+    public function testModuleTemplateWithReadme() {
+        $container = $this->createCompiledContainerForConfig(array('module_template' => __DIR__ . '/Fixtures/src/Terrific/Composition/Template/ModuleReadme'));
+        $this->moduleManager = $container->get('terrific.composer.module.manager');
+
+        $module = new Module();
+        $module->setName('Test');
+        $module->setStyle('less');
+        $module->addTemplate("test");
+
+        $this->moduleManager->createModule($module);
+
+        // check that README.md has some default content
+        $content = file_get_contents(__DIR__ . '/Fixtures/src/Terrific/Module/Test/README.md');
+        $this->assertEquals('#Module Template', $content);
+    }
+
+    public function testModuleTemplateWithAdditionalResources() {
+        $container = $this->createCompiledContainerForConfig(array('module_template' => __DIR__ . '/Fixtures/src/Terrific/Composition/Template/ModuleAdditional'));
+        $this->moduleManager = $container->get('terrific.composer.module.manager');
+
+        $module = new Module();
+        $module->setName('Test');
+        $module->setStyle('less');
+        $module->addTemplate("test");
+
+        $this->moduleManager->createModule($module);
+
+        // check that the additional resources have been created
+        $content = file_get_contents(__DIR__ . '/Fixtures/src/Terrific/Module/Test/Resources/public/css/my.less');
+        $this->assertEquals('/* My Less */', $content);
+
+        $content = file_get_contents(__DIR__ . '/Fixtures/src/Terrific/Module/Test/Resources/public/js/my.js');
+        $this->assertEquals('/* My Js */', $content);
+
+        $content = file_get_contents(__DIR__ . '/Fixtures/src/Terrific/Module/Test/Resources/views/my.html.twig');
+        $this->assertEquals('{# My Twig #}', $content);
+    }
+
     private function createCompiledContainerForConfig($config)
     {
         $container = $this->createContainer();
