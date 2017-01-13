@@ -15,15 +15,15 @@
         }
     ],
     "require": {
-        "symfony/framework-bundle": ">=2.1",
-        "symfony/form": ">=2.1",
-        "symfony/validator": ">=2.1"
+        "symfony/framework-bundle": "2.8.*",
+        "symfony/form": "2.8.*",
+        "symfony/validator": "2.8.*"
     },
     "require-dev": {
-        "symfony/console": ">=2.1",
-        "symfony/yaml": ">=2.1",
-        "symfony/finder": ">=2.1",
-        "symfony/filesystem": ">=2.1"
+        "symfony/console": "2.8.*",
+        "symfony/yaml": "2.8.*",
+        "symfony/finder": "2.8.*",
+        "symfony/filesystem": "2.8.*"
     },
     "autoload": {
         "psr-0": { "Terrific\\ComposerBundle": "" }
