@@ -2,13 +2,11 @@
 
 {% block composition %}
 
-{% if app.session.hasFlash('notice') %}
-<div class="notice">
-    {{ app.session.flash('notice') }}
-</div>
+{% if app.session.flashbag.has('notice') %}
+    <div class="notice">
+        {{ app.session.flashbag.get('notice')[0] }}
+    </div>
 {% endif %}
-
-
 
 {% if module and template %}
     {{ tc.module(module, template, skins )}}

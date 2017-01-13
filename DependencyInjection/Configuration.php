@@ -70,7 +70,17 @@ class Configuration implements ConfigurationInterface
                             return str_replace('@', '', $v);
                         })
                     ->end()
-                   ->defaultValue('TerrificComposition::base.html.twig')->end()
+                    ->defaultValue('TerrificComposition::base.html.twig')
+                ->end()
+                ->scalarNode('module_template')
+                    ->beforeNormalization()
+                        ->always()
+                        ->then(function($v) {
+                            return str_replace('@', '', $v);
+                        })
+                    ->end()
+                    ->defaultValue(null)
+                ->end()
             ->end()
         ;
 

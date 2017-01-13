@@ -11,7 +11,7 @@
             {% if result.type == 'module'  %}
                 <li data-search="module {{ result.name }}"><a href="{{ path('composer_module_details', { 'module': result.name })}}" class="icon module"><span>{{ result.name }}</span></a></li>
             {% elseif result.type == 'page' %}
-                <li data-search="page {{ result.name ~ ' ' ~ result.controller ~ ' ' ~ result.action }}"><a href="{{ result.url }}" class="icon page"><span>{{ result.name }}</span></a></li>
+                <li data-search="page {{ result.name }}"><a href="{{ result.url }}" class="icon page"><span>{{ result.name }}</span></a></li>
             {% endif %}
         {% endfor %}
     </ul>

@@ -67,7 +67,7 @@
 
                     // show overlay over all modules on the page
 
-                    $('.mod:not(.mod-composer-toolbar, .mod-composer-dialog):visible').each(function () {
+                    $('.mod:not(.mod-composer-toolbar, .mod-composer-dialog, .mod-composer-tool):visible').each(function () {
                         var $this = $(this),
                             position = $this.offset(),
                             dimension = { height:$this.outerHeight() - 2, width:$this.outerWidth() - 2 },
@@ -89,12 +89,16 @@
                             positioning = 'absolute';
                         }
 
-                        var template = $this.data('composer-template');
+                        var template = $this.data('composer-template'),
+                            url = '#';
+
                         if(template) {
                             template = template.replace('/', ':');
-                            var $overlay = $('<a href="' + baseUrl + '/terrific/composer/module/details/' + name + '/' + template + '" class="composer-module"><span>' + name + '</span></a>').css({'zIndex':($this.css('zIndex') + 1), 'position':positioning, 'width':dimension.width, 'height':dimension.height, 'top':position.top, 'left':position.left});
-                            $('body').append($overlay);
+                            url = baseUrl + '/terrific/composer/module/details/' + name + '/' + template;
                         }
+
+                        var $overlay = $('<a href="' + url +  '" class="composer-module"><span>' + name + '</span></a>').css({'zIndex':($this.css('zIndex') + 1), 'position':positioning, 'width':dimension.width, 'height':dimension.height, 'top':position.top, 'left':position.left});
+                        $('body').append($overlay);
                     });
                 }
                 return false;

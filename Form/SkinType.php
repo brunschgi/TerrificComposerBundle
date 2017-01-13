@@ -12,7 +12,7 @@
 namespace Terrific\ComposerBundle\Form;
 
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\FormBuilder;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Finder\Finder;
 
 /**
@@ -26,7 +26,7 @@ class SkinType extends AbstractType
      * @param \Symfony\Component\Form\FormBuilder $builder
      * @param array $options
      */
-    public function buildForm(FormBuilder $builder, array $options)
+    public function buildForm(FormBuilderInterface $builder, array $options)
     {
         global $kernel;
 

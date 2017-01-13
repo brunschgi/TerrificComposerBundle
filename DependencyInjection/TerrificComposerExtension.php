@@ -63,7 +63,6 @@ class TerrificComposerExtension extends Extension
         $container->setParameter('terrific_composer.toolbar.mode', $mode);
         $container->setParameter('terrific_composer.composition.bundles', $config['composition_bundles']);
         $container->setParameter('terrific_composer.module.layout', $config['module_layout']);
-
-
+        $container->setParameter('terrific_composer.module.template', $config['module_template']);
     }
 }
